@@ -4,40 +4,37 @@ const http = require("http");
 const fs = require("fs");
 
 const worker = function (req, resp) {
-  const url = req.url;
+  let url = req.url;
   let content;
   let path = "static/";
 
   switch(url) {
     case "/":
-      path += "index.html";
-      break;
+      url = '/index';
     case "/about":
-      path += "about.html";
-      break;
     case "/game":
-      path += "game.html";
-      break;
     case "/leaderboard":
-      path += "leaderboard.html";
-      break;
     case "/login":
-      path += "login.html";
-      break;
     case "/signup":
-      path += "signup.html";
+      path += `${url.slice(1)}.html`;
       break;
     default:
       if (url.indexOf("..") == -1) path += url.slice(1);
       break;
   }
-  content = fs.readFileSync(path, "utf8");
+  if(fs.existsSync(path)) {
+    content = fs.readFileSync(path, "utf8");
+  }
+  else {
+    // 404
+    content = `Path '${path}' is not found!`;
+    resp.writeHead(404);
+  }
   resp.write(content);
   resp.end();
 };
 
 const server = http.createServer(worker);
-
 const port = process.env.PORT || 3000;
 
-server.listen(3000, () => { console.log('Сервер запущен!'); });
+server.listen(port, () => { console.log('Сервер запущен!'); });
