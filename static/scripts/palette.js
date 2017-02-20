@@ -10,7 +10,7 @@ function setPaletteColor(element, color) {
   element.addEventListener("click", changeColor);
 }
 
-var colors = document.getElementsByClassName("palette-color");
+var colors = document.getElementsByClassName("palette__color");
 
 setPaletteColor(colors[0], "red");
 currentColor = colors[0];

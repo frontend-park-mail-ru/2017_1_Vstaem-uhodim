@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Game</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <div class="background">
-        <div class="page single-page game-page">
+        <div class="page page_type_single page_type_game">
             <canvas id="canvas">
             </canvas>
-            <a class="button mini-button palette-color"></a>
-            <a class="button mini-button palette-color"></a>
-            <a class="button mini-button palette-color"></a>
-            <a class="button mini-button palette-color"></a>
-            <a class="button mini-button palette-color"></a>
-            <a class="button mini-button palette-color"></a>
-            <a class="button mini-button palette-color"></a>
+            <div class="palette">
+                <a class="button button_size_mini palette__color"></a>
+                <a class="button button_size_mini palette__color"></a>
+                <a class="button button_size_mini palette__color"></a>
+                <a class="button button_size_mini palette__color"></a>
+                <a class="button button_size_mini palette__color"></a>
+                <a class="button button_size_mini palette__color"></a>
+                <a class="button button_size_mini palette__color"></a>
+            </div>
         </div>
     </div>
 </body>
-<script src="scripts/painting.js"></script>
-<script src="scripts/palette.js"></script>
+<script src="/scripts/painting.js"></script>
+<script src="/scripts/palette.js"></script>
 </html>

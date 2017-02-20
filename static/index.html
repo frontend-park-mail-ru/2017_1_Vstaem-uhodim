@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
-    <link rel="stylesheet" href="css/image_croc.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/image_croc.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body bgcolor="#f1f1f1">
 <div class="background">
-        <div class="page page-left" id="side-left">
+        <div class="page page_type_left" id="side-left">
             <br>
 
             <div class="user_area">
@@ -20,9 +20,6 @@
             </div>
             <br>
             <br>
-            <div class="some">
-                Steve
-            </div>
             <div class="main" id="main">
                 <div class="back">
                     <div class="spike spike1">
@@ -74,22 +71,24 @@
                 </div>
             </div>
         </div>
-        <div class="page page-right" id="side-right">
-            <h1 class="name">Крокодил</h1>
+        <div class="page page_type_right" id="side-right">
+            <h1 class="page__title_main">Крокодил</h1>
             <br>
             <br>
-            <a href="game" class="button play">
+            <div class="menu">
+                <a class="button menu__button menu__button_play" href="/game">
                 Играть!
             </a>
-            <a href="leaderboard" class="button">
+                <a class="button menu__button" href="/leaderboard">
                 Рейтинг
             </a>
-            <a href="about" class="button">
+                <a class="button menu__button" href="/about">
                 Об игре
             </a>
+            </div>
         </div>
 </div>
-<script src="scripts/image_croc.js"></script>
-<script src="scripts/fix_page_size.js"></script>
+<script src="/scripts/image_croc.js"></script>
+<script src="/scripts/fix_page_size.js"></script>
 </body>
 </html>

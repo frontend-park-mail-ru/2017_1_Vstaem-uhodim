@@ -10,8 +10,8 @@ function fixTail() {
 
   main.style.height = `${main.offsetWidth.toString()}px`;
 
-  tail.style.borderWidth = `${(main.offsetWidth * 110 / 360).toString()}px`;
-  tail.style.borderBottomWidth = `${(main.offsetWidth * 60 / 360).toString()}px`;
-  tail.style.borderRightWidth = `${(main.offsetWidth * 60 / 360).toString()}px`;
+  tail.style.borderWidth = `${(main.offsetWidth * 110 / 360)}px`;
+  tail.style.borderBottomWidth = `${(main.offsetWidth * 60 / 360)}px`;
+  tail.style.borderRightWidth = `${(main.offsetWidth * 60 / 360)}px`;
 }
 
