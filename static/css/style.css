@@ -1,0 +1,277 @@
+@import url('https://fonts.googleapis.com/css?family=Pangolin');
+@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+
+.some {
+    display: table;
+    margin: 0 auto;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: #f1f1f1;
+
+    font-family: 'Pangolin', cursive;
+    letter-spacing: 3px;
+}
+
+.button {
+    text-align: center;
+    text-decoration: none;
+    display: table;
+    border: 2px dashed white;
+    color: white;
+}
+
+.menu {
+
+}
+
+.menu__button {
+    width: 190px;
+    margin: 0 auto;
+    padding: 15px;
+    margin-bottom: 20px;
+
+    background: rgb(255, 80, 1);
+
+    box-shadow: 0 0 0 4px rgb(255, 80, 1);
+    font-size: 150%;
+    border-radius: 3px;
+
+    opacity: 0.9;
+}
+
+@keyframes move-play {
+    0% {
+        border-radius: 3px;
+    }
+    50% {
+        border-radius: 5px;
+    }
+    100% {
+        border-radius: 3px;
+    }
+}
+
+.menu__button_play {
+    animation: move-play 1s infinite;
+}
+
+.user_area {
+    display: table;
+    width: 340px;
+    margin: 0 auto;
+    padding: 15px;
+    letter-spacing: 3px;
+
+    background: rgb(255, 209, 1);
+    border: 2px dashed white;
+    color: white;
+
+    box-shadow: 0 0 0 4px rgb(255, 209, 1);
+    font-size: 140%;
+    border-radius: 3px;
+    text-align: center;
+    opacity: 0.8;
+}
+
+.page__title_main {
+    text-align: center;
+    font-size: 70pt;
+    color: #7a3001;
+    font-family: 'Pangolin', cursive;
+    margin-top: 10px;
+}
+
+.page {
+    box-sizing: border-box;
+    background: linear-gradient(#bbb, transparent 1px), linear-gradient(90deg, #bbb, transparent 1px), linear-gradient(90deg, #ffbaba 2px, transparent 1px) repeat-y;
+    background-size: 15px 15px;
+    min-width: 450px;
+    position: relative;
+    float: left;
+    display: inline-block;
+    background-color: #fafafa;
+    border-radius: 20px;
+    margin-top: 1%;
+    margin-bottom: 2%;
+    border: 3px double #b1b1b1;
+    padding: 2%;
+    height: 95%;
+}
+
+.page_type_left {
+    margin-left: 5%;
+    margin-right: 0%;
+    border-radius: 10px 0px 0px 10px;
+    background-position: 10%;
+    width: 45%;
+}
+
+.page_type_right {
+    margin-left: 0%;
+    margin-right: 5%;
+    border-radius: 0px 10px 10px 0px;
+    background-position: 92%;
+    width: 45%;
+}
+
+.page__title {
+    text-align: center;
+    font-size: 300%;
+    color: #7a3001;
+    margin-top: 10px;
+    letter-spacing: 2px;
+}
+
+.score-table {
+    letter-spacing: 0px;
+    margin: 30px 7%;
+    width: 86%;
+    border-collapse: collapse;
+    background: #fafafa;
+}
+
+.medal {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 17pt;
+    margin: 0 auto;
+}
+
+.medal_type_gold {
+    background-color: yellow;
+    color: #d58512;
+    border: 1px solid #d58512;
+
+}
+
+.medal_type_silver {
+    background-color: rgba(220, 221, 212, 0.71);
+    color: rgba(168, 169, 160, 0.71);
+    border: 1px solid rgba(168, 169, 160, 0.71);
+}
+
+.medal_type_bronze {
+    background-color: rgba(243, 158, 0, 0.71);
+    color: rgba(164, 106, 0, 0.71);
+    border: 1px solid rgba(164, 106, 0, 0.71);
+}
+
+.medal_type_other {
+    background-color: transparent;
+    color: black;
+}
+
+th, td {
+    border: 1px solid #1b3751;
+    padding: 4px 10px;
+    font-size: 140%;
+}
+
+.page_type_single {
+    float: none;
+    display: block;
+    margin: auto;
+    margin-top: 1%;
+    border-radius: 10px 10px 10px 10px;
+    background-position: 10%;
+    width: 50%;
+}
+
+.button_type_submit {
+    width: auto;
+    height: auto;
+    padding: 5px 10px;
+    font-size: 15pt;
+}
+
+.form__label {
+    display: block;
+    text-align: left;
+    width: 60%;
+    margin-left: 18%;
+    font-size: 14pt;
+    color: #0c1e30;
+}
+
+input {
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #1b3751;
+    font-size: 13pt;
+    padding: 3px 10px;
+    background: #fefefe;
+}
+
+.some-picture {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    background-color: #aab1ff;
+}
+
+.form {
+    height: 80%;
+}
+
+.form__field {
+    height: 15%;
+}
+
+.button_size_mini {
+    font-size: 16pt;
+    width: 25px;
+    height: 25px;
+    margin: 3px;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 20px;
+    text-align: center;
+    opacity: 0.7;
+}
+
+.button_type_back {
+    position: absolute;
+    background-color: rgb(255, 209, 1);
+    box-shadow: 0 0 0 4px rgb(255, 209, 1);
+}
+
+.page_type_game {
+    width: 80%;
+    margin-left: 10%;
+    padding: 0;
+}
+
+canvas {
+    position: absolute;
+}
+
+.palette__color {
+    background-color: black;
+    box-shadow: 0 0 0 4px black;
+}
+
+
+.page__paragraph {
+    width: 85%;
+    margin: 20px auto;
+    font-size: 110%;
+}
+
+.page__subtitle {
+    margin: 15px 10px;
+    font-size: 150%;
+    color: chocolate;
+}
