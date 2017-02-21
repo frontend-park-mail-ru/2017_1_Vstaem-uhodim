@@ -13,25 +13,24 @@ const worker = function (req, resp) {
       path += "index.html";
       break;
     case "/about":
-      path += "about.html";
-      break;
     case "/game":
-      path += "game.html";
-      break;
     case "/leaderboard":
-      path += "leaderboard.html";
-      break;
     case "/login":
-      path += "login.html";
-      break;
     case "/signup":
-      path += "signup.html";
+      path += `${url.slice(1)}.html`;
+      content = fs.readFileSync(path, "utf8");
       break;
     default:
       if (url.indexOf("..") == -1) path += url.slice(1);
       break;
   }
-  content = fs.readFileSync(path, "utf8");
+  if (fs.existsSync(path)) {
+    content = fs.readFileSync(path, "utf8");
+  }
+  else {
+    content = `unknown url \"${url}\"`;
+    resp.writeHead(200, {'Content-Type': 'text/plain'});
+  }
   resp.write(content);
   resp.end();
 };
@@ -40,4 +39,4 @@ const server = http.createServer(worker);
 
 const port = process.env.PORT || 3000;
 
-server.listen(3000, () => { console.log('Сервер запущен!'); });
+server.listen(port, () => { console.log('Сервер запущен!'); });

@@ -7,17 +7,28 @@
 }
 
 .background {
-    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-
     background: #f1f1f1;
-
     font-family: 'Pangolin', cursive;
     letter-spacing: 3px;
 }
+
+@media (min-width: 1000px) {
+    .background {
+        height: 100%;
+        position: fixed;
+    }
+}
+
+@media (max-width: 1000px) {
+    .background {
+        height: auto;
+        position: absolute;
+    }
+}
+
 
 .button {
     text-align: center;
@@ -27,8 +38,46 @@
     color: white;
 }
 
-.menu {
+.button_size_mini {
+    font-size: 16pt;
+    width: 25px;
+    height: 25px;
+    margin: 3px;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 20px;
+    text-align: center;
+    opacity: 0.7;
+}
 
+.button_size_big {
+    margin: 0 auto;
+
+    background: rgb(255, 80, 1);
+
+    box-shadow: 0 0 0 4px rgb(255, 80, 1);
+    font-size: 150%;
+    border-radius: 3px;
+
+    opacity: 0.9;
+}
+
+.button_type_back {
+    position: absolute;
+    background-color: rgb(255, 209, 1);
+    box-shadow: 0 0 0 4px rgb(255, 209, 1);
+}
+
+.button_type_submit {
+    width: auto;
+    height: auto;
+    padding: 5px 10px;
+    font-size: 15pt;
+}
+
+.menu {
 }
 
 .menu__button {
@@ -46,6 +95,10 @@
     opacity: 0.9;
 }
 
+.menu__button_play {
+    animation: move-play 1s infinite;
+}
+
 @keyframes move-play {
     0% {
         border-radius: 3px;
@@ -56,10 +109,6 @@
     100% {
         border-radius: 3px;
     }
-}
-
-.menu__button_play {
-    animation: move-play 1s infinite;
 }
 
 .user_area {
@@ -80,45 +129,82 @@
     opacity: 0.8;
 }
 
-.page__title_main {
-    text-align: center;
-    font-size: 70pt;
-    color: #7a3001;
-    font-family: 'Pangolin', cursive;
-    margin-top: 10px;
-}
-
 .page {
     box-sizing: border-box;
     background: linear-gradient(#bbb, transparent 1px), linear-gradient(90deg, #bbb, transparent 1px), linear-gradient(90deg, #ffbaba 2px, transparent 1px) repeat-y;
     background-size: 15px 15px;
     min-width: 450px;
     position: relative;
-    float: left;
-    display: inline-block;
     background-color: #fafafa;
     border-radius: 20px;
     margin-top: 1%;
     margin-bottom: 2%;
     border: 3px double #b1b1b1;
     padding: 2%;
-    height: 95%;
 }
 
+
 .page_type_left {
-    margin-left: 5%;
     margin-right: 0%;
-    border-radius: 10px 0px 0px 10px;
     background-position: 10%;
-    width: 45%;
 }
 
 .page_type_right {
-    margin-left: 0%;
     margin-right: 5%;
-    border-radius: 0px 10px 10px 0px;
     background-position: 92%;
-    width: 45%;
+}
+
+.page_type_single {
+    margin: auto;
+    margin-top: 1%;
+    border-radius: 10px 10px 10px 10px;
+    background-position: 10%;
+}
+
+@media screen and (min-width: 1000px) {
+    .page {
+        height: 95%;
+    }
+    .page_type_left {
+        margin-left: 5%;
+        display: inline-block;
+        float: left;
+        width: 45%;
+        border-radius: 10px 0px 0px 10px;
+    }
+    .page_type_right {
+        display: inline-block;
+        margin-left: 0%;
+        float: left;
+        width: 45%;
+        border-radius: 0px 10px 10px 0px;
+    }
+    .page_type_single {
+        float: none;
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .page {
+        margin: 15px auto;
+        display: block;
+        float: none;
+        width: 80%;
+        height: auto;
+    }
+    .page_type_left {
+        border-radius: 10px;
+    }
+    .page_type_right {
+        border-radius: 10px;
+    }
+}
+
+.page_type_game {
+    width: 80%;
+    margin-left: 10%;
+    padding: 0;
 }
 
 .page__title {
@@ -127,6 +213,26 @@
     color: #7a3001;
     margin-top: 10px;
     letter-spacing: 2px;
+}
+
+.page__title_main {
+    text-align: center;
+    font-size: 70pt;
+    color: #7a3001;
+    font-family: 'Pangolin', cursive;
+    margin-top: 10px;
+}
+
+.page__paragraph {
+    width: 85%;
+    margin: 20px auto;
+    font-size: 110%;
+}
+
+.page__subtitle {
+    margin: 15px 10px;
+    font-size: 150%;
+    color: chocolate;
 }
 
 .score-table {
@@ -176,32 +282,6 @@ th, td {
     font-size: 140%;
 }
 
-.page_type_single {
-    float: none;
-    display: block;
-    margin: auto;
-    margin-top: 1%;
-    border-radius: 10px 10px 10px 10px;
-    background-position: 10%;
-    width: 50%;
-}
-
-.button_type_submit {
-    width: auto;
-    height: auto;
-    padding: 5px 10px;
-    font-size: 15pt;
-}
-
-.form__label {
-    display: block;
-    text-align: left;
-    width: 60%;
-    margin-left: 18%;
-    font-size: 14pt;
-    color: #0c1e30;
-}
-
 input {
     width: 60%;
     margin-left: 20%;
@@ -228,30 +308,13 @@ input {
     height: 15%;
 }
 
-.button_size_mini {
-    font-size: 16pt;
-    width: 25px;
-    height: 25px;
-    margin: 3px;
-    padding-left: 5px;
-    padding-top: 5px;
-    padding-right: 3px;
-    padding-bottom: 3px;
-    border-radius: 20px;
-    text-align: center;
-    opacity: 0.7;
-}
-
-.button_type_back {
-    position: absolute;
-    background-color: rgb(255, 209, 1);
-    box-shadow: 0 0 0 4px rgb(255, 209, 1);
-}
-
-.page_type_game {
-    width: 80%;
-    margin-left: 10%;
-    padding: 0;
+.form__label {
+    display: block;
+    text-align: left;
+    width: 60%;
+    margin-left: 18%;
+    font-size: 14pt;
+    color: #0c1e30;
 }
 
 canvas {
@@ -263,15 +326,3 @@ canvas {
     box-shadow: 0 0 0 4px black;
 }
 
-
-.page__paragraph {
-    width: 85%;
-    margin: 20px auto;
-    font-size: 110%;
-}
-
-.page__subtitle {
-    margin: 15px 10px;
-    font-size: 150%;
-    color: chocolate;
-}
