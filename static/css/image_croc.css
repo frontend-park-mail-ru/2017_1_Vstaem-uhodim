@@ -21,7 +21,7 @@
     }
 }
 
-.base {
+.croco-image__base {
     position: absolute;
     top: 9%;
     left: 34%;
@@ -32,7 +32,7 @@
     border-right: 1px solid black;
 }
 
-.bottom {
+.croco-image__bottom {
     position: absolute;
     top: 30%;
     left: 42%;
@@ -45,7 +45,7 @@
     transform: rotate(0deg);
 }
 
-.top {
+.croco-image__top {
     position: absolute;
     top: 8%;
     left: 49%;
@@ -56,7 +56,7 @@
     border-bottom: 1px solid black;
 }
 
-.eye {
+.croco-image__eye {
     position: absolute;
     background-color: var(--crococolor);
     width: 11%;
@@ -66,7 +66,7 @@
     border-radius: 50%;
 }
 
-.eye__iris {
+.croco-image__iris {
     position: absolute;
     background-color: var(--crococolor);
     width: 55%;
@@ -85,7 +85,7 @@
     75%{left: 37%;}
     100%{left: 27%;}
 }
-.eye__dot {
+.croco-image__dot {
     position: absolute;
     background-color: var(--crococolor);
     width: 47%;
@@ -97,7 +97,7 @@
     animation: move-eye 3s infinite;
 }
 
-.back {
+.croco-image__back {
     position: absolute;
     top: 3%;
     left: 1%;
@@ -105,7 +105,7 @@
     height: 78%;
 }
 
-.back__spike {
+.croco-image__spike {
     position: absolute;
     background-color: var(--crococolor);
     width: 50%;
@@ -114,45 +114,45 @@
     transform: rotate(45deg);
 }
 
-.back__spike_number_1{
+.croco-image__spike_number_1{
     top: 13%;
     left: 154%;
 }
 
-.back__spike_number_2 {
+.croco-image__spike_number_2 {
     top: 28%;
     left: 154%;
 }
 
-.back__spike_number_3 {
+.croco-image__spike_number_3 {
     top: 43%;
     left: 154%;
 }
 
-.back__spike_number_4 {
+.croco-image__spike_number_4 {
     top: 58%;
     left: 154%;
 }
 
-.back__spike_number_5 {
+.croco-image__spike_number_5 {
     top: 72%;
     left: 143%;
     transform: rotate(80deg);
 }
 
-.back__spike_number_6 {
+.croco-image__spike_number_6 {
     top: 80%;
     left: 100%;
     transform: rotate(24deg);
 }
 
-.back__spike_number_7 {
+.croco-image__spike_number_7 {
     top: 84%;
     left: 54%;
     transform: rotate(28deg);
 }
 
-.back__spike_number_8 {
+.croco-image__spike_number_8 {
     width: 35%;
     height: 8%;
     top: 87%;
@@ -160,7 +160,7 @@
     transform: rotate(24deg);
 }
 
-.tail {
+.croco-image__tail {
     transform: rotate(10deg);
     top: 34%;
     left: 4%;
@@ -174,7 +174,7 @@
     border-radius: 30px;
 }
 
-.leg {
+.croco-image__leg {
     position: absolute;
     width: 14%;
     height: 19%;
@@ -183,15 +183,15 @@
     border-radius: 10px;
 }
 
-.leg_type_right {
+.croco-image__leg_type_right {
     left: 36%;
 }
 
-.leg_type_left {
+.croco-image__leg_type_left {
     left: 56%;
 }
 
-.circle {
+.croco-image__circle {
     position: absolute;
     width: 23%;
     height: 17%;
@@ -202,7 +202,7 @@
     transform: rotate(80deg);
 }
 
-.arm {
+.croco-image__arm {
     position: absolute;
     background-color: var(--crococolor);
     border-left: 1px solid black;
@@ -211,7 +211,7 @@
     border-radius: 10px / 22px;
 }
 
-.arm_type_right {
+.croco-image__arm_type_right {
     width: 10%;
     height: 18%;
 
@@ -219,7 +219,7 @@
     left: 42%;
 }
 
-.arm_type_left {
+.croco-image__arm_type_left {
     width: 324%;
     height: 600%;
     top: 0px;
@@ -233,7 +233,7 @@
     100%{transform: rotate(0deg)}
 }
 
-.brush {
+.croco-image__brush {
     position: absolute;
     top: 185%;
     left: 416%;
@@ -244,7 +244,7 @@
     border-radius: 10px / 20px;
 }
 
-.drop {
+.croco-image__drop {
     position: absolute;
     top: 259%;
     left: 630%;
@@ -255,7 +255,7 @@
     border-radius: 0 100% 100% 100%;
 }
 
-.rotate-part {
+.croco-image__rotate-arm {
     position: absolute;
     top: 43%;
     left: 64%;
