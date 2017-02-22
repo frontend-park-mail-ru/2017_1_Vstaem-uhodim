@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Index</title>
     <link rel="stylesheet" href="/css/image_croc.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -13,61 +14,61 @@
 
             <div class="user_area">
                 Добро пожаловать!
-                <a href="login">Авторизуйтесь</a>
+                <a href="/login">Авторизуйтесь</a>
                 или
-                <a href="signup">зарегистрируйтесь</a>,
+                <a href="/signup">зарегистрируйтесь</a>,
                 чтобы начать играть!
             </div>
             <br>
             <br>
-            <div class="main" id="main">
-                <div class="back">
-                    <div class="spike spike1">
+            <div class="croco-image" id="main">
+                <div class="croco-image__back">
+                    <div class="croco-image__spike croco-image__spike_number_1">
                     </div>
-                    <div class="spike spike2">
+                    <div class="croco-image__spike croco-image__spike_number_2">
                     </div>
-                    <div class="spike spike3">
+                    <div class="croco-image__spike croco-image__spike_number_3">
                     </div>
-                    <div class="spike spike4">
+                    <div class="croco-image__spike croco-image__spike_number_4">
                     </div>
-                    <div class="spike spike5">
+                    <div class="croco-image__spike croco-image__spike_number_5">
                     </div>
-                    <div class="spike spike6">
+                    <div class="croco-image__spike croco-image__spike_number_6">
                     </div>
-                    <div class="spike spike7">
+                    <div class="croco-image__spike croco-image__spike_number_7">
                     </div>
-                    <div class="spike spike8">
-                    </div>
-                </div>
-                <div class="rotate-arm">
-                    <div class="brush">
-                    </div>
-                    <div class="drop">
-                    </div>
-                    <div class="arm2">
+                    <div class="croco-image__spike croco-image__spike_number_8">
                     </div>
                 </div>
-                <div class=base>
+                <div class="croco-image__rotate-arm">
+                    <div class="croco-image__brush">
+                    </div>
+                    <div class="croco-image__drop">
+                    </div>
+                    <div class="croco-image__arm croco-image__arm_type_left">
+                    </div>
                 </div>
-                <div class="bottom">
+                <div class="croco-image__base">
                 </div>
-                <div class="top">
+                <div class="croco-image__bottom">
                 </div>
-                <div class="eye">
-                    <div class="iris">
-                        <div class="dot">
+                <div class="croco-image__top">
+                </div>
+                <div class="croco-image__eye">
+                    <div class="croco-image__iris">
+                        <div class="croco-image__dot">
                         </div>
                     </div>
                 </div>
-                <div class="tail" id="tail">
+                <div class="croco-image__tail" id="tail">
                 </div>
-                <div class="leg1">
+                <div class="croco-image__leg croco-image__leg_type_right">
                 </div>
-                <div class="leg2">
+                <div class="croco-image__leg croco-image__leg_type_left">
                 </div>
-                <div class="circle">
+                <div class="croco-image__circle">
                 </div>
-                <div class="arm1">
+                <div class="croco-image__arm croco-image__arm_type_right">
                 </div>
             </div>
         </div>
@@ -76,19 +77,18 @@
             <br>
             <br>
             <div class="menu">
-                <a class="button menu__button menu__button_play" href="/game">
+                <a class="button button_size_big menu__button menu__button_play" href="/game">
                 Играть!
             </a>
-                <a class="button menu__button" href="/leaderboard">
+                <a class="button button_size_big menu__button" href="/leaderboard">
                 Рейтинг
             </a>
-                <a class="button menu__button" href="/about">
+                <a class="button button_size_big menu__button" href="/about">
                 Об игре
             </a>
             </div>
         </div>
 </div>
 <script src="/scripts/image_croc.js"></script>
-<script src="/scripts/fix_page_size.js"></script>
 </body>
 </html>
