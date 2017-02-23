@@ -2,21 +2,19 @@
  * Created by kate on 23.02.17.
  */
 
-var inputList = new Array;
+const loginNickname = document.getElementById("js-login-nickname");
+const loginPassword = document.getElementById("js-login-password");
+const loginSubmit = document.getElementById("js-login-submit");
 
-const nickname = document.getElementById("nickname-input");
-inputList.push(nickname);
-const password = document.getElementById("password-input");
-inputList.push(password);
-const submit = document.querySelector('input[type=submit]');
-const email = document.getElementById("email-input");
-if (email != undefined) inputList.push(email);
-const passwordRep = document.getElementById("password-rep-input");
-if (passwordRep != undefined) inputList.push(passwordRep);
+const signupEmail = document.getElementById("js-signup-email");
+const signupNickname = document.getElementById("js-signup-nickname");
+const signupPassword = document.getElementById("js-signup-password");
+const signupPasswordRep = document.getElementById("js-signup-passwordrep");
+const signupSubmit = document.getElementById("js-signup-submit");
 
+let inputList = new Array;
 let hasEmptyPassword;
 let hasError;
-
 
 function showError(input, errorMessage) {
   const error = document.createElement("span");
@@ -41,66 +39,76 @@ function isEmpty(input) {
   return (input.value == "");
 }
 
-function validateSignupForm() {
-  const r = /\S+@\S+\.\S+/;
-  if (!isEmpty(email) && !r.test(email.value)) {
-    showError(email, "Невалидный email");
-    hasError = true;
-  }
-
-  if (!isEmpty(password) && password.value.length <= 5) {
-    showError(password, "Пароль должен содержать более 5 символов");
-    showError(passwordRep, "");
-    return false;
-  }
-
-  if (!hasEmptyPassword && password.value != passwordRep.value) {
-    showError(password, "");
-    showError(passwordRep, "Пароли не совпадают!");
-    hasError = true;
-  }
-  return !hasError;
-}
-
-function validateLoginForm() {
-  if (!hasEmptyPassword && !isEmpty(nickname)) {
-    // example
-    // nickname: test
-    // password: 123456
-    if (nickname.value != "test" || password.value != "123456") {
-      showError(nickname, "");
-      showError(password, "Неправильно!");
+function checkEmpty(list) {
+  list.forEach(function (item) {
+    if (isEmpty(item)) {
+      showError(item, "Поле обязательно для заполнения");
+      if (item == loginPassword || item == signupPassword || item == signupPasswordRep ) hasEmptyPassword = true;
       hasError = true;
     }
-  }
-  return !hasError;
+  });
 }
 
-submit.addEventListener("click", function (event) {
-  let result;
+loginSubmit.addEventListener("click", function(event) {
   event.preventDefault();
 
   hasEmptyPassword = false;
   hasError = false;
+  inputList = [];
+  inputList.push(loginNickname);
+  inputList.push(loginPassword);
 
   inputList.forEach((item) => {resetError(item);});
+  checkEmpty(inputList);
 
-  inputList.forEach(function (item) {
-    if (isEmpty(item)) {
-      showError(item, "Поле обязательно для заполнения");
-      if (item == password || item == passwordRep) hasEmptyPassword = true;
+  if (!hasEmptyPassword && !isEmpty(loginNickname)) {
+    // example
+    // nickname: test
+    // password: 123456
+    if (loginNickname.value != "test" || loginPassword.value != "123456") {
+      showError(loginNickname, "");
+      showError(loginPassword, "Неправильно!");
       hasError = true;
     }
-  });
+  }
+  if(!hasError) alert("Успешно!");
+  else showError(loginPassword, "");
+});
 
-  if (this.id == "login-submit") result = validateLoginForm();
-  if (this.id == "signup-submit") result = validateSignupForm();
+signupSubmit.addEventListener("click", function(event) {
+  event.preventDefault();
 
-  if (result == true) alert("Успешно");
+  hasEmptyPassword = false;
+  hasError = false;
+  inputList = [];
+  inputList.push(signupEmail);
+  inputList.push(signupNickname);
+  inputList.push(signupPassword);
+  inputList.push(signupPasswordRep);
+
+  inputList.forEach((item) => {resetError(item);});
+  checkEmpty(inputList);
+
+  const r = /\S+@\S+\.\S+/;
+  if (!isEmpty(signupEmail) && !r.test(signupEmail.value)) {
+    showError(signupEmail, "Невалидный email");
+    hasError = true;
+  }
+
+  if (!isEmpty(signupPassword) && signupPassword.value.length <= 5) {
+    showError(signupPassword, "Пароль должен содержать более 5 символов");
+    showError(signupPasswordRep, "");
+    return false;
+  }
+
+  if (!hasEmptyPassword && signupPassword.value != signupPasswordRep.value) {
+    showError(signupPassword, "");
+    showError(signupPasswordRep, "Пароли не совпадают!");
+    hasError = true;
+  }
+  if(!hasError) alert("Успешно!");
   else {
-    password.value = "";
-    showError(password, "");
-    passwordRep.value = "";
-    showError(passwordRep, "");
+    showError(signupPassword, "");
+    showError(signupPasswordRep, "");
   }
 });

@@ -71,6 +71,7 @@
 }
 
 .button_type_submit {
+    margin-top: 40px;
     width: auto;
     height: auto;
     padding: 5px 10px;
@@ -114,7 +115,7 @@
 .user_area {
     display: table;
     width: 340px;
-    margin: 0 auto;
+    margin: 25px auto;
     padding: 15px;
     letter-spacing: 3px;
 
@@ -212,6 +213,7 @@
     font-size: 300%;
     color: #7a3001;
     margin-top: 10px;
+    margin-bottom: 30px;
     letter-spacing: 2px;
 }
 
@@ -345,3 +347,7 @@ canvas {
     box-shadow: 0 0 0 4px black;
 }
 
+a {
+    color: #0c1e30;
+    text-decoration: underline;
+}
