@@ -13,27 +13,28 @@
                 Регистрация
             </div>
             <br>
-            <form class="form" action="#">
+            <form class="form" action="/signup">
                 <p class="form__field">
                     <span class=form__label>Введите Email:</span>
-                    <input type="email" id="email-input" placeholder="ant-semenov@mail.ru">
+                    <input class="form__input form__input_valid" type="email" id="email-input" placeholder="ant-semenov@mail.ru">
                 </p>
                 <p class="form__field">
                     <span class="form__label">Введите Nickname:</span>
-                    <input type="text" id="nickname-input" placeholder="super_pizza">
+                    <input class="form__input form__input_valid" type="text" id="nickname-input" placeholder="super_pizza">
                 </p>
                 <p class="form__field">
                     <span class="form__label">Введите пароль:</span>
-                    <input type="password" id="password-input">
+                    <input class="form__input form__input_valid" type="password" id="password-input">
                 </p>
                 <p class="from__field">
                     <span class="form__label">Повторите пароль:</span>
-                    <input type="password" id="password-rep-input">
+                    <input class="form__input form__input_valid" type="password" id="password-rep-input">
                 </p>
                 <br>
-                <input class="button button_size_big button_type_submit" type="submit" value="Зарегистрироваться!">
+                <input class="button button_size_big button_type_submit" id="signup-submit" type="submit" value="Зарегистрироваться!">
             </form>
         </div>
     </div>
 </body>
+<script src="/scripts/form_validation.js"></script>
 </html>

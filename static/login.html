@@ -16,19 +16,20 @@
             <div class="some-picture">
                 Это картинка будет
             </div>
-            <form action="#">
+            <form class="form" action="#">
                 <p class="form__field">
                     <span class="form__label">Nickname:</span>
-                    <input type="text" id="nickname-input">
+                    <input class="form__input form__input_valid" type="text" id="nickname-input">
                 </p>
                 <p class="form__field">
                     <span class="form__label">Пароль:</span>
-                    <input type="password" id="password-input">
+                    <input class="form__input form__input_valid" type="password" id="password-input">
                 </p>
                 <br>
-                <input class="button button_size_big button_type_submit" type="submit" value="Войти!">
+                <input class="button button_size_big button_type_submit" id="login-submit" type="submit" value="Войти!">
             </form>
         </div>
     </div>
 </body>
+<script src="/scripts/form_validation.js"></script>
 </html>
