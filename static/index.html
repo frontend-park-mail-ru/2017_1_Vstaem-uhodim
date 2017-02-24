@@ -13,12 +13,19 @@
     <!-- -----------------------Index---------------------------- -->
 
     <div class="page page_type_left" id="js-index-leftpage">
-        <div class="user_area">
+        <div class="user-area" id="js-index-userareaLogout">
             Добро пожаловать!
             <a id="js-index-login">Авторизуйтесь</a>
             или
             <a id="js-index-signup">зарегистрируйтесь</a>,
             чтобы начать играть!
+        </div>
+        <div class="user-area" id="js-index-userareaLogin">
+            Привет,
+            <span id="js-index-nickname">test</span>!<br>Рейтинг:
+            <span id="js-index-rating">1996</span>
+            <br>
+            <a id="js-index-logout">Выйти</a>
         </div>
         <div class="croco-image" id="main">
             <div class="croco-image__back">
@@ -96,11 +103,13 @@
         <form class="form" action="/signup">
             <p class="form__field">
                 <span class=form__label>Введите Email:</span>
-                <input class="form__input form__input_valid" type="email" id="js-signup-email" placeholder="ant-semenov@mail.ru">
+                <input class="form__input form__input_valid" type="text" id="js-signup-email"
+                       placeholder="ant-semenov@mail.ru">
             </p>
             <p class="form__field">
                 <span class="form__label">Введите Nickname:</span>
-                <input class="form__input form__input_valid" type="text" id="js-signup-nickname" placeholder="super_pizza">
+                <input class="form__input form__input_valid" type="text" id="js-signup-nickname"
+                       placeholder="super_pizza">
             </p>
             <p class="form__field">
                 <span class="form__label">Введите пароль:</span>
@@ -110,7 +119,8 @@
                 <span class="form__label">Повторите пароль:</span>
                 <input class="form__input form__input_valid" type="password" id="js-signup-passwordrep">
             </p>
-            <input class="button button_size_big button_type_submit" id="js-signup-submit" type="submit" value="Зарегистрироваться!">
+            <input class="button button_size_big button_type_submit" id="js-signup-submit" type="submit"
+                   value="Зарегистрироваться!">
         </form>
     </div>
 
@@ -469,7 +479,8 @@
         <a class="button button_size_mini button_type_back">&#8630;</a>
         <div class="page__title">Крокодил</div>
         <p class="page__paragraph">
-            Смысл игры состоит в том, чтобы отгадать загаданное слово. Один игрок рисует слово на страничке, остальные угадывают ответ в чате.
+            Смысл игры состоит в том, чтобы отгадать загаданное слово. Один игрок рисует слово на страничке, остальные
+            угадывают ответ в чате.
         </p>
         <div class="some-picture">
             Это картинка будет

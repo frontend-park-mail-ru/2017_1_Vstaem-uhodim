@@ -112,7 +112,7 @@
     }
 }
 
-.user_area {
+.user-area {
     display: table;
     width: 340px;
     margin: 25px auto;
@@ -350,4 +350,21 @@ canvas {
 a {
     color: #0c1e30;
     text-decoration: underline;
+}
+
+.page__notification {
+    margin: auto;
+    width: 70%;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid #a6ff8e;
+    padding: 5px;
+    color: black;
+    font-size: 110%;
+    background-color: #d8ffce;
+    opacity: 0.7;
+}
+
+#js-index-userareaLogin {
+    display: none;
 }

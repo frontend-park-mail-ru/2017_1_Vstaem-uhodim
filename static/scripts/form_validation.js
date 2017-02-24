@@ -12,6 +12,12 @@ const signupPassword = document.getElementById("js-signup-password");
 const signupPasswordRep = document.getElementById("js-signup-passwordrep");
 const signupSubmit = document.getElementById("js-signup-submit");
 
+const userAreaLogout = document.getElementById("js-index-userareaLogout");
+const userAreaLogin = document.getElementById("js-index-userareaLogin");
+const userNickname = document.getElementById("js-index-nickname");
+const userRating = document.getElementById("js-index-rating");
+const logout = document.getElementById("js-index-logout");
+
 let inputList = new Array;
 let hasEmptyPassword;
 let hasError;
@@ -61,17 +67,30 @@ loginSubmit.addEventListener("click", function(event) {
   inputList.forEach((item) => {resetError(item);});
   checkEmpty(inputList);
 
+  // example
+  // nickname: test
+  // password: 123456
+  let testNickname = "test";
+  let testPassword = "123456";
+  let testRating = "1996";
+
   if (!hasEmptyPassword && !isEmpty(loginNickname)) {
-    // example
-    // nickname: test
-    // password: 123456
-    if (loginNickname.value != "test" || loginPassword.value != "123456") {
+    if (loginNickname.value != testNickname || loginPassword.value != testPassword) {
       showError(loginNickname, "");
       showError(loginPassword, "Неправильно!");
       hasError = true;
     }
   }
-  if(!hasError) alert("Успешно!");
+  if(!hasError) {
+    userAreaLogout.style.display = "none";
+    userNickname.innerHTML = testNickname;
+    userRating.innerHTML = testRating;
+    userAreaLogin.style.display = "block";
+
+    loginSinglePage.style.display = "none";
+    indexLeftPage.style.display = "block";
+    indexRightPage.style.display = "block";
+  }
   else showError(loginPassword, "");
 });
 
@@ -106,9 +125,29 @@ signupSubmit.addEventListener("click", function(event) {
     showError(signupPasswordRep, "Пароли не совпадают!");
     hasError = true;
   }
-  if(!hasError) alert("Успешно!");
+  if(!hasError) {
+    let notification = document.createElement('div');
+    notification.className = "page__notification";
+    notification.innerHTML = "Вы успешно зарегистрированы!";
+    userAreaLogout.style.display = "none";
+    userNickname.innerHTML = signupNickname.value;
+    userRating.innerHTML = "0";
+    userAreaLogin.style.display = "block";
+
+    indexLeftPage.insertBefore(notification, userAreaLogout);
+    signupSinglePage.style.display = "none";
+    indexLeftPage.style.display = "block";
+    indexRightPage.style.display = "block";
+  }
   else {
     showError(signupPassword, "");
     showError(signupPasswordRep, "");
   }
+});
+
+logout.addEventListener("click",function(event) {
+  userAreaLogin.style.display = "none";
+  userNickname.innerHTML = "";
+  userRating.innerHTML = "";
+  userAreaLogout.style.display = "block";
 });
