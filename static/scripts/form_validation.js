@@ -17,10 +17,22 @@ const userAreaLogin = document.getElementById("js-index-userareaLogin");
 const userNickname = document.getElementById("js-index-nickname");
 const userRating = document.getElementById("js-index-rating");
 const logout = document.getElementById("js-index-logout");
+const notification = document.getElementById("js-index-notification");
 
 let inputList = new Array;
 let hasEmptyPassword;
 let hasError;
+
+function makeRequest(reqUrl, reqMethod, data) {
+  const baseURL = "http://localhost:8082/";
+  let xhr = new XMLHttpRequest();
+  xhr.open(reqMethod, `${baseURL}${reqUrl}`, false);
+  xhr.withCredentials = true;
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(data);
+  console.log(xhr.status);
+  return xhr;
+}
 
 function showError(input, errorMessage) {
   const error = document.createElement("span");
@@ -67,15 +79,14 @@ loginSubmit.addEventListener("click", function(event) {
   inputList.forEach((item) => {resetError(item);});
   checkEmpty(inputList);
 
-  // example
-  // nickname: test
-  // password: 123456
-  let testNickname = "test";
-  let testPassword = "123456";
-  let testRating = "1996";
+  let testRating = 0;
+
 
   if (!hasEmptyPassword && !isEmpty(loginNickname)) {
-    if (loginNickname.value != testNickname || loginPassword.value != testPassword) {
+
+    let loginReq =  makeRequest("login/", "POST", JSON.stringify({login:`${loginNickname.value}`, password:`${loginPassword.value}`}));
+
+    if (loginReq.status == 403) {
       showError(loginNickname, "");
       showError(loginPassword, "Неправильно!");
       hasError = true;
@@ -83,7 +94,7 @@ loginSubmit.addEventListener("click", function(event) {
   }
   if(!hasError) {
     userAreaLogout.style.display = "none";
-    userNickname.innerHTML = testNickname;
+    userNickname.innerHTML = loginNickname.value;
     userRating.innerHTML = testRating;
     userAreaLogin.style.display = "block";
 
@@ -126,18 +137,29 @@ signupSubmit.addEventListener("click", function(event) {
     hasError = true;
   }
   if(!hasError) {
-    let notification = document.createElement('div');
-    notification.className = "page__notification";
-    notification.innerHTML = "Вы успешно зарегистрированы!";
-    userAreaLogout.style.display = "none";
-    userNickname.innerHTML = signupNickname.value;
-    userRating.innerHTML = "0";
-    userAreaLogin.style.display = "block";
 
-    indexLeftPage.insertBefore(notification, userAreaLogout);
-    signupSinglePage.style.display = "none";
-    indexLeftPage.style.display = "block";
-    indexRightPage.style.display = "block";
+    let registerReq = makeRequest("register/", "POST", JSON.stringify({login:`${signupNickname.value}`, password:`${signupPassword.value}`, email:`${signupEmail.value}`}));
+
+    if(registerReq.status == 409) {
+      showError(signupNickname, "Nickname уже занят");
+    }
+
+
+    else {
+
+      let whoAmIReq = makeRequest("who-am-i/", "GET", "");
+
+      notification.style.display = "block";
+      userAreaLogout.style.display = "none";
+      userNickname.innerHTML = JSON.parse(whoAmIReq.responseText).login;
+      userRating.innerHTML = "0";
+      userAreaLogin.style.display = "block";
+
+      indexLeftPage.insertBefore(notification, userAreaLogout);
+      signupSinglePage.style.display = "none";
+      indexLeftPage.style.display = "block";
+      indexRightPage.style.display = "block";
+    }
   }
   else {
     showError(signupPassword, "");
@@ -146,8 +168,16 @@ signupSubmit.addEventListener("click", function(event) {
 });
 
 logout.addEventListener("click",function(event) {
+
+  let registerReq = makeRequest("logout/", "POST", "");
+
+
   userAreaLogin.style.display = "none";
   userNickname.innerHTML = "";
   userRating.innerHTML = "";
   userAreaLogout.style.display = "block";
+});
+
+window.addEventListener("click", function () {
+  notification.style.display = "none";
 });

@@ -363,6 +363,7 @@ a {
     font-size: 110%;
     background-color: #d8ffce;
     opacity: 0.7;
+    display: none;
 }
 
 #js-index-userareaLogin {
