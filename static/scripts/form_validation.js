@@ -24,7 +24,7 @@ let hasEmptyPassword;
 let hasError;
 
 function makeRequest(reqUrl, reqMethod, data) {
-  const baseURL = "http://localhost:8082/";
+  const baseURL = "https://croco2017.herokuapp.com/";
   let xhr = new XMLHttpRequest();
   xhr.open(reqMethod, `${baseURL}${reqUrl}`, false);
   xhr.withCredentials = true;
