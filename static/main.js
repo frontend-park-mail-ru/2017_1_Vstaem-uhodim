@@ -323,9 +323,9 @@
 
   const firstScoreTable = new ScoreTable(players);
 
-  scoreTable.render();
+  firstScoreTable.render();
 
-  leaderboardLeftPage.el.appendChild(scoreTable.el);
+  leaderboardLeftPage.el.appendChild(firstScoreTable.el);
 
 
   const leaderboardRightPage = new Page({
@@ -339,9 +339,9 @@
 
   const secondScoreTable = new ScoreTable(players);
 
-  scoreTable.render();
+  secondScoreTable.render();
 
-  leaderboardRightPage.el.appendChild(scoreTable.el);
+  leaderboardRightPage.el.appendChild(secondScoreTable.el);
 
   leaderboardLeftPage.el.addEventListener("backtoindex", () =>
   {
