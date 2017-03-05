@@ -1,30 +1,19 @@
-/**
- * Created by kate on 23.02.17.
- */
-
 const loginNickname = document.getElementById("js-login-nickname");
 const loginPassword = document.getElementById("js-login-password");
-const loginSubmit = document.getElementById("js-login-submit");
 
 const signupEmail = document.getElementById("js-signup-email");
 const signupNickname = document.getElementById("js-signup-nickname");
 const signupPassword = document.getElementById("js-signup-password");
 const signupPasswordRep = document.getElementById("js-signup-passwordrep");
-const signupSubmit = document.getElementById("js-signup-submit");
 
-const userAreaLogout = document.getElementById("js-index-userareaLogout");
-const userAreaLogin = document.getElementById("js-index-userareaLogin");
-const userNickname = document.getElementById("js-index-nickname");
-const userRating = document.getElementById("js-index-rating");
-const logout = document.getElementById("js-index-logout");
-
-let inputList = new Array;
+let inputList = [];
 let hasEmptyPassword;
 let hasError;
 
 function showError(input, errorMessage) {
+  "use strict";
   const error = document.createElement("span");
-  if (errorMessage != "") {
+  if (errorMessage !== "") {
     error.textContent = `✗ ${errorMessage}`;
     error.className = "form__error";
     input.parentNode.appendChild(error);
@@ -34,6 +23,7 @@ function showError(input, errorMessage) {
 }
 
 function resetError(input) {
+  "use strict";
   input.className = input.className.replace("form__input_invalid", "form__input_valid");
   let error = input.parentNode.getElementsByClassName("form__error");
   if (error.length > 0) {
@@ -42,22 +32,23 @@ function resetError(input) {
 }
 
 function isEmpty(input) {
-  return (input.value == "");
+  "use strict";
+  return (input.value === "");
 }
 
 function checkEmpty(list) {
+  "use strict";
   list.forEach(function (item) {
     if (isEmpty(item)) {
       showError(item, "Поле обязательно для заполнения");
-      if (item == loginPassword || item == signupPassword || item == signupPasswordRep ) hasEmptyPassword = true;
+      if (item === loginPassword || item === signupPassword || item === signupPasswordRep ) {hasEmptyPassword = true;}
       hasError = true;
     }
   });
 }
 
-loginSubmit.addEventListener("click", function(event) {
-  event.preventDefault();
-
+function validateLogin() {
+  "use strict";
   hasEmptyPassword = false;
   hasError = false;
   inputList = [];
@@ -72,30 +63,25 @@ loginSubmit.addEventListener("click", function(event) {
   // password: 123456
   let testNickname = "test";
   let testPassword = "123456";
-  let testRating = "1996";
 
   if (!hasEmptyPassword && !isEmpty(loginNickname)) {
-    if (loginNickname.value != testNickname || loginPassword.value != testPassword) {
+    if (loginNickname.value !== testNickname || loginPassword.value !== testPassword) {
       showError(loginNickname, "");
       showError(loginPassword, "Неправильно!");
       hasError = true;
     }
   }
   if(!hasError) {
-    userAreaLogout.style.display = "none";
-    userNickname.innerHTML = testNickname;
-    userRating.innerHTML = testRating;
-    userAreaLogin.style.display = "block";
-
-    loginSinglePage.style.display = "none";
-    indexLeftPage.style.display = "block";
-    indexRightPage.style.display = "block";
+    return true;
   }
-  else showError(loginPassword, "");
-});
+  else {
+    showError(loginPassword, "");
+    return false;
+  }
+}
 
-signupSubmit.addEventListener("click", function(event) {
-  event.preventDefault();
+function validateSignup() {
+  "use strict";
 
   hasEmptyPassword = false;
   hasError = false;
@@ -120,34 +106,17 @@ signupSubmit.addEventListener("click", function(event) {
     return false;
   }
 
-  if (!hasEmptyPassword && signupPassword.value != signupPasswordRep.value) {
+  if (!hasEmptyPassword && signupPassword.value !== signupPasswordRep.value) {
     showError(signupPassword, "");
     showError(signupPasswordRep, "Пароли не совпадают!");
     hasError = true;
   }
   if(!hasError) {
-    let notification = document.createElement('div');
-    notification.className = "page__notification";
-    notification.innerHTML = "Вы успешно зарегистрированы!";
-    userAreaLogout.style.display = "none";
-    userNickname.innerHTML = signupNickname.value;
-    userRating.innerHTML = "0";
-    userAreaLogin.style.display = "block";
-
-    indexLeftPage.insertBefore(notification, userAreaLogout);
-    signupSinglePage.style.display = "none";
-    indexLeftPage.style.display = "block";
-    indexRightPage.style.display = "block";
+    return true;
   }
   else {
     showError(signupPassword, "");
     showError(signupPasswordRep, "");
+    return false;
   }
-});
-
-logout.addEventListener("click",function(event) {
-  userAreaLogin.style.display = "none";
-  userNickname.innerHTML = "";
-  userRating.innerHTML = "";
-  userAreaLogout.style.display = "block";
-});
+}

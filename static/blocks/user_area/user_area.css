@@ -1,0 +1,17 @@
+.user-area {
+    display: table;
+    width: 340px;
+    margin: 25px auto;
+    padding: 15px;
+    letter-spacing: 3px;
+
+    background: rgb(255, 209, 1);
+    border: 2px dashed white;
+    color: white;
+
+    box-shadow: 0 0 0 4px rgb(255, 209, 1);
+    font-size: 140%;
+    border-radius: 3px;
+    text-align: center;
+    opacity: 0.8;
+}

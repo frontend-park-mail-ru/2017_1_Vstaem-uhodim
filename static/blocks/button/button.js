@@ -1,8 +1,7 @@
-/**
- * Created by kate on 04.03.17.
- */
-
+/*jshint esversion: 6 */
 (function() {
+
+  "use strict";
 
   class Button {
     constructor (options) {
@@ -13,7 +12,7 @@
     setAttrs(attrs) {
       Object.keys(attrs).forEach(name => {
         this.el.setAttribute(name, this.attrs[name]);
-      })
+      });
     }
     render() {
       this.el.innerHTML = this.text;

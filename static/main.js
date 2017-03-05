@@ -1,9 +1,5 @@
-/**
- * Created by kate on 04.03.17.
- */
-
-
 (function () {
+  "use strict";
   const index = document.getElementById("js-index");
   const signup = document.getElementById("js-signup");
   const login = document.getElementById("js-login");
@@ -20,7 +16,7 @@
 
 
   <!-- -----------------------Index---------------------------- -->
-  let indexLeftPage = new Page({
+  const indexLeftPage = new Page({
     type: "left"
   });
 
@@ -28,8 +24,8 @@
 
   index.appendChild(indexLeftPage.el);
 
-  let userArea = new UserArea({
-    type: "authorized",
+  const userArea = new UserArea({
+    type: "notAuthorized",
     nickname: "test123",
     score: "67"
   });
@@ -38,7 +34,14 @@
 
   indexLeftPage.el.appendChild(userArea.el);
 
-  let indexRightPage = new Page({
+
+  const image = new ImageCroc();
+  image.render();
+
+  indexLeftPage.el.appendChild(image.el);
+  image.fixTail();
+
+  const indexRightPage = new Page({
     type: "right"
   });
 
@@ -48,7 +51,7 @@
 
   indexRightPage.el.innerHTML += "<h1 class=\"page__title_main\">Крокодил</h1>";
 
-  let menu = new Menu({
+  const menu = new Menu({
     controls: [
       {
         text: "Играть!",
@@ -85,6 +88,11 @@
     leaderboard.hidden = false;
   });
 
+  menu.el.addEventListener("chooseAbout", function () {
+    index.hidden = true;
+    about.hidden = false;
+  });
+
   userArea.el.addEventListener("login", () => {
     index.hidden = true;
     login.hidden = false;
@@ -104,12 +112,13 @@
 
 
   <!-- -----------------------Signup---------------------------- -->
-  let signupSinglePage = new Page({
+  const signupSinglePage = new Page({
     title: "Регистрация",
     type: "single",
     controls: [
       {
-        text: "&#8630"
+        text: "&#8630",
+        event: "backtoindex"
       }
     ]
   });
@@ -117,7 +126,7 @@
   signupSinglePage.render();
   signup.appendChild(signupSinglePage.el);
 
-  let signupForm = new Form(
+  const signupForm = new Form(
     {
       fields: [
         {
@@ -147,6 +156,7 @@
       ],
       control: {
         text: "Зарегистрироваться!",
+        id: "js-signup-submit"
       }
     }
   );
@@ -155,15 +165,37 @@
 
   signupSinglePage.el.appendChild(signupForm.el);
 
+  signupSinglePage.el.addEventListener("backtoindex", () =>
+  {
+    signup.hidden = true;
+    index.hidden = false;
+  });
+
+  signupForm.el.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (validateSignup()) {
+      console.log("OK");
+      signup.hidden = true;
+      index.hidden = false;
+      // /who-am-i
+      userArea.update({
+        type: "authorized",
+        nickname: "какой-то новый",
+        score: "67"
+      });
+    }
+  });
+
 
   <!-- -----------------------Login---------------------------- -->
 
-  let loginSinglePage = new Page({
+  const loginSinglePage = new Page({
     title: "Авторизация",
     type: "single",
     controls: [
       {
-        text: "&#8630"
+        text: "&#8630",
+        event: "backtoindex"
       }
     ]
   });
@@ -172,7 +204,7 @@
   login.appendChild(loginSinglePage.el);
 
 
-  let loginForm = new Form(
+  const loginForm = new Form(
     {
       fields: [
         {
@@ -189,6 +221,7 @@
       ],
       control: {
         text: "Авторизоваться!",
+        id: "js-login-submit"
       }
     }
   );
@@ -197,15 +230,36 @@
 
   loginSinglePage.el.appendChild(loginForm.el);
 
+  loginSinglePage.el.addEventListener("backtoindex", () =>
+  {
+    login.hidden = true;
+    index.hidden = false;
+  });
+
+  loginForm.el.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (validateLogin()) {
+      console.log("OK");
+      login.hidden = true;
+      index.hidden = false;
+      // /who-am-i
+      userArea.update({
+        type: "authorized",
+        nickname: "test",
+        score: "1267"
+      });
+    }
+  });
 
   <!-- -----------------------Leaderboard---------------------------- -->
 
-  let leaderboardLeftPage = new Page({
+  const leaderboardLeftPage = new Page({
     title: "Рисовали:",
     type: "left",
     controls: [
       {
-        text: "&#8630"
+        text: "&#8630",
+        event: "backtoindex"
       }
     ]
   });
@@ -214,7 +268,7 @@
 
   leaderboard.appendChild(leaderboardLeftPage.el);
 
-  let players = [
+  const players = [
     {
       number: 1,
       nickname: "Kate",
@@ -267,15 +321,15 @@
     },
   ];
 
-  let scoreTable = new ScoreTable(players);
+  const firstScoreTable = new ScoreTable(players);
 
   scoreTable.render();
 
   leaderboardLeftPage.el.appendChild(scoreTable.el);
 
 
-  let leaderboardRightPage = new Page({
-    title: "Рисовали:",
+  const leaderboardRightPage = new Page({
+    title: "Угадывали:",
     type: "right"
   });
 
@@ -283,13 +337,117 @@
 
   leaderboard.appendChild(leaderboardRightPage.el);
 
-  scoreTable = new ScoreTable(players);
+  const secondScoreTable = new ScoreTable(players);
 
   scoreTable.render();
 
   leaderboardRightPage.el.appendChild(scoreTable.el);
 
+  leaderboardLeftPage.el.addEventListener("backtoindex", () =>
+  {
+    leaderboard.hidden = true;
+    index.hidden = false;
+  });
 
+
+  <!-- -----------------------About---------------------------- -->
+
+
+  const aboutLeftPage = new Page({
+    title: "Крокодил:",
+    type: "left",
+    controls: [
+      {
+        text: "&#8630",
+        event: "backtoindex"
+      }
+    ]
+  });
+
+  aboutLeftPage.render();
+
+  about.appendChild(aboutLeftPage.el);
+
+  const aboutGame = new TextParagraph({
+    text: "Смысл игры состоит в том, чтобы отгадать загаданное слово. Один игрок рисует " +
+    "слово на страничке, остальные угадывают ответ в чате."
+  });
+
+  aboutGame.render();
+
+  aboutLeftPage.el.appendChild(aboutGame.el);
+
+
+
+  //aboutLeftPage.el.innerHTML += "<div class=\"some-picture\">Это картинка будет </div>";
+
+  const aboutRightPage = new Page({
+    title: "Список:",
+    type: "right"
+  });
+
+  aboutRightPage.render();
+
+  about.appendChild(aboutRightPage.el);
+
+  const firstPar = new TextParagraph({
+    title: "Человек 1",
+    text: "Some text some text some text some text some text"
+  });
+
+  firstPar.render();
+
+  aboutRightPage.el.appendChild(firstPar.el);
+
+  const secPar = new TextParagraph({
+    title: "Человек 2",
+    text: "Some text some text some text some text some text"
+  });
+
+  secPar.render();
+
+  aboutRightPage.el.appendChild(secPar.el);
+
+  const otherPar = new TextParagraph({
+    title: "...",
+    text: "Some text some text some text some text some text"
+  });
+
+  otherPar.render();
+
+  aboutRightPage.el.appendChild(otherPar.el);
+
+
+  aboutLeftPage.el.addEventListener("backtoindex", () =>
+  {
+    console.log("123");
+    about.hidden = true;
+    index.hidden = false;
+  });
+
+
+  <!-- -----------------------Game---------------------------- -->
+
+  const gameSinglePage = new Page({
+    type: "game",
+    controls: [
+      {
+        text: "&#8630",
+        event: "backtoindex"
+      }
+    ]
+  });
+
+  gameSinglePage.render();
+
+  game.appendChild(gameSinglePage.el);
+
+  gameSinglePage.el.addEventListener("backtoindex", () =>
+  {
+    console.log("123");
+    game.hidden = true;
+    index.hidden = false;
+  });
 
 
 })();

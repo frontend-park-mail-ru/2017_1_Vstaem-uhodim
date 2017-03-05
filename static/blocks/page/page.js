@@ -1,8 +1,5 @@
-/**
- * Created by kate on 04.03.17.
- */
-
 (function() {
+  "use strict";
   class Page {
     constructor(options) {
       this.type = options.type;
@@ -12,7 +9,7 @@
     }
 
     setTitle(title) {
-      if(this.title != "") {
+      if(this.title !== "") {
         let titleEl = document.createElement("div");
         titleEl.innerText = title;
         titleEl.classList.add("page__title");
@@ -25,6 +22,7 @@
         case "single":
         case "left":
         case "right":
+        case "game":
           break;
         default:
           type = "single";
@@ -35,14 +33,20 @@
 
     setControls(controls) {
       controls.forEach(control => {
-        let controlEl = new Button({
+        let controlButton = new Button({
           text: control.text,
           attrs: {
             class: "button_size_mini button_type_back"
           }
         });
-        this.el.appendChild(controlEl.render().el);
-      })
+        this.el.appendChild(controlButton.render().el);
+
+        let page = this.el;
+        controlButton.el.addEventListener("click", (event) => {
+          event.preventDefault();
+          page.dispatchEvent(new Event(control.event));
+        });
+      });
     }
 
     render() {

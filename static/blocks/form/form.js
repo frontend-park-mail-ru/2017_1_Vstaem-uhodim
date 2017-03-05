@@ -1,11 +1,8 @@
-/**
- * Created by kate on 04.03.17.
- */
-
 (function() {
   "use strict";
 
   let Button = window.Button;
+  const tmpl = form_tmpl;
 
   class Form {
     constructor (options) {
@@ -13,30 +10,23 @@
       this.control = options.control || [];
       this.el = document.createElement("form");
     }
-    getRenderedFields(fields) {
-      return fields.reduce(function(sum, current) {
-        return sum += `
-          <p class=\"form__field\">
-            <span class=\"form__label\">${current.label}</span>
-            <input class=\"form__input form__input_valid\" type="${current.type}" 
-            placeholder="${current.placeholder}" id="${current.id}">
-          </p>
-          `;
-      }, "")
+    getRenderedFields() {
+      return tmpl({fields: this.fields});
     }
-    getRenderedControl(control) {
+    getRenderedControl() {
       return new Button({
-        text: control.text,
+        text: this.control.text,
         attrs: {
           class: "button_size_big button_type_submit",
-          id: "js-signup-submit",
+          id: this.control.id,
           type: "submit"
         }
       }).render().toString() ;
     }
     render() {
-      this.el.innerHTML = `${this.getRenderedFields(this.fields)}${this.getRenderedControl(this.control)}`;
+      this.el.innerHTML = `${this.getRenderedFields()}${this.getRenderedControl()}`;
       this.el.classList.add("form");
+      this.el.setAttribute("action", "#");
       return this;
     }
     toString() {

@@ -1,8 +1,5 @@
-/**
- * Created by kate on 05.03.17.
- */
 (function () {
-
+  "use strict";
   const tmpl = score_table_tmpl;
   class ScoreTable {
     constructor(players) {
@@ -10,7 +7,6 @@
       this.el = document.createElement("table");
     }
     setRating() {
-      console.log(this.players);
       this.el.innerHTML = tmpl({
         players: this.players
       });

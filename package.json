@@ -4,7 +4,9 @@
   "description": "## Team - [@SemenovaEkaterina](https://github.com/SemenovaEkaterina) - [@J0kerPanda](https://github.com/J0kerPanda)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run pug && node server.js",
+    "pug": "pug -c -D -E pug.js -n score_table_tmpl static/blocks/score_table/score_table.pug && pug -c -D -E pug.js -n user_area_tmpl static/blocks/user_area/user_area.pug && pug -c -D -E pug.js -n image_croc_tmpl static/blocks/image_croc/image_croc.pug && pug -c -D -E pug.js -n form_tmpl static/blocks/form/form.pug"
   },
   "repository": {
     "type": "git",
@@ -16,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/frontend-park-mail-ru/2017_1_Vstaem-uhodim/issues"
   },
-  "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Vstaem-uhodim#readme"
+  "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Vstaem-uhodim#readme",
+  "devDependencies": {
+    "jshint": "^2.9.4"
+  }
 }

@@ -1,0 +1,4 @@
+for field in fields
+    p.form__field
+        span.form__label= field.label
+        input.form__input.form__input_valid(placeholder = field.placeholder || "", type = field.type, id = field.id)

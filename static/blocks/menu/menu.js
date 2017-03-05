@@ -1,18 +1,15 @@
-/**
- * Created by kate on 04.03.17.
- */
-
 (function() {
+  "use strict";
   class Menu {
     constructor(options) {
       this.controls = options.controls;
       this.el = document.createElement("div");
     }
 
-    setCotrols(controls) {
+    setCotrols() {
       this.controls.forEach(control => {
         let htmlClass = null;
-        if (control.action == true) htmlClass = "menu__button_action";
+        if (control.action === true) { htmlClass = "menu__button_action"; }
 
         let controlEl = new Button({
           text: control.text,
@@ -37,7 +34,7 @@
     }
 
     render() {
-      this.setCotrols(this.controls);
+      this.setCotrols();
       this.el.classList.add("menu");
       return this;
     }
