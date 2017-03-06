@@ -58,19 +58,6 @@ function validateLogin() {
   inputList.forEach((item) => {resetError(item);});
   checkEmpty(inputList);
 
-  // example
-  // nickname: test
-  // password: 123456
-  let testNickname = "test";
-  let testPassword = "123456";
-
-  if (!hasEmptyPassword && !isEmpty(loginNickname)) {
-    if (loginNickname.value !== testNickname || loginPassword.value !== testPassword) {
-      showError(loginNickname, "");
-      showError(loginPassword, "Неправильно!");
-      hasError = true;
-    }
-  }
   if(!hasError) {
     return true;
   }

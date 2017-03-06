@@ -1,5 +1,8 @@
 (function () {
   "use strict";
+
+  const http = new HTTP();
+
   const index = document.getElementById("js-index");
   const signup = document.getElementById("js-signup");
   const login = document.getElementById("js-login");
@@ -24,16 +27,62 @@
 
   index.appendChild(indexLeftPage.el);
 
-  const userArea = new UserArea({
-    type: "notAuthorized",
-    nickname: "test123",
-    score: "67"
-  });
+  let userArea = null;
 
-  userArea.render();
+  http.get("who-am-i/")
+    .then(resp => {
+      if (resp.status === 200) {
+        return resp.json();
+      }
+      else {
+        throw Error("log out");
+        return resp;
+      }
+    })
+    .then(user=> {
+        userArea = new UserArea({
+          type: "authorized",
+          nickname: user.login,
+          score: "124"
+        });
+    },
+    error => {
+      userArea = new UserArea({
+        type: "notAuthorized",
+        nickname: "test123",
+        score: "67"
+      });
 
-  indexLeftPage.el.appendChild(userArea.el);
+    })
+    .then(() => {
+      userArea.render();
 
+      if(document.querySelector("#main")) {
+        indexLeftPage.el.insertBefore(userArea.el, document.querySelector("#main"));
+      }
+      else {
+        indexLeftPage.el.appendChild(userArea.el);
+      }
+
+      userArea.el.addEventListener("login", () => {
+        index.hidden = true;
+        login.hidden = false;
+      });
+
+      userArea.el.addEventListener("signup", () => {
+        index.hidden = true;
+        signup.hidden = false;
+      });
+
+      userArea.el.addEventListener("logout", () => {
+        http.post("logout/")
+          .then(resp => {
+            userArea.update({
+              type: "notAuthorized"
+            });
+          });
+      });
+    });
 
   const image = new ImageCroc();
   image.render();
@@ -91,22 +140,6 @@
   menu.el.addEventListener("chooseAbout", function () {
     index.hidden = true;
     about.hidden = false;
-  });
-
-  userArea.el.addEventListener("login", () => {
-    index.hidden = true;
-    login.hidden = false;
-  });
-
-  userArea.el.addEventListener("signup", () => {
-    index.hidden = true;
-    signup.hidden = false;
-  });
-
-  userArea.el.addEventListener("logout", () => {
-    userArea.update({
-      type: "notAuthorized"
-    });
   });
 
 
@@ -173,18 +206,26 @@
 
   signupForm.el.addEventListener("submit", (event) => {
     event.preventDefault();
+
     if (validateSignup()) {
-      console.log("OK");
-      signup.hidden = true;
-      index.hidden = false;
-      // /who-am-i
-      userArea.update({
-        type: "authorized",
-        nickname: "какой-то новый",
-        score: "67"
-      });
+      http.post("register/", {login: signupNickname.value, password: signupPassword.value, email: signupEmail.value})
+        .then(resp => {
+          if( resp.status === 200) {
+            return resp.json();
+          }
+        })
+        .then(new_user => {
+          signup.hidden = true;
+          index.hidden = false;
+          userArea.update({
+            type: "authorized",
+            nickname: new_user.login,
+            score: "67"
+          });
+        });
     }
   });
+
 
 
   <!-- -----------------------Login---------------------------- -->
@@ -239,23 +280,32 @@
   loginForm.el.addEventListener("submit", (event) => {
     event.preventDefault();
     if (validateLogin()) {
-      console.log("OK");
-      login.hidden = true;
-      index.hidden = false;
-      // /who-am-i
-      userArea.update({
-        type: "authorized",
-        nickname: "test",
-        score: "1267"
-      });
+      http.post("login/", {login: loginNickname.value, password: loginPassword.value})
+        .then(resp => {
+          if (resp.status === 200) {
+            login.hidden = true;
+            index.hidden = false;
+            userArea.update({
+              type: "authorized",
+              nickname: loginNickname.value,
+              score: "67"
+            });
+          }
+          if (resp.status === 403) {
+            resetError(loginNickname);
+            resetError(loginPassword);
+            showError(loginNickname, "");
+            showError(loginPassword, "Неправильно!");
+          }
+        });
     }
   });
 
   <!-- -----------------------Leaderboard---------------------------- -->
 
-  const leaderboardLeftPage = new Page({
-    title: "Рисовали:",
-    type: "left",
+  const leaderboardSinglePage = new Page({
+    title: "Лучшие:",
+    type: "single",
     controls: [
       {
         text: "&#8630",
@@ -264,86 +314,30 @@
     ]
   });
 
-  leaderboardLeftPage.render();
+  leaderboardSinglePage.render();
 
-  leaderboard.appendChild(leaderboardLeftPage.el);
+  leaderboard.appendChild(leaderboardSinglePage.el);
 
-  const players = [
-    {
-      number: 1,
-      nickname: "Kate",
-      score: "1000"
-    },
-    {
-      number: 2,
-      nickname: "Kate",
-      score: "999"
-    },
-    {
-      number: 3,
-      nickname: "Kate",
-      score: "998"
-    },
-    {
-      number: 4,
-      nickname: "Kate",
-      score: "997"
-    },
-    {
-      number: 5,
-      nickname: "Kate",
-      score: "997"
-    },
-    {
-      number: 6,
-      nickname: "Kate",
-      score: "997"
-    },
-    {
-      number: 7,
-      nickname: "Kate",
-      score: "997"
-    },
-    {
-      number: 8,
-      nickname: "Kate",
-      score: "997"
-    },
-    {
-      number: 9,
-      nickname: "Kate",
-      score: "997"
-    },
-    {
-      number: 10,
-      nickname: "Kate",
-      score: "997"
-    },
-  ];
+  let firstScoreTable;
 
-  const firstScoreTable = new ScoreTable(players);
-
-  firstScoreTable.render();
-
-  leaderboardLeftPage.el.appendChild(firstScoreTable.el);
+  http.get('best/')
+    .then(resp => {
+      if (resp.status === 200) {
+        return resp.json();
+      }
+    })
+    .then(players => {
+      players.forEach((player, number) => {
+        player.number = number + 1;
+      });
+      firstScoreTable = new ScoreTable(players);
+      firstScoreTable.render();
+      leaderboardSinglePage.el.appendChild(firstScoreTable.el);
+    });
 
 
-  const leaderboardRightPage = new Page({
-    title: "Угадывали:",
-    type: "right"
-  });
 
-  leaderboardRightPage.render();
-
-  leaderboard.appendChild(leaderboardRightPage.el);
-
-  const secondScoreTable = new ScoreTable(players);
-
-  secondScoreTable.render();
-
-  leaderboardRightPage.el.appendChild(secondScoreTable.el);
-
-  leaderboardLeftPage.el.addEventListener("backtoindex", () =>
+  leaderboardSinglePage.el.addEventListener("backtoindex", () =>
   {
     leaderboard.hidden = true;
     index.hidden = false;
@@ -420,7 +414,6 @@
 
   aboutLeftPage.el.addEventListener("backtoindex", () =>
   {
-    console.log("123");
     about.hidden = true;
     index.hidden = false;
   });
@@ -444,7 +437,6 @@
 
   gameSinglePage.el.addEventListener("backtoindex", () =>
   {
-    console.log("123");
     game.hidden = true;
     index.hidden = false;
   });
