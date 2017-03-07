@@ -18,7 +18,7 @@
   about.hidden = true;
 
 
-  <!-- -----------------------Index---------------------------- -->
+  /*-----------------------Index----------------------------*/
   const indexLeftPage = new Page({
     type: "left"
   });
@@ -36,7 +36,6 @@
       }
       else {
         throw Error("log out");
-        return resp;
       }
     })
     .then(user=> {
@@ -143,8 +142,7 @@
   });
 
 
-
-  <!-- -----------------------Signup---------------------------- -->
+  /*-----------------------Signup----------------------------*/
   const signupSinglePage = new Page({
     title: "Регистрация",
     type: "single",
@@ -164,27 +162,39 @@
       fields: [
         {
           label: "Введите Email:",
-          placeholder: "qwerty@mail.ru",
-          type: "text",
-          id: "js-signup-email"
+          attributes: {
+            placeholder: "qwerty@mail.ru",
+            type: "text",
+            id: "js-signup-email",
+            type_attr: "email"
+          }
         },
         {
           label: "Введите Nickname:",
-          placeholder: "super_pizza",
-          type: "text",
-          id: "js-signup-nickname"
+          attributes: {
+            placeholder: "super_pizza",
+            type: "text",
+            id: "js-signup-nickname",
+            type_attr: "login"
+          }
         },
         {
           label: "Пароль:",
-          placeholder: "",
-          type: "password",
-          id: "js-signup-password"
+          attributes: {
+            placeholder: "",
+            type: "password",
+            id: "js-signup-password",
+            type_attr: "password"
+          }
         },
         {
           label: "Повторите пароль:",
-          placeholder: "",
-          type: "password",
-          id: "js-signup-passwordrep"
+          attributes: {
+            placeholder: "",
+            type: "password",
+            id: "js-signup-passwordrep",
+            type_attr: "passwordrep"
+          }
         }
       ],
       control: {
@@ -206,12 +216,15 @@
 
   signupForm.el.addEventListener("submit", (event) => {
     event.preventDefault();
-
-    if (validateSignup()) {
-      http.post("register/", {login: signupNickname.value, password: signupPassword.value, email: signupEmail.value})
+    if (signupForm.isValid()) {
+      http.post("register/", signupForm.getValues())
         .then(resp => {
-          if( resp.status === 200) {
-            return resp.json();
+          switch (resp.status) {
+            case 200:
+              return resp.json();
+            case 403:
+              signupForm.showErrorByType("login", "Nickname уже занят");
+              throw Error();
           }
         })
         .then(new_user => {
@@ -222,13 +235,13 @@
             nickname: new_user.login,
             score: "67"
           });
+        })
+        .catch( res => {
         });
     }
   });
 
-
-
-  <!-- -----------------------Login---------------------------- -->
+  /*-----------------------Login----------------------------*/
 
   const loginSinglePage = new Page({
     title: "Авторизация",
@@ -250,19 +263,25 @@
       fields: [
         {
           label: "Nickname:",
-          type: "text",
-          id: "js-login-nickname"
+          attributes: {
+            type: "text",
+            id: "js-login-nickname",
+            type_attr: "login"
+          }
         },
         {
           label: "Пароль:",
-          placeholder: "",
-          type: "password",
-          id: "js-login-password"
+          attributes: {
+            placeholder: "",
+            type: "password",
+            id: "js-login-password",
+            type_attr: "password"
+          }
         }
       ],
       control: {
         text: "Авторизоваться!",
-        id: "js-login-submit"
+        type_attr: "js-login-submit"
       }
     }
   );
@@ -279,29 +298,29 @@
 
   loginForm.el.addEventListener("submit", (event) => {
     event.preventDefault();
-    if (validateLogin()) {
-      http.post("login/", {login: loginNickname.value, password: loginPassword.value})
+    if (loginForm.isValid()) {
+      http.post("login/", loginForm.getValues())
         .then(resp => {
-          if (resp.status === 200) {
-            login.hidden = true;
-            index.hidden = false;
-            userArea.update({
-              type: "authorized",
-              nickname: loginNickname.value,
-              score: "67"
-            });
-          }
-          if (resp.status === 403) {
-            resetError(loginNickname);
-            resetError(loginPassword);
-            showError(loginNickname, "");
-            showError(loginPassword, "Неправильно!");
+          switch (resp.status) {
+            case 200:
+              login.hidden = true;
+              index.hidden = false;
+              userArea.update({
+                type: "authorized",
+                nickname: loginNickname.value,
+                score: "67"
+              });
+              break;
+            case 403:
+              loginForm.showErrorByType("login", "");
+              loginForm.showErrorByType("password", "Неправильно!");
+              break;
           }
         });
     }
   });
 
-  <!-- -----------------------Leaderboard---------------------------- -->
+  /*-----------------------Leaderboard----------------------------*/
 
   const leaderboardSinglePage = new Page({
     title: "Лучшие:",
@@ -344,8 +363,7 @@
   });
 
 
-  <!-- -----------------------About---------------------------- -->
-
+  /*-----------------------About----------------------------*/
 
   const aboutLeftPage = new Page({
     title: "Крокодил:",
@@ -419,7 +437,7 @@
   });
 
 
-  <!-- -----------------------Game---------------------------- -->
+  /*-----------------------Game----------------------------*/
 
   const gameSinglePage = new Page({
     type: "game",

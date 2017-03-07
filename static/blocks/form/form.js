@@ -10,10 +10,13 @@
       this.control = options.control || [];
       this.el = document.createElement("form");
     }
-    getRenderedFields() {
+    findInputs() {
+      this.inputs =  this.el.getElementsByTagName("input");
+    }
+    setFields() {
       return tmpl({fields: this.fields});
     }
-    getRenderedControl() {
+    setControl() {
       return new Button({
         text: this.control.text,
         attrs: {
@@ -23,10 +26,97 @@
         }
       }).render().toString() ;
     }
+    resetError(input) {
+      "use strict";
+      input.className = input.className.replace("form__input_invalid", "form__input_valid");
+      let error = input.parentNode.getElementsByClassName("form__error");
+      if (error.length > 0) {
+        error[0].textContent = "";
+      }
+    }
+    showErrorByType(inputName, errorMessage) {
+      Array.prototype.slice.call(this.inputs).forEach(input => {
+        if (input.getAttribute("type_attr") === inputName) {
+          this.showFieldError(input, errorMessage);
+        }
+      });
+    }
+    showFieldError(input, errorMessage) {
+      const error = input.parentNode.getElementsByClassName("form__error")[0];
+      if (errorMessage !== "") {
+        error.textContent = `✗ ${errorMessage}`;
+      }
+      input.value = "";
+      input.className = input.className.replace("form__input_valid", "form__input_invalid");
+    }
+    isValid() {
+      let hasError = false;
+      window.inputs = this.inputs;
+
+      Array.prototype.slice.call(this.inputs).forEach(input => {
+        let password = null;
+
+        this.resetError(input);
+        if (input.value === "") {
+          this.showFieldError(input, "Поле обязательно для заполнения");
+          hasError = true;
+          return;
+        }
+        switch (input.getAttribute("type_attr")) {
+          case "email":
+            const r = /\S+@\S+\.\S+/;
+            if (!r.test(input.value)) {
+              this.showFieldError(input, "Невалидный email");
+              hasError = true;
+            }
+            break;
+          case "password":
+            password = input;
+            if (input.value.length <= 5) {
+              this.showFieldError(input, "Пароль должен содержать более 5 символов");
+              hasError = true;
+            }
+            else {
+              if (hasError) { this.showFieldError(input, ""); }
+            }
+            break;
+          case "passwordrep":
+            if (hasError) {
+              this.showFieldError(input, "");
+              break;
+            }
+            if (password !== null && input.value !== password.value) {
+              this.showFieldError(input, "Пароли не совпадают");
+              this.showFieldError(password, "");
+            }
+            break;
+        }
+
+      });
+
+      if (hasError) return false;
+      else return true;
+    }
+    getValues() {
+      let values = {};
+      Array.prototype.slice.call(this.inputs).forEach(input => {
+        switch (input.getAttribute("type_attr")) {
+          case "email":
+            values.email = input.value;
+          case "login":
+            values.login = input.value;
+          case "password":
+            values.password = input.value;
+            break;
+        }
+      });
+      return values;
+    }
     render() {
-      this.el.innerHTML = `${this.getRenderedFields()}${this.getRenderedControl()}`;
+      this.el.innerHTML = `${this.setFields()}${this.setControl()}`;
       this.el.classList.add("form");
       this.el.setAttribute("action", "#");
+      this.findInputs();
       return this;
     }
     toString() {
