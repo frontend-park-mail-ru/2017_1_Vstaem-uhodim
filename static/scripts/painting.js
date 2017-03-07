@@ -32,7 +32,7 @@ function startPainting(event) {
 }
 
 function painting(event) {
-  if (isPainting == true) {
+  if (isPainting) {
     var x = event.pageX - canvas.offsetLeft - parseInt(getComputedStyle(page).marginLeft);
     var y = event.pageY - canvas.offsetTop - parseInt(getComputedStyle(page).marginTop);
 

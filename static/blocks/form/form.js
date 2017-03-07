@@ -2,7 +2,7 @@
   "use strict";
 
   let Button = window.Button;
-  const tmpl = form_tmpl;
+  const tmpl = template;
 
   class Form {
     constructor (options) {
@@ -27,7 +27,6 @@
       }).render().toString() ;
     }
     resetError(input) {
-      "use strict";
       input.className = input.className.replace("form__input_invalid", "form__input_valid");
       let error = input.parentNode.getElementsByClassName("form__error");
       if (error.length > 0) {
@@ -103,8 +102,10 @@
         switch (input.getAttribute("type_attr")) {
           case "email":
             values.email = input.value;
+            break;
           case "login":
             values.login = input.value;
+            break;
           case "password":
             values.password = input.value;
             break;

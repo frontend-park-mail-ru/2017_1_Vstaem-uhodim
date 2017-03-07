@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  const tmpl = image_croc_tmpl;
+  const tmpl = template;
   class ImageCroc {
     constructor() {
       this.el = document.createElement("div");

@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  const tmpl = score_table_tmpl;
+  const tmpl = template;
   class ScoreTable {
     constructor(players) {
       this.players = players;

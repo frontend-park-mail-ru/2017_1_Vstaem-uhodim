@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  const tmpl = window.user_area_tmpl;
+  const tmpl = template;
 
   class UserArea {
     constructor(options) {

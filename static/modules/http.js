@@ -16,14 +16,14 @@
       if (query) {
         url += Object.keys(query).map(name => encodeURIComponent(`${name}=${query[name]}`)).join("&");
       }
+      let headersObj = new Headers();
       if (headers) {
-        var headersObj = new Headers();
         Object.keys(headers).forEach(name=> headersObj.append(name, headers[name]));
       }
       return fetch(`${this.baseUrl}${url}`, {method: reqMethod, credentials: "include", headers: headersObj, body: body});
     }
     get(url, query = null) {
-      return this.makeRequest("GET", url);
+      return this.makeRequest("GET", url, null, null, query);
     }
     post(url, body = null) {
       if (body) {

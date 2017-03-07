@@ -44,8 +44,7 @@
           nickname: user.login,
           score: "124"
         });
-    },
-    error => {
+    }, () => {
       userArea = new UserArea({
         type: "notAuthorized",
         nickname: "test123",
@@ -75,7 +74,7 @@
 
       userArea.el.addEventListener("logout", () => {
         http.post("logout/")
-          .then(resp => {
+          .then(() => {
             userArea.update({
               type: "notAuthorized"
             });
@@ -236,7 +235,7 @@
             score: "67"
           });
         })
-        .catch( res => {
+        .catch(() => {
         });
     }
   });
