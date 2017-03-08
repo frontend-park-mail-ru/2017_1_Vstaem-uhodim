@@ -39,6 +39,10 @@ describe('Тестирование who-am-i/', function () {
 
         done(true);
       })
+      .catch((e) => {
+        fail(e);
+        done(false);
+      });
   });
 
   it('Метод GET who-am-i/ возвращает статус 403, код "log_in" для неавторизованного пользователя', function (done) {
@@ -53,6 +57,10 @@ describe('Тестирование who-am-i/', function () {
 
         done(true);
       })
+      .catch((e) => {
+        fail(e);
+        done(false);
+      });
   });
 
 });

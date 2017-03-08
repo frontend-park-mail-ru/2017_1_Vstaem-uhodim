@@ -36,6 +36,10 @@ describe('Тестирование login/', function () {
         expect(resp.status).toBe(200);
 
         done(true);
+      })
+      .catch((e) => {
+        fail(e);
+        done(false);
       });
   });
 
@@ -70,6 +74,10 @@ describe('Тестирование login/', function () {
 
         done(true);
       })
+      .catch((e) => {
+        fail(e);
+        done(false);
+      });
   });
 
   it('Метод POST login/ возвращает статус 403, код "log_out", если авторизованный пользователь пытается авторизоваться', function (done) {
@@ -99,6 +107,10 @@ describe('Тестирование login/', function () {
 
         done(true);
       })
+      .catch((e) => {
+        fail(e);
+        done(false);
+      });
   });
 
 
@@ -133,6 +145,10 @@ describe('Тестирование login/', function () {
 
         done(true);
       })
+      .catch((e) => {
+        fail(e);
+        done(false);
+      });
   });
 
 });

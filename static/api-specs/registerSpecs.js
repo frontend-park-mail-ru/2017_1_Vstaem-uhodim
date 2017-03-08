@@ -20,6 +20,7 @@ describe('Тестирование register/', function () {
     http.post("register/", new_user)
       .then(resp => {
         expect(resp.status).toBe(200);
+        expect(resp.headers.get("content-type")).toBe("application/json;charset=utf-8");
         return resp.json();
       })
       .then(user => {
@@ -28,6 +29,10 @@ describe('Тестирование register/', function () {
         expect(user.rating).toBe(0);
 
         done(true);
+      })
+      .catch((e) => {
+        fail(e);
+        done(false);
       });
 
   }, 5000);
@@ -68,6 +73,10 @@ describe('Тестирование register/', function () {
         expect(error.code).toBe("invalid_field");
 
         done(true);
+      })
+      .catch((e) => {
+        fail(e);
+        done(false);
       });
 
   }, 5000);
@@ -97,6 +106,10 @@ describe('Тестирование register/', function () {
 
         done(true);
       })
+      .catch((e) => {
+        fail(e);
+        done(false);
+      });
 
   }, 5000);
 
@@ -121,6 +134,10 @@ describe('Тестирование register/', function () {
 
         done(true);
       })
+      .catch((e) => {
+        fail(e);
+        done(false);
+      });
 
   }, 5000);
 });

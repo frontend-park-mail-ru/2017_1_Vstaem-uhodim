@@ -8,5 +8,9 @@ describe('Тестирование logout/', function () {
 
         done(true);
       })
+      .catch((e) => {
+        fail(e);
+        done(false);
+      });
   });
 });
