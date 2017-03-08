@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API Tests</title>
+
+    <link rel="shortcut icon" type="image/png" href="jasmine/jasmine_favicon.png">
+    <link rel="stylesheet" href="jasmine/jasmine.css">
+
+    <script src="jasmine/jasmine.js"></script>
+    <script src="jasmine/jasmine-html.js"></script>
+    <script src="jasmine/boot.js"></script>
+
+    <!-- include source files here... -->
+    <script src="modules/http.js"></script>
+    <script>
+        'use strict';
+        // Инициализируем http module
+        (function () {
+            const http = new HTTP();
+            /*
+            http.Headers = {
+                'X-SERCET-TESTING': '5f59cd181b2b364d98c405767b1b849dafbc055815f496d63f531a1685ecf504'
+            };
+            */
+        })();
+    </script>
+
+    <!-- include spec files here... -->
+    <script src="api-specs/commonSpecs.js"></script>
+    <script src="api-specs/registerSpecs.js"></script>
+    <script src="api-specs/loginSpecs.js"></script>
+    <script src="api-specs/logoutSpecs.js"></script>
+    <script src="api-specs/whoamiSpecs.js"></script>
+    <script src="api-specs/bestSpecs.js"></script>
+
+</head>
+<body>
+
+</body>
+</html>

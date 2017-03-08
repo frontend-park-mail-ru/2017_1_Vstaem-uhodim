@@ -227,24 +227,30 @@
     if (signupForm.isValid()) {
       http.post("register/", signupForm.getValues())
         .then(resp => {
-          switch (resp.status) {
-            case 200:
-              return resp.json();
-            case 403:
-              signupForm.showErrorByType("login", "Nickname уже занят");
-              throw Error();
+          if(resp.status === 200) {
+            resp.json()
+              .then(new_user => {
+                signup.hidden = true;
+                index.hidden = false;
+                userArea.update({
+                  type: "authorized",
+                  nickname: new_user.login,
+                  score: "67"
+                });
+              });
           }
-        })
-        .then(new_user => {
-          signup.hidden = true;
-          index.hidden = false;
-          userArea.update({
-            type: "authorized",
-            nickname: new_user.login,
-            score: "67"
-          });
-        })
-        .catch(() => {
+          else {
+            return resp.json()
+              .then(error => {
+                switch (error.code) {
+                  case "exists":
+                    signupForm.showErrorByType("login", "Nickname уже занят");
+                    break;
+                  case "log_out":
+                    break;
+                }
+              });
+          }
         });
     }
   });
@@ -309,20 +315,24 @@
     if (loginForm.isValid()) {
       http.post("login/", loginForm.getValues())
         .then(resp => {
-          switch (resp.status) {
-            case 200:
-              login.hidden = true;
-              index.hidden = false;
-              userArea.update({
-                type: "authorized",
-                nickname: loginForm.getValues().login,
-                score: "67"
+          if (resp.status === 200) {
+            login.hidden = true;
+            index.hidden = false;
+            userArea.update({
+              type: "authorized",
+              nickname: loginForm.getValues().login,
+              score: "67"
+            });
+          }
+          else {
+            resp.json()
+              .then(error => {
+                switch (error.code) {
+                  case "forbidden":
+                    loginForm.showErrorByType("login", "");
+                    loginForm.showErrorByType("password", "Неправильно!");
+                }
               });
-              break;
-            case 403:
-              loginForm.showErrorByType("login", "");
-              loginForm.showErrorByType("password", "Неправильно!");
-              break;
           }
         });
     }

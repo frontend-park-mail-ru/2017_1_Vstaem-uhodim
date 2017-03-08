@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Vstaem-uhodim#readme",
   "devDependencies": {
-    "jshint": "^2.9.4",
+    "jshint": "^2.9.4"
+  },
+  "dependencies": {
     "pug": "^2.0.0-beta11",
     "pug-cli": "^1.0.0-alpha6"
   }
