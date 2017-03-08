@@ -1,6 +1,9 @@
+/* globals template */
+
 (function () {
   "use strict";
   const tmpl = template;
+  const Event = window.Event;
 
   class UserArea {
     constructor(options) {

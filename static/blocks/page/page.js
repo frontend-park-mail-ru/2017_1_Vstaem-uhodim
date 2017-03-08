@@ -1,5 +1,8 @@
 (function() {
   "use strict";
+
+  const Button = window.Button;
+  const Event = window.Event;
   class Page {
     constructor(options) {
       this.type = options.type;

@@ -1,3 +1,4 @@
+/* globals template */
 (function() {
   "use strict";
 

@@ -1,6 +1,15 @@
 (function () {
   "use strict";
 
+  const HTTP = window.HTTP;
+  const Page = window.Page;
+  const UserArea = window.UserArea;
+  const ImageCroc = window.ImageCroc;
+  const Menu = window.Menu;
+  const Form = window.Form;
+  const ScoreTable = window.ScoreTable;
+  const TextParagraph = window.TextParagraph;
+
   const http = new HTTP();
 
   const index = document.getElementById("js-index");
@@ -306,7 +315,7 @@
               index.hidden = false;
               userArea.update({
                 type: "authorized",
-                nickname: loginNickname.value,
+                nickname: loginForm.getValues().login,
                 score: "67"
               });
               break;

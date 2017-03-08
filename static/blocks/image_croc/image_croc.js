@@ -1,3 +1,5 @@
+/* globals template */
+
 (function () {
   "use strict";
   const tmpl = template;

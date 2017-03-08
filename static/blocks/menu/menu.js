@@ -6,10 +6,10 @@
       this.el = document.createElement("div");
     }
 
-    setCotrols() {
+    setControls() {
       this.controls.forEach(control => {
         let htmlClass = null;
-        if (control.action === true) { htmlClass = "menu__button_action"; }
+        if (control.action) { htmlClass = "menu__button_action"; }
 
         let controlEl = new Button({
           text: control.text,
@@ -34,7 +34,7 @@
     }
 
     render() {
-      this.setCotrols();
+      this.setControls();
       this.el.classList.add("menu");
       return this;
     }
