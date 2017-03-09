@@ -2,7 +2,6 @@
     box-sizing: border-box;
     background: linear-gradient(#dbdbdb, transparent 1px), linear-gradient(90deg, #dbdbdb, transparent 1px), linear-gradient(90deg, #ffbaba 2px, transparent 1px) repeat-y;
     background-size: 15px 15px;
-    //min-width: 450px;
     position: relative;
     background-color: #fafafa;
     border-radius: 20px;
@@ -70,7 +69,6 @@
 
 @media screen and (min-width: 1000px) {
     .page {
-    //height: 95%;
         min-height: 650px;
     }
     .page_type_left {
@@ -121,9 +119,5 @@
         font-size: 50%;
         padding-left: 0;
         padding-right: 0;
-    }
-    .page_type_left {
-    }
-    .page_type_right {
     }
 }
