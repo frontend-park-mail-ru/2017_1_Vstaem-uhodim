@@ -1,8 +1,43 @@
 describe('Тестирование logout/', function () {
-  const http = new HTTP();
 
-  it('Метод POST logout/ возвращает статус 200', function (done) {
+  it('Метод POST logout/ возвращает статус 200, если пользователь не был авторизован', function (done) {
     http.post("logout/")
+      .then(resp => {
+        expect(resp.status).toBe(200);
+
+        done(true);
+      })
+      .catch((e) => {
+        fail(e);
+        done(false);
+      });
+  });
+
+  it('Метод POST logout/ возвращает статус 200, если пользователь был авторизован', function (done) {
+    let new_user = {
+      login: getRandomLogin(),
+      password: "123456",
+      email: "123@mail.ru"
+    };
+
+    let shortForm = {
+      login: new_user.login,
+      password: new_user.password
+    };
+
+    http.post("register/", new_user)
+      .then(resp => {
+        expect(resp.status).toBe(200);
+        return http.post("logout/");
+      })
+      .then(resp => {
+        expect(resp.status).toBe(200);
+        return http.post("login/", shortForm);
+      })
+      .then(resp => {
+        expect(resp.status).toBe(200);
+        return http.post("logout/")
+      })
       .then(resp => {
         expect(resp.status).toBe(200);
 

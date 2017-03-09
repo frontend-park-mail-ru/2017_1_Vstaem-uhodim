@@ -4,9 +4,9 @@
   "description": "## Team - [@SemenovaEkaterina](https://github.com/SemenovaEkaterina) - [@J0kerPanda](https://github.com/J0kerPanda)",
   "main": "index.js",
   "scripts": {
-    "lint": "jshint --config .jshintrc ./static/blocks/**/*[!.pug].js && jshint --config .jshintrc ./static/*.js",
+    "lint": "jshint --config .jshintrc ./static/blocks/**/*[!.pug].js && jshint --config .jshintrc ./static/scripts/*.js && jshint --config .jshintrc ./static/*.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run lint && npm run pug && node server.js",
+    "start": "npm run pug && node server.js",
     "pug": "pug -c -D -E pug.js static/blocks/**/*.pug"
   },
   "repository": {
@@ -24,7 +24,6 @@
     "jshint": "^2.9.4"
   },
   "dependencies": {
-    "pug": "^2.0.0-beta11",
     "pug-cli": "^1.0.0-alpha6"
   }
 }

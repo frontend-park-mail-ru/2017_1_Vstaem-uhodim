@@ -3,9 +3,13 @@
  */
 
 var canvas;
+window.canvas = canvas;
+
 var page;
 var context;
 var isPainting;
+
+const getComputedStyle= window.getComputedStyle;
 
 window.onload = function () {
   canvas = document.getElementById("canvas");

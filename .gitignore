@@ -39,3 +39,5 @@ jspm_packages
 *.pug.js
 
 node_modules/
+
+.idea/

@@ -1,5 +1,4 @@
 describe('Тестирование login/', function () {
-  const http = new HTTP();
 
   beforeEach(function (done) {
     http.post("logout/")
@@ -54,8 +53,6 @@ describe('Тестирование login/', function () {
       login: new_user.login
     };
 
-    console.log(new_user.login);
-
     http.post("register/", new_user)
       .then(resp => {
         expect(resp.status).toBe(200);
@@ -90,8 +87,6 @@ describe('Тестирование login/', function () {
     let short_form = {
       login: new_user.login
     };
-
-    console.log(new_user.login);
 
     http.post("register/", new_user)
       .then(resp => {

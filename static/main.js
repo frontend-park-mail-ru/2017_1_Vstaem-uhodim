@@ -51,7 +51,7 @@
         userArea = new UserArea({
           type: "authorized",
           nickname: user.login,
-          score: "124"
+          score: user.rating
         });
     }, () => {
       userArea = new UserArea({
@@ -235,7 +235,7 @@
                 userArea.update({
                   type: "authorized",
                   nickname: new_user.login,
-                  score: "67"
+                  score: new_user.rating
                 });
               });
           }
@@ -316,13 +316,21 @@
       http.post("login/", loginForm.getValues())
         .then(resp => {
           if (resp.status === 200) {
-            login.hidden = true;
-            index.hidden = false;
-            userArea.update({
-              type: "authorized",
-              nickname: loginForm.getValues().login,
-              score: "67"
-            });
+            http.get("who-am-i/")
+              .then(resp => {
+                if(resp.status === 200) {
+                  return resp.json();
+                }
+              })
+              .then(user => {
+                login.hidden = true;
+                index.hidden = false;
+                userArea.update({
+                  type: "authorized",
+                  nickname: user.login,
+                  score: user.rating
+                });
+              });
           }
           else {
             resp.json()

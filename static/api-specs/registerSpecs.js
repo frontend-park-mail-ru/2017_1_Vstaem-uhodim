@@ -1,7 +1,5 @@
 describe('Тестирование register/', function () {
 
-  const http = new HTTP();
-
   beforeEach(function (done) {
     http.post("logout/")
       .then(resp => {
@@ -127,7 +125,7 @@ describe('Тестирование register/', function () {
       })
       .then(resp => {
         expect(resp.status).toBe(403);
-          return resp.json();
+        return resp.json();
       })
       .then(error => {
         expect(error.code).toBe("log_out");

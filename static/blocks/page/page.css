@@ -26,6 +26,7 @@
 .page_type_single {
     margin: auto;
     margin-top: 1%;
+    margin-bottom: 1%;
     border-radius: 10px 10px 10px 10px;
     background-position: 10%;
 }

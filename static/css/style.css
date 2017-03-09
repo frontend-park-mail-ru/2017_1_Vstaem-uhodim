@@ -13,20 +13,7 @@
     background: #f1f1f1;
     font-family: 'Pangolin', cursive;
     letter-spacing: 3px;
-}
-
-@media (min-width: 1000px) {
-    .background {
-        height: 100%;
-        position: fixed;
-    }
-}
-
-@media (max-width: 1000px) {
-    .background {
-        height: auto;
-        position: absolute;
-    }
+    position: absolute
 }
 
 .some-picture {
