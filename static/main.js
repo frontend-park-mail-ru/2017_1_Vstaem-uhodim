@@ -524,7 +524,7 @@
   }
 
 
-  window.addEventListener("resize", () => {image.fixTail()});
+  window.addEventListener("resize", () => {image.fixTail();});
 
 
 })();

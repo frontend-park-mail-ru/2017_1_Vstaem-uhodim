@@ -2,6 +2,7 @@
   const describe = window.describe;
   const it = window.it;
   const getRandomLogin = window.getRandomLogin;
+  const beforeEach = window.beforeEach;
   const HTTP = window.HTTP;
   const expect = window.expect;
   const fail = window.fail;
