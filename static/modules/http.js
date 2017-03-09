@@ -1,6 +1,9 @@
 (function() {
   "use strict";
 
+  const Headers = window.Headers;
+  const fetch = window.fetch;
+
   class HTTP {
     constructor() {
       if (HTTP.__instance) {

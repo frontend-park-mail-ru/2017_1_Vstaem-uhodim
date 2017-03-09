@@ -1,11 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Pangolin');
 @import url('https://fonts.googleapis.com/css?family=Comfortaa');
 
-.some {
-    display: table;
-    margin: 0 auto;
-}
-
 .background {
     top: 0;
     left: 0;
@@ -14,17 +9,6 @@
     font-family: 'Pangolin', cursive;
     letter-spacing: 3px;
     position: absolute
-}
-
-.some-picture {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto;
-    background-color: #aab1ff;
-}
-
-canvas {
-    position: absolute;
 }
 
 .palette__color {

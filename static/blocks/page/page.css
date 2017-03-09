@@ -31,6 +31,12 @@
     background-position: 10%;
 }
 
+.page_type_game {
+    width: 80%;
+    margin-left: 10%;
+    padding: 10px;
+}
+
 @media screen and (min-width: 1000px) {
     .page {
         //height: 95%;
@@ -70,12 +76,6 @@
     .page_type_right {
         border-radius: 10px;
     }
-}
-
-.page_type_game {
-    width: 80%;
-    margin-left: 10%;
-    padding: 0;
 }
 
 .page__title {

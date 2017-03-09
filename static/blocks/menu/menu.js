@@ -1,5 +1,8 @@
 (function() {
   "use strict";
+  const Button = window.Button;
+  const Event = window.Event;
+
   class Menu {
     constructor(options) {
       this.controls = options.controls;

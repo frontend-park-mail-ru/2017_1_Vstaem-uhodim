@@ -9,15 +9,19 @@
   const Form = window.Form;
   const ScoreTable = window.ScoreTable;
   const TextParagraph = window.TextParagraph;
+  const Canvas = window.Canvas;
 
   const http = new HTTP();
 
   const index = document.getElementById("js-index");
   const signup = document.getElementById("js-signup");
+  let signupLoaded = false;
   const login = document.getElementById("js-login");
+  let loginLoaded = false;
   const leaderboard = document.getElementById("js-leaderboard");
   const game = document.getElementById("js-game");
   const about = document.getElementById("js-about");
+  let aboutLoaded = false;
 
 
   signup.hidden = true;
@@ -73,11 +77,13 @@
 
       userArea.el.addEventListener("login", () => {
         index.hidden = true;
+        loginLoad();
         login.hidden = false;
       });
 
       userArea.el.addEventListener("signup", () => {
         index.hidden = true;
+        signupLoad();
         signup.hidden = false;
       });
 
@@ -136,354 +142,386 @@
 
   menu.el.addEventListener("choosePlay", function () {
     index.hidden = true;
+    gameLoad();
     game.hidden = false;
   });
 
   menu.el.addEventListener("chooseScore", function () {
     index.hidden = true;
+    leaderboardLoad();
     leaderboard.hidden = false;
   });
 
   menu.el.addEventListener("chooseAbout", function () {
     index.hidden = true;
+    aboutLoad();
     about.hidden = false;
   });
 
 
   /*-----------------------Signup----------------------------*/
-  const signupSinglePage = new Page({
-    title: "Регистрация",
-    type: "single",
-    controls: [
-      {
-        text: "&#8630",
-        event: "backtoindex"
-      }
-    ]
-  });
 
-  signupSinglePage.render();
-  signup.appendChild(signupSinglePage.el);
+  function signupLoad() {
+    if (signupLoaded) {
+      return;
+    }
 
-  const signupForm = new Form(
-    {
-      fields: [
+    const signupSinglePage = new Page({
+      title: "Регистрация",
+      type: "single",
+      controls: [
         {
-          label: "Введите Email:",
-          attributes: {
-            placeholder: "qwerty@mail.ru",
-            type: "text",
-            id: "js-signup-email",
-            type_attr: "email"
-          }
-        },
-        {
-          label: "Введите Nickname:",
-          attributes: {
-            placeholder: "super_pizza",
-            type: "text",
-            id: "js-signup-nickname",
-            type_attr: "login"
-          }
-        },
-        {
-          label: "Пароль:",
-          attributes: {
-            placeholder: "",
-            type: "password",
-            id: "js-signup-password",
-            type_attr: "password"
-          }
-        },
-        {
-          label: "Повторите пароль:",
-          attributes: {
-            placeholder: "",
-            type: "password",
-            id: "js-signup-passwordrep",
-            type_attr: "passwordrep"
-          }
+          text: "&#8630",
+          event: "backtoindex"
         }
-      ],
-      control: {
-        text: "Зарегистрироваться!",
-        id: "js-signup-submit"
+      ]
+    });
+
+    signupSinglePage.render();
+    signup.appendChild(signupSinglePage.el);
+
+    const signupForm = new Form(
+      {
+        fields: [
+          {
+            label: "Введите Email:",
+            attributes: {
+              placeholder: "qwerty@mail.ru",
+              type: "text",
+              id: "js-signup-email",
+              type_attr: "email"
+            }
+          },
+          {
+            label: "Введите Nickname:",
+            attributes: {
+              placeholder: "super_pizza",
+              type: "text",
+              id: "js-signup-nickname",
+              type_attr: "login"
+            }
+          },
+          {
+            label: "Пароль:",
+            attributes: {
+              placeholder: "",
+              type: "password",
+              id: "js-signup-password",
+              type_attr: "password"
+            }
+          },
+          {
+            label: "Повторите пароль:",
+            attributes: {
+              placeholder: "",
+              type: "password",
+              id: "js-signup-passwordrep",
+              type_attr: "passwordrep"
+            }
+          }
+        ],
+        control: {
+          text: "Зарегистрироваться!",
+          id: "js-signup-submit"
+        }
       }
-    }
-  );
+    );
 
-  signupForm.render();
+    signupForm.render();
 
-  signupSinglePage.el.appendChild(signupForm.el);
+    signupSinglePage.el.appendChild(signupForm.el);
 
-  signupSinglePage.el.addEventListener("backtoindex", () =>
-  {
-    signup.hidden = true;
-    index.hidden = false;
-  });
+    signupSinglePage.el.addEventListener("backtoindex", () => {
+      signup.hidden = true;
+      index.hidden = false;
+    });
 
-  signupForm.el.addEventListener("submit", (event) => {
-    event.preventDefault();
-    if (signupForm.isValid()) {
-      http.post("register/", signupForm.getValues())
-        .then(resp => {
-          if(resp.status === 200) {
-            resp.json()
-              .then(new_user => {
-                signup.hidden = true;
-                index.hidden = false;
-                userArea.update({
-                  type: "authorized",
-                  nickname: new_user.login,
-                  score: new_user.rating
+    signupForm.el.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (signupForm.isValid()) {
+        http.post("register/", signupForm.getValues())
+          .then(resp => {
+            if (resp.status === 200) {
+              resp.json()
+                .then(new_user => {
+                  signup.hidden = true;
+                  index.hidden = false;
+                  userArea.update({
+                    type: "authorized",
+                    nickname: new_user.login,
+                    score: new_user.rating
+                  });
                 });
-              });
-          }
-          else {
-            return resp.json()
-              .then(error => {
-                switch (error.code) {
-                  case "exists":
-                    signupForm.showErrorByType("login", "Nickname уже занят");
-                    break;
-                  case "log_out":
-                    break;
-                }
-              });
-          }
-        });
-    }
-  });
+            }
+            else {
+              return resp.json()
+                .then(error => {
+                  switch (error.code) {
+                    case "exists":
+                      signupForm.showErrorByType("login", "Nickname уже занят");
+                      break;
+                    case "log_out":
+                      break;
+                  }
+                });
+            }
+          });
+      }
+    });
+    signupLoaded = true;
+  }
 
   /*-----------------------Login----------------------------*/
 
-  const loginSinglePage = new Page({
-    title: "Авторизация",
-    type: "single",
-    controls: [
-      {
-        text: "&#8630",
-        event: "backtoindex"
-      }
-    ]
-  });
-
-  loginSinglePage.render();
-  login.appendChild(loginSinglePage.el);
-
-
-  const loginForm = new Form(
-    {
-      fields: [
+  function loginLoad() {
+    if (loginLoaded) {
+      return;
+    }
+    const loginSinglePage = new Page({
+      title: "Авторизация",
+      type: "single",
+      controls: [
         {
-          label: "Nickname:",
-          attributes: {
-            type: "text",
-            id: "js-login-nickname",
-            type_attr: "login"
-          }
-        },
-        {
-          label: "Пароль:",
-          attributes: {
-            placeholder: "",
-            type: "password",
-            id: "js-login-password",
-            type_attr: "password"
-          }
+          text: "&#8630",
+          event: "backtoindex"
         }
-      ],
-      control: {
-        text: "Авторизоваться!",
-        type_attr: "js-login-submit"
+      ]
+    });
+
+    loginSinglePage.render();
+    login.appendChild(loginSinglePage.el);
+
+
+    const loginForm = new Form(
+      {
+        fields: [
+          {
+            label: "Nickname:",
+            attributes: {
+              type: "text",
+              id: "js-login-nickname",
+              type_attr: "login"
+            }
+          },
+          {
+            label: "Пароль:",
+            attributes: {
+              placeholder: "",
+              type: "password",
+              id: "js-login-password",
+              type_attr: "password"
+            }
+          }
+        ],
+        control: {
+          text: "Авторизоваться!",
+          type_attr: "js-login-submit"
+        }
       }
-    }
-  );
+    );
 
-  loginForm.render();
+    loginForm.render();
 
-  loginSinglePage.el.appendChild(loginForm.el);
+    loginSinglePage.el.appendChild(loginForm.el);
 
-  loginSinglePage.el.addEventListener("backtoindex", () =>
-  {
-    login.hidden = true;
-    index.hidden = false;
-  });
+    loginSinglePage.el.addEventListener("backtoindex", () => {
+      login.hidden = true;
+      index.hidden = false;
+    });
 
-  loginForm.el.addEventListener("submit", (event) => {
-    event.preventDefault();
-    if (loginForm.isValid()) {
-      http.post("login/", loginForm.getValues())
-        .then(resp => {
-          if (resp.status === 200) {
-            http.get("who-am-i/")
-              .then(resp => {
-                if(resp.status === 200) {
-                  return resp.json();
-                }
-              })
-              .then(user => {
-                login.hidden = true;
-                index.hidden = false;
-                userArea.update({
-                  type: "authorized",
-                  nickname: user.login,
-                  score: user.rating
+    loginForm.el.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (loginForm.isValid()) {
+        http.post("login/", loginForm.getValues())
+          .then(resp => {
+            if (resp.status === 200) {
+              http.get("who-am-i/")
+                .then(resp => {
+                  if (resp.status === 200) {
+                    return resp.json();
+                  }
+                })
+                .then(user => {
+                  login.hidden = true;
+                  index.hidden = false;
+                  userArea.update({
+                    type: "authorized",
+                    nickname: user.login,
+                    score: user.rating
+                  });
                 });
-              });
-          }
-          else {
-            resp.json()
-              .then(error => {
-                switch (error.code) {
-                  case "forbidden":
-                    loginForm.showErrorByType("login", "");
-                    loginForm.showErrorByType("password", "Неправильно!");
-                }
-              });
-          }
-        });
-    }
-  });
+            }
+            else {
+              resp.json()
+                .then(error => {
+                  switch (error.code) {
+                    case "forbidden":
+                      loginForm.showErrorByType("login", "");
+                      loginForm.showErrorByType("password", "Неправильно!");
+                  }
+                });
+            }
+          });
+      }
+    });
+    loginLoaded = true;
+  }
 
   /*-----------------------Leaderboard----------------------------*/
 
-  const leaderboardSinglePage = new Page({
-    title: "Лучшие:",
-    type: "single",
-    controls: [
-      {
-        text: "&#8630",
-        event: "backtoindex"
-      }
-    ]
-  });
+  function leaderboardLoad() {
+    leaderboard.innerHTML = "";
 
-  leaderboardSinglePage.render();
-
-  leaderboard.appendChild(leaderboardSinglePage.el);
-
-  let firstScoreTable;
-
-  http.get('best/')
-    .then(resp => {
-      if (resp.status === 200) {
-        return resp.json();
-      }
-    })
-    .then(players => {
-      players.forEach((player, number) => {
-        player.number = number + 1;
-      });
-      firstScoreTable = new ScoreTable(players);
-      firstScoreTable.render();
-      leaderboardSinglePage.el.appendChild(firstScoreTable.el);
+    const leaderboardSinglePage = new Page({
+      title: "Лучшие:",
+      type: "single",
+      controls: [
+        {
+          text: "&#8630",
+          event: "backtoindex"
+        }
+      ]
     });
 
+    leaderboardSinglePage.render();
+
+    leaderboard.appendChild(leaderboardSinglePage.el);
+
+    let firstScoreTable;
+
+    http.get('best/')
+      .then(resp => {
+        if (resp.status === 200) {
+          return resp.json();
+        }
+      })
+      .then(players => {
+        players.forEach((player, number) => {
+          player.number = number + 1;
+        });
+        firstScoreTable = new ScoreTable(players);
+        firstScoreTable.render();
+        leaderboardSinglePage.el.appendChild(firstScoreTable.el);
+      });
 
 
-  leaderboardSinglePage.el.addEventListener("backtoindex", () =>
-  {
-    leaderboard.hidden = true;
-    index.hidden = false;
-  });
+    leaderboardSinglePage.el.addEventListener("backtoindex", () => {
+      leaderboard.hidden = true;
+      index.hidden = false;
+    });
+  }
 
 
   /*-----------------------About----------------------------*/
 
-  const aboutLeftPage = new Page({
-    title: "Крокодил:",
-    type: "left",
-    controls: [
-      {
-        text: "&#8630",
-        event: "backtoindex"
-      }
-    ]
-  });
+  function aboutLoad() {
+    if (aboutLoaded) {
+      return;
+    }
 
-  aboutLeftPage.render();
+    const aboutLeftPage = new Page({
+      title: "Крокодил:",
+      type: "left",
+      controls: [
+        {
+          text: "&#8630",
+          event: "backtoindex"
+        }
+      ]
+    });
 
-  about.appendChild(aboutLeftPage.el);
+    aboutLeftPage.render();
 
-  const aboutGame = new TextParagraph({
-    text: "Смысл игры состоит в том, чтобы отгадать загаданное слово. Один игрок рисует " +
-    "слово на страничке, остальные угадывают ответ в чате."
-  });
+    about.appendChild(aboutLeftPage.el);
 
-  aboutGame.render();
+    const aboutGame = new TextParagraph({
+      text: "Смысл игры состоит в том, чтобы отгадать загаданное слово. Один игрок рисует " +
+      "слово на страничке, остальные угадывают ответ в чате."
+    });
 
-  aboutLeftPage.el.appendChild(aboutGame.el);
+    aboutGame.render();
 
-
-
-  //aboutLeftPage.el.innerHTML += "<div class=\"some-picture\">Это картинка будет </div>";
-
-  const aboutRightPage = new Page({
-    title: "Список:",
-    type: "right"
-  });
-
-  aboutRightPage.render();
-
-  about.appendChild(aboutRightPage.el);
-
-  const firstPar = new TextParagraph({
-    title: "Человек 1",
-    text: "Some text some text some text some text some text"
-  });
-
-  firstPar.render();
-
-  aboutRightPage.el.appendChild(firstPar.el);
-
-  const secPar = new TextParagraph({
-    title: "Человек 2",
-    text: "Some text some text some text some text some text"
-  });
-
-  secPar.render();
-
-  aboutRightPage.el.appendChild(secPar.el);
-
-  const otherPar = new TextParagraph({
-    title: "...",
-    text: "Some text some text some text some text some text"
-  });
-
-  otherPar.render();
-
-  aboutRightPage.el.appendChild(otherPar.el);
+    aboutLeftPage.el.appendChild(aboutGame.el);
 
 
-  aboutLeftPage.el.addEventListener("backtoindex", () =>
-  {
-    about.hidden = true;
-    index.hidden = false;
-  });
+    //aboutLeftPage.el.innerHTML += "<div class=\"some-picture\">Это картинка будет </div>";
+
+    const aboutRightPage = new Page({
+      title: "Список:",
+      type: "right"
+    });
+
+    aboutRightPage.render();
+
+    about.appendChild(aboutRightPage.el);
+
+    const firstPar = new TextParagraph({
+      title: "Человек 1",
+      text: "Some text some text some text some text some text"
+    });
+
+    firstPar.render();
+
+    aboutRightPage.el.appendChild(firstPar.el);
+
+    const secPar = new TextParagraph({
+      title: "Человек 2",
+      text: "Some text some text some text some text some text"
+    });
+
+    secPar.render();
+
+    aboutRightPage.el.appendChild(secPar.el);
+
+    const otherPar = new TextParagraph({
+      title: "...",
+      text: "Some text some text some text some text some text"
+    });
+
+    otherPar.render();
+
+    aboutRightPage.el.appendChild(otherPar.el);
+
+
+    aboutLeftPage.el.addEventListener("backtoindex", () => {
+      about.hidden = true;
+      index.hidden = false;
+    });
+
+    aboutLoaded = true;
+  }
 
 
   /*-----------------------Game----------------------------*/
 
-  const gameSinglePage = new Page({
-    type: "game",
-    controls: [
-      {
-        text: "&#8630",
-        event: "backtoindex"
-      }
-    ]
-  });
+  function gameLoad() {
+    game.innerHTML = "";
 
-  gameSinglePage.render();
+    const gameSinglePage = new Page({
+      type: "game",
+      controls: [
+        {
+          text: "&#8630",
+          event: "backtoindex"
+        }
+      ]
+    });
 
-  game.appendChild(gameSinglePage.el);
+    gameSinglePage.render();
 
-  gameSinglePage.el.addEventListener("backtoindex", () =>
-  {
-    game.hidden = true;
-    index.hidden = false;
-  });
+    game.appendChild(gameSinglePage.el);
+
+    gameSinglePage.el.addEventListener("backtoindex", () => {
+      game.hidden = true;
+      index.hidden = false;
+    });
+
+
+    const canvas = new Canvas();
+    canvas.render();
+    gameSinglePage.el.appendChild(canvas.el);
+    canvas.paint();
+  }
 
 
 })();

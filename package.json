@@ -4,7 +4,7 @@
   "description": "## Team - [@SemenovaEkaterina](https://github.com/SemenovaEkaterina) - [@J0kerPanda](https://github.com/J0kerPanda)",
   "main": "index.js",
   "scripts": {
-    "lint": "jshint --config .jshintrc ./static/blocks/**/*[!.pug].js && jshint --config .jshintrc ./static/scripts/*.js && jshint --config .jshintrc ./static/*.js",
+    "lint": "jshint --config .jshintrc ./static",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run pug && node server.js",
     "pug": "pug -c -D -E pug.js static/blocks/**/*.pug"
