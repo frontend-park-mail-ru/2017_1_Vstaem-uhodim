@@ -1,4 +1,5 @@
 .button {
+    font-family: 'Pangolin', cursive;
     text-align: center;
     text-decoration: none;
     display: table;
@@ -27,7 +28,7 @@
     background: rgb(255, 80, 1);
 
     box-shadow: 0 0 0 4px rgb(255, 80, 1);
-    font-size: 150%;
+    font-size: 180%;
     border-radius: 3px;
 
     opacity: 0.9;
@@ -56,5 +57,13 @@
     }
     100% {
         border-radius: 3px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .button_size_mini {
+        font-size: 160%;
+        width: 25px;
+        height: 25px;
     }
 }

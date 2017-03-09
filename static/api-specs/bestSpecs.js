@@ -10,6 +10,14 @@
 
   describe('Тестирование best/', function () {
 
+    beforeEach(function (done) {
+      http.post("logout/")
+        .then(resp => {
+          expect(resp.status).toBe(200);
+          done(true);
+        });
+    }, 25000);
+
     it('Метод GET best/ возвращает статус 200, массив пользователей', function (done) {
       let new_user = {
         login: getRandomLogin(),
@@ -40,6 +48,6 @@
           fail(e);
           done(false);
         });
-    }, 25000);
+    }, 5000);
   });
 })();

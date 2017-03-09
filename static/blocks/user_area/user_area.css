@@ -2,7 +2,7 @@
     display: table;
     width: 340px;
     margin: 25px auto;
-    padding: 15px;
+    padding: 15px 5px;
     letter-spacing: 3px;
 
     background: rgb(255, 209, 1);
@@ -10,8 +10,25 @@
     color: white;
 
     box-shadow: 0 0 0 4px rgb(255, 209, 1);
-    font-size: 140%;
+    font-size: 150%;
     border-radius: 3px;
     text-align: center;
     opacity: 0.8;
+}
+
+@media screen and (max-width: 500px) {
+    .user-area {
+        width: 75%;
+        padding-left: 0;
+        padding-right: 0;
+        margin: auto;
+        box-shadow: none;
+        border-radius: 10px;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .user-area {
+        width: 98%;
+    }
 }

@@ -8,6 +8,10 @@ const worker = function (req, resp) {
   let content;
   let path = "static/";
 
+  if(url.indexOf('?') !== -1) {
+    url = url.slice(0, url.indexOf('?'));
+  }
+
   switch(url) {
     case "/":
       url = '/index';

@@ -10,6 +10,14 @@
 
   describe('Тестирование logout/', function () {
 
+    beforeEach(function (done) {
+      http.post("logout/")
+        .then(resp => {
+          expect(resp.status).toBe(200);
+          done(true);
+        });
+    }, 25000);
+
     it('Метод POST logout/ возвращает статус 200, если пользователь не был авторизован', function (done) {
       http.post("logout/")
         .then(resp => {
