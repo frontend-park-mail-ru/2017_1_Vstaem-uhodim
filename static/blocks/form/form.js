@@ -106,12 +106,7 @@
           this.showFieldError(password, "");
         }
 
-        if (hasError) {
-          return false;
-        }
-        else {
-          return true;
-        }
+        return !hasError;
 
       });
 
