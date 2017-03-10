@@ -1,0 +1,17 @@
+tr
+    th #
+    th nickname
+    th score
+for player in players
+    tr
+        td
+            if player.number == 1
+                div.medal.medal_type_gold 1
+            else if player.number == 2
+                div.medal.medal_type_silver 2
+            else if player.number == 3
+                div.medal.medal_type_bronze 3
+            else
+                div.medal.medal_type_other= player.number
+        td= player.login
+        td= player.rating

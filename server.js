@@ -8,14 +8,14 @@ const worker = function (req, resp) {
   let content;
   let path = "static/";
 
+  if(url.indexOf('?') !== -1) {
+    url = url.slice(0, url.indexOf('?'));
+  }
+
   switch(url) {
     case "/":
       url = '/index';
-    case "/about":
-    case "/game":
-    case "/leaderboard":
-    case "/login":
-    case "/signup":
+    case "/tests":
       path += `${url.slice(1)}.html`;
       break;
     default:
@@ -35,6 +35,6 @@ const worker = function (req, resp) {
 };
 
 const server = http.createServer(worker);
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 
 server.listen(port, () => { console.log('Сервер запущен!'); });

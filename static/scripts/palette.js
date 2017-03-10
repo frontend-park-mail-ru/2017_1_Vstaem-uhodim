@@ -1,6 +1,6 @@
-/**
- * Created by kate on 17.02.17.
- */
+const getComputedStyle= window.getComputedStyle;
+const canvas = window.canvas;
+
 
 var currentColor;
 
@@ -23,5 +23,6 @@ setPaletteColor(colors[5], "indigo");
 setPaletteColor(colors[6], "orange");
 
 function changeColor(event) {
+  const context = canvas.getContext("2d");
   context.strokeStyle = getComputedStyle(event.currentTarget).backgroundColor;
 }

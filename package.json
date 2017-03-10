@@ -4,7 +4,10 @@
   "description": "## Team - [@SemenovaEkaterina](https://github.com/SemenovaEkaterina) - [@J0kerPanda](https://github.com/J0kerPanda)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "jshint --config .jshintrc ./static",
+    "test": "npm run lint && npm run pug",
+    "start": "npm run pug && node server.js",
+    "pug": "pug -c -D -E pug.js static/blocks/**/*.pug"
   },
   "repository": {
     "type": "git",
@@ -16,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/frontend-park-mail-ru/2017_1_Vstaem-uhodim/issues"
   },
-  "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Vstaem-uhodim#readme"
+  "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Vstaem-uhodim#readme",
+  "devDependencies": {
+    "jshint": "^2.9.4"
+  },
+  "dependencies": {
+    "pug-cli": "^1.0.0-alpha6"
+  }
 }

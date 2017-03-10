@@ -1,0 +1,14 @@
+if authorized
+    span Привет, #{nickname}
+    br
+    span Рейтинг: #{score}
+    br
+    a#js-index-logout(href="#") Выйти
+else
+    span Добро пожаловать!
+    a#js-index-login(href="#") Авторизуйтесь
+    br
+    span= "или "
+    a#js-index-signup(href="#") зарегистрируйтесь
+    span , чтобы начать играть!
+
