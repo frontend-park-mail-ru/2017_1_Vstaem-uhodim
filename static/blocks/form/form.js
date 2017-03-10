@@ -53,8 +53,10 @@
       let hasError = false;
       window.inputs = this.inputs;
 
+      let password = null;
+      let passwordrep = null;
+
       Array.prototype.slice.call(this.inputs).forEach(input => {
-        let password = null;
 
         this.resetError(input);
         if (input.value === "") {
@@ -85,11 +87,24 @@
               this.showFieldError(input, "");
               break;
             }
+            passwordrep = input;
             if (password !== null && input.value !== password.value) {
               this.showFieldError(input, "Пароли не совпадают");
               this.showFieldError(password, "");
             }
             break;
+        }
+
+        if (password !== null && passwordrep !== null && passwordrep.value !== password.value) {
+          this.showFieldError(input, "Пароли не совпадают");
+          this.showFieldError(password, "");
+        }
+
+        if (hasError) {
+          return false;
+        }
+        else {
+          return true;
         }
 
       });

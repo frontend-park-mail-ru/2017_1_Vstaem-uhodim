@@ -30,7 +30,7 @@
           fail(e);
           done(false);
         });
-    }, 25000);
+    }, 5000);
 
     it('Метод POST logout/ возвращает статус 200, если пользователь был авторизован', function (done) {
       let new_user = {
