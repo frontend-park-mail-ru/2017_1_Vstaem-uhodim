@@ -34,6 +34,12 @@
         error[0].textContent = "";
       }
     }
+    reset() {
+      Array.prototype.slice.call(this.inputs).forEach(input => {
+        this.resetError(input);
+        input.value = "";
+      });
+    }
     showErrorByType(inputName, errorMessage) {
       Array.prototype.slice.call(this.inputs).forEach(input => {
         if (input.getAttribute("type_attr") === inputName) {

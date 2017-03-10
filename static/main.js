@@ -232,6 +232,7 @@
     signupSinglePage.el.appendChild(signupForm.el);
 
     signupSinglePage.el.addEventListener("backtoindex", () => {
+      signupForm.reset();
       signup.hidden = true;
       index.hidden = false;
     });
@@ -325,6 +326,7 @@
     loginSinglePage.el.appendChild(loginForm.el);
 
     loginSinglePage.el.addEventListener("backtoindex", () => {
+      loginForm.reset();
       login.hidden = true;
       index.hidden = false;
     });
