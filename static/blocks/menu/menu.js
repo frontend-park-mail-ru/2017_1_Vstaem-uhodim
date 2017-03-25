@@ -1,47 +1,46 @@
-(function() {
-  "use strict";
-  const Button = window.Button;
-  const Event = window.Event;
+"use strict";
 
-  class Menu {
-    constructor(options) {
-      this.controls = options.controls;
-      this.el = document.createElement("div");
-    }
+import "./menu.css";
+import Button from "../button/button.js";
+const Event = window.Event;
 
-    setControls() {
-      this.controls.forEach(control => {
-        let htmlClass = null;
-        if (control.action) { htmlClass = "menu__button_action"; }
+export default class Menu {
+	constructor(options) {
+		this.controls = options.controls;
+		this.el = document.createElement("div");
+	}
 
-        let controlEl = new Button({
-          text: control.text,
-          attrs: {
-            class: htmlClass,
-            id: control.id
-          }
-        });
-        controlEl.render();
+	setControls() {
+		this.controls.forEach(control => {
+			let htmlClass = null;
+			if (control.action) {
+				htmlClass = "menu__button_action";
+			}
 
-        controlEl.el.classList.add("button_size_big");
-        controlEl.el.classList.add("menu__button");
+			let controlEl = new Button({
+				text: control.text,
+				attrs: {
+					class: htmlClass,
+					id: control.id
+				}
+			});
+			controlEl.render();
 
-        let menu = this.el;
-        controlEl.el.addEventListener("click", function()
-          {
-            menu.dispatchEvent(new Event(control.event));
-          });
+			controlEl.el.classList.add("button_size_big");
+			controlEl.el.classList.add("menu__button");
 
-        this.el.appendChild(controlEl.el);
-      });
-    }
+			let menu = this.el;
+			controlEl.el.addEventListener("click", function () {
+				menu.dispatchEvent(new Event(control.event));
+			});
 
-    render() {
-      this.setControls();
-      this.el.classList.add("menu");
-      return this;
-    }
-  }
+			this.el.appendChild(controlEl.el);
+		});
+	}
 
-  window.Menu = Menu;
-})();
+	render() {
+		this.setControls();
+		this.el.classList.add("menu");
+		return this;
+	}
+}

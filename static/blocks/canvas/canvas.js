@@ -1,58 +1,56 @@
-(function() {
+"use strict";
 
-  "use strict";
+import "./canvas.css";
 
-  class Canvas {
-    constructor() {
-      this.el = document.createElement("canvas");
-    }
-    render() {
-      this.el.width = 500;
-      this.el.height = 500;
-      return this;
-    }
+export default class Canvas {
+	constructor() {
+		this.el = document.createElement("canvas");
+	}
 
-    paint() {
-      let canvas = this.el;
-      let page;
-      let context;
-      let isPainting;
+	render() {
+		this.el.width = 500;
+		this.el.height = 500;
+		return this;
+	}
 
-      const getComputedStyle= window.getComputedStyle;
+	paint() {
+		let canvas = this.el;
+		let page;
+		let context;
+		let isPainting;
 
-      page = document.getElementsByClassName("page_type_game")[0];
-      context = canvas.getContext("2d");
-      isPainting = false;
+		const getComputedStyle = window.getComputedStyle;
 
-      context.strokeStyle = "black";
-      context.lineWidth = 5;
+		page = document.getElementsByClassName("page_type_game")[0];
+		context = canvas.getContext("2d");
+		isPainting = false;
 
-      canvas.onmousedown = startPainting;
-      canvas.onmouseup = stopPainting;
-      canvas.onmouseout = stopPainting;
-      canvas.onmousemove = painting;
+		context.strokeStyle = "black";
+		context.lineWidth = 5;
 
-      function startPainting(event) {
-        isPainting = true;
-        context.beginPath();
-        context.moveTo(event.pageX - canvas.offsetLeft - parseInt(getComputedStyle(page).marginLeft), event.pageY - canvas.offsetTop - parseInt(getComputedStyle(page).marginTop));
-      }
+		canvas.onmousedown = startPainting;
+		canvas.onmouseup = stopPainting;
+		canvas.onmouseout = stopPainting;
+		canvas.onmousemove = painting;
 
-      function painting(event) {
-        if (isPainting) {
-          let x = event.pageX - canvas.offsetLeft - parseInt(getComputedStyle(page).marginLeft);
-          let y = event.pageY - canvas.offsetTop - parseInt(getComputedStyle(page).marginTop);
+		function startPainting(event) {
+			isPainting = true;
+			context.beginPath();
+			context.moveTo(event.pageX - canvas.offsetLeft - parseInt(getComputedStyle(page).marginLeft), event.pageY - canvas.offsetTop - parseInt(getComputedStyle(page).marginTop));
+		}
 
-          context.lineTo(x, y);
-          context.stroke();
-        }
-      }
+		function painting(event) {
+			if (isPainting) {
+				let x = event.pageX - canvas.offsetLeft - parseInt(getComputedStyle(page).marginLeft);
+				let y = event.pageY - canvas.offsetTop - parseInt(getComputedStyle(page).marginTop);
 
-      function stopPainting() {
-        isPainting = false;
-      }
-    }
-  }
+				context.lineTo(x, y);
+				context.stroke();
+			}
+		}
 
-  window.Canvas = Canvas;
-})();
+		function stopPainting() {
+			isPainting = false;
+		}
+	}
+}

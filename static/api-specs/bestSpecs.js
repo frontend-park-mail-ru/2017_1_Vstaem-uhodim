@@ -20,13 +20,13 @@
     }, 25000);
 
     it('Метод GET best/ возвращает статус 200, массив пользователей', function (done) {
-      let new_user = {
+      let newUser = {
         login: getRandomLogin(),
         password: "123456",
         email: "123@mail.ru"
       };
 
-      http.post("register/", new_user)
+      http.post("register/", newUser)
         .then(resp => {
           expect(resp.status).toBe(200);
           return http.get("best/");

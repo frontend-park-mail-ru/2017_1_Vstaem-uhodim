@@ -1,6 +1,10 @@
 {
   "undef": true,
   "unused": true,
+  "node": true,
+  "curly": true,
+  "newcap": true,
+  "noempty": true,
   "esversion": 6,
   "globals": {
     "window": true,

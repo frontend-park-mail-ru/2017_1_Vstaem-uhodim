@@ -1,2 +1,3 @@
 static/blocks/*/*.pug.js
 static/jasmine/*
+static/build.js

@@ -77,14 +77,24 @@
     background-color: white;
 }
 
-
 @keyframes move-eye {
-    0%{left: 27%;}
-    25%{left: 17%;}
-    50%{left: 27%;}
-    75%{left: 37%;}
-    100%{left: 27%;}
+    0% {
+        left: 27%;
+    }
+    25% {
+        left: 17%;
+    }
+    50% {
+        left: 27%;
+    }
+    75% {
+        left: 37%;
+    }
+    100% {
+        left: 27%;
+    }
 }
+
 .croco-image__dot {
     position: absolute;
     background-color: var(--crococolor);
@@ -114,7 +124,7 @@
     transform: rotate(45deg);
 }
 
-.croco-image__spike_number_1{
+.croco-image__spike_number_1 {
     top: 13%;
     left: 154%;
 }
@@ -228,9 +238,15 @@
 }
 
 @keyframes move {
-    0%{transform: rotate(0deg);}
-    50%{transform: rotate(-15deg)}
-    100%{transform: rotate(0deg)}
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(-15deg)
+    }
+    100% {
+        transform: rotate(0deg)
+    }
 }
 
 .croco-image__brush {
