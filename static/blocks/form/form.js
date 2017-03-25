@@ -25,8 +25,9 @@ export default class Form {
 			attrs: {
 				class: "button_size_big button_type_submit",
 				id: this.control.id,
-				type: "submit"
-			}
+				type: "submit",
+			},
+			tagname: "input"
 		}).render().toString();
 	}
 
@@ -40,8 +41,10 @@ export default class Form {
 
 	reset() {
 		Array.prototype.slice.call(this.inputs).forEach(input => {
-			this.resetError(input);
-			input.value = "";
+			if (input.type != "submit") {
+				this.resetError(input);
+				input.value = "";
+			}
 		});
 	}
 

@@ -10,6 +10,8 @@ module.exports = {
 	},
 	devtool: "cheap-eval-source-map",
 
+	//watch: true,
+
 	module: {
 		rules: [{
 			test: /\.js$/,

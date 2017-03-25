@@ -6,7 +6,12 @@ export default class Button {
 	constructor(options) {
 		this.text = options.text;
 		this.attrs = options.attrs || {};
-		this.el = document.createElement("button");
+
+		this.el = document.createElement(options.tagname || "a");
+		//debugger;
+		if (options.tagname == "input") {
+			this.attrs["value"] = this.text;
+		}
 	}
 
 	setAttrs(attrs) {

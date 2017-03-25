@@ -39,7 +39,8 @@ export default class Page {
 			let controlButton = new Button({
 				text: control.text,
 				attrs: {
-					class: "button_size_mini button_type_back"
+					class: "button_size_mini button_type_back",
+					href: control.href
 				}
 			});
 			this.el.appendChild(controlButton.render().el);

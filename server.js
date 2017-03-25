@@ -14,6 +14,11 @@ const worker = function (req, resp) {
 
 	switch (url) {
 		case "/":
+		case "/leaderboard":
+		case "/about":
+		case "/game":
+		case "/login":
+		case "/logout":
 			url = '/index';
 		case "/tests":
 			path += `${url.slice(1)}.html`;

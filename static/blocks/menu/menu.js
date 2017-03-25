@@ -21,18 +21,14 @@ export default class Menu {
 				text: control.text,
 				attrs: {
 					class: htmlClass,
-					id: control.id
+					id: control.id,
+					href: control.href
 				}
 			});
 			controlEl.render();
 
 			controlEl.el.classList.add("button_size_big");
 			controlEl.el.classList.add("menu__button");
-
-			let menu = this.el;
-			controlEl.el.addEventListener("click", function () {
-				menu.dispatchEvent(new Event(control.event));
-			});
 
 			this.el.appendChild(controlEl.el);
 		});

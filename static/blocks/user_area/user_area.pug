@@ -3,12 +3,12 @@ if authorized
     br
     span Рейтинг: #{score}
     br
-    a#js-index-logout(href="#") Выйти
+    a#js-index-logout(href="/logout") Выйти
 else
     span Добро пожаловать!
-    a#js-index-login(href="#") Авторизуйтесь
+    a#js-index-login(href="/login") Авторизуйтесь
     br
     span= "или "
-    a#js-index-signup(href="#") зарегистрируйтесь
+    a#js-index-signup(href="/signup") зарегистрируйтесь
     span , чтобы начать играть!
 
