@@ -59,9 +59,8 @@ export default class IndexView extends BaseView {
 		let userArea = null;
 
 
-
 		this.currentUser()
-			.then(user=>{
+			.then(user => {
 				userArea = new UserArea(user);
 
 				userArea.render();
@@ -74,7 +73,6 @@ export default class IndexView extends BaseView {
 					indexLeftPage.el.appendChild(userArea.el);
 				}
 			});
-
 
 
 		const image = new ImageCroc();

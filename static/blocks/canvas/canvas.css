@@ -1,5 +1,14 @@
 canvas {
-    margin: 40px;
+    float: left;
+    display: inline-block;
+    margin: 4% 1% 1% 4%;
     border: 1px solid #c3dbcf;
     border-radius: 10px;
+}
+
+@media screen and (min-width: 1000px) {
+    canvas {
+        width: 65%;
+        height: 500px;
+    }
 }

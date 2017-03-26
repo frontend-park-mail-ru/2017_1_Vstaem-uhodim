@@ -7,7 +7,6 @@ import LeaderboardView from "./views/leaderboard.js";
 import SignupView from "./views/signup.js";
 import LogoutView from "./views/logout.js";
 import LoginView from "./views/login.js";
-
 import Router from "./modules/router.js";
 
 const index = document.getElementById("js-index");

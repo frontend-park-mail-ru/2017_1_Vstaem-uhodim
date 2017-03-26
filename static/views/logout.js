@@ -9,5 +9,5 @@ export default class LogoutView {
 			.then(() => {
 				document.dispatchEvent(new CustomEvent("redirect", {detail: location.pathname}));
 			});
-		}
+	}
 }

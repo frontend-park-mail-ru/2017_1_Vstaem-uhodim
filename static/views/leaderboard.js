@@ -2,7 +2,7 @@
 
 import BaseView from "./base.js";
 import Page from "../blocks/page/page.js";
-import ScoreTable from "../blocks/score_table/score_table.js"
+import ScoreTable from "../blocks/score_table/score_table.js";
 import HTTP from "../modules/http.js";
 
 export default class LeaderboardView extends BaseView {
@@ -46,12 +46,12 @@ export default class LeaderboardView extends BaseView {
 
 		this.bests()
 			.then(players => {
-					players.forEach((player, number) => {
-						player.number = number + 1;
-					});
-					firstScoreTable = new ScoreTable(players);
-					firstScoreTable.render();
-					leaderboardSinglePage.el.appendChild(firstScoreTable.el);
+				players.forEach((player, number) => {
+					player.number = number + 1;
 				});
+				firstScoreTable = new ScoreTable(players);
+				firstScoreTable.render();
+				leaderboardSinglePage.el.appendChild(firstScoreTable.el);
+			});
 	}
 }

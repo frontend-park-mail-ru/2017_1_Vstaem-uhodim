@@ -1,13 +1,13 @@
-const getComputedStyle= window.getComputedStyle;
+const getComputedStyle = window.getComputedStyle;
 const canvas = window.canvas;
 
 
 var currentColor;
 
 function setPaletteColor(element, color) {
-  element.style.backgroundColor = color;
-  element.style.boxShadow = `0 0 0 4px ${color}`;
-  element.addEventListener("click", changeColor);
+	element.style.backgroundColor = color;
+	element.style.boxShadow = `0 0 0 4px ${color}`;
+	element.addEventListener("click", changeColor);
 }
 
 var colors = document.getElementsByClassName("palette__color");
@@ -23,6 +23,6 @@ setPaletteColor(colors[5], "indigo");
 setPaletteColor(colors[6], "orange");
 
 function changeColor(event) {
-  const context = canvas.getContext("2d");
-  context.strokeStyle = getComputedStyle(event.currentTarget).backgroundColor;
+	const context = canvas.getContext("2d");
+	context.strokeStyle = getComputedStyle(event.currentTarget).backgroundColor;
 }

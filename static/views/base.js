@@ -3,18 +3,21 @@ export default class BaseView {
 		this.el = node;
 		this.rendered = false;
 	}
+
 	show() {
 		if (!this.rendered) {
 			this.render();
 		}
-		else{
+		else {
 			this.update();
 		}
 		this.el.hidden = false;
 	}
+
 	hide() {
 		this.el.hidden = true;
 	}
+
 	update() {
 
 	}

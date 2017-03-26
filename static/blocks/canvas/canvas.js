@@ -8,8 +8,6 @@ export default class Canvas {
 	}
 
 	render() {
-		this.el.width = 500;
-		this.el.height = 500;
 		return this;
 	}
 
@@ -20,6 +18,8 @@ export default class Canvas {
 		let isPainting;
 
 		const getComputedStyle = window.getComputedStyle;
+		canvas.width = this.el.offsetWidth;
+		canvas.height = this.el.offsetHeight;
 
 		page = document.getElementsByClassName("page_type_game")[0];
 		context = canvas.getContext("2d");

@@ -47,7 +47,7 @@ export default class Router {
 		if (path == "") {
 			path = "/";
 		}
-		window.history.pushState({ page: 0 }, 'Page 0', path);
+		window.history.pushState({page: 0}, 'Page 0', path);
 
 		this.current = view;
 	}

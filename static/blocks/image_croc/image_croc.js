@@ -10,11 +10,9 @@ export default class ImageCroc {
 	}
 
 	fixTail() {
-		//debugger;
 		let tail = this.el.querySelector("#tail");
 		let main = this.el;
 
-		console.log(main.clientWidth.toString());
 		main.style.height = `${main.offsetWidth}px`;
 
 		tail.style.borderWidth = `${(main.offsetWidth * 110 / 360)}px`;
