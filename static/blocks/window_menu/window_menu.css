@@ -1,0 +1,23 @@
+.windowMenu {
+    top: 15%;
+    left: 30%;
+    width: 40%;
+    height: 55%;
+    position: absolute;
+    z-index: 3;
+    background: linear-gradient(#dbdbdb, transparent 1px), linear-gradient(90deg, #dbdbdb, transparent 1px), linear-gradient(90deg, #ffbaba 2px, transparent 1px) repeat-y;
+    background-size: 15px 15px;
+    background-color: #fafafa;
+    border-radius: 20px;
+    border: 3px double #b1b1b1;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.windowMenu__title {
+    color: #7a3001;
+    font-size: 280%;
+    text-align: center;
+    margin: 10px;
+    margin-bottom: 9%;
+}
