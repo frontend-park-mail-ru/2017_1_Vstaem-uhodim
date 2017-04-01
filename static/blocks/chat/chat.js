@@ -27,12 +27,12 @@ export default class Chat {
 		this.submit.textContent = "￫";
 		this.el.appendChild(this.submit);
 		this.submit.addEventListener("click", event => {
-			this.el.dispatchEvent(new Event("submit"));
+			this.el.dispatchEvent(new CustomEvent("submit", {"detail": this.input.value}));
 		});
 		document.addEventListener("keyup", event => {
 			event = event || window.event;
 			if (event.keyCode === 13) {
-				this.el.dispatchEvent(new Event("submit"));
+				this.el.dispatchEvent(new CustomEvent("submit", {"detail": this.input.value}));
 			}
 		});
 
@@ -63,5 +63,9 @@ export default class Chat {
 
 	resetMessage() {
 		this.input.value = "";
+	}
+
+	reset() {
+		this.list.innerHTML = "";
 	}
 }

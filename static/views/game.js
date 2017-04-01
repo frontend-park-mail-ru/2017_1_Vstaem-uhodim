@@ -4,11 +4,27 @@ import BaseView from "./base.js";
 import Page from "../blocks/page/page.js";
 import Canvas from "../blocks/canvas/canvas.js";
 import Chat from "../blocks/chat/chat.js";
+import Shadow from "../blocks/shadow/shadow.js";
+import WindowMenu from "../blocks/window_menu/window_menu.js";
+import Timer from "../blocks/timer/timer.js";
+import Game from "../modules/game/game.js";
+import SinglePlayerStrategy from "../modules/game/singleplayer_strategy.js";
 
 export default class GameView extends BaseView {
 
-
 	render() {
+		this.shadow = new Shadow();
+		this.shadow.render();
+
+		this.el.appendChild(this.shadow.el);
+		this.shadow.el.hidden = true;
+
+		this.windowMenu = new WindowMenu({title: ""});
+		this.windowMenu.render();
+
+		this.el.appendChild(this.windowMenu.el);
+		this.windowMenu.el.hidden = true;
+
 		const gameSinglePage = new Page({
 			type: "game",
 			controls: [
@@ -23,22 +39,31 @@ export default class GameView extends BaseView {
 
 		this.el.appendChild(gameSinglePage.el);
 
-		const canvas = new Canvas();
-		canvas.render();
-		gameSinglePage.el.appendChild(canvas.el);
-		canvas.paint();
+		this.timer = new Timer(120);
+		this.timer.render();
+		gameSinglePage.el.appendChild(this.timer.el);
 
-		const chat = new Chat();
-		chat.render();
-		gameSinglePage.el.appendChild(chat.el);
-		chat.el.addEventListener("submit", event => {
-			if (chat.getMessage() !== "") {
-				chat.addMessage("currentUser", chat.getMessage(), "black");
-				chat.resetMessage();
+		this.canvas = new Canvas();
+		this.canvas.render();
+		gameSinglePage.el.appendChild(this.canvas.el);
+		this.canvas.paint();
+
+		this.chat = new Chat();
+		this.chat.render();
+		gameSinglePage.el.appendChild(this.chat.el);
+		this.chat.el.addEventListener("submit", event => {
+			if (this.chat.getMessage() !== "") {
+				this.chat.addMessage("currentUser", this.chat.getMessage(), "black");
+				this.chat.resetMessage();
 			}
 		});
 
-		chat.addUser("currentUser", "red");
+		this.game = new Game(SinglePlayerStrategy, "kate", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu);
 
+	}
+
+	show() {
+		BaseView.prototype.show.apply(this);
+		this.game.start();
 	}
 }

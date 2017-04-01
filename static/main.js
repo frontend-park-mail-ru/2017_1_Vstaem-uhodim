@@ -63,4 +63,3 @@ document.addEventListener("redirect", event => {
 	router.go(event.detail);
 });
 
-

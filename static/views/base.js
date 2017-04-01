@@ -7,6 +7,7 @@ export default class BaseView {
 	show() {
 		if (!this.rendered) {
 			this.render();
+			this.rendered = true;
 		}
 		else {
 			this.update();

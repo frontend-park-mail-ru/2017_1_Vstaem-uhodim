@@ -26,6 +26,7 @@ export default class Canvas {
 		isPainting = false;
 
 		context.strokeStyle = "black";
+		context.lineJoin = "round";
 		context.lineWidth = 5;
 
 		canvas.onmousedown = startPainting;
@@ -52,5 +53,53 @@ export default class Canvas {
 		function stopPainting() {
 			isPainting = false;
 		}
+
+	}
+
+	drawPictureByPoints(points, color) {
+		let canvas = this.el;
+		const getComputedStyle = window.getComputedStyle;
+		canvas.width = this.el.offsetWidth;
+		canvas.height = this.el.offsetHeight;
+		let context = canvas.getContext("2d");
+
+		context.lineJoin = "round";
+		context.lineCap = "round";
+		context.strokeStyle = color;
+		context.lineWidth = 5;
+
+
+		let number = 0;
+		canvas.stopSinglePainting = false;
+
+		function draw() {
+			if (canvas.stopSinglePainting) {
+				canvas.stopSinglePainting = false;
+				return;
+			}
+			if (number > 0) {
+				if (number === 1) {
+					context.moveTo(points[number - 1].x, points[number - 1].y);
+				}
+				context.lineTo(points[number].x, points[number].y);
+				context.stroke();
+			}
+			if (number + 1 > points.length) {
+				context.
+				return;
+			}
+			number++;
+
+			setTimeout(draw, (points[number+1].time - points[number].time)*1000);
+		}
+
+		draw();
+
+
+
+	}
+
+	reset() {
+		this.el.getContext("2d").clearRect(0, 0, this.el.width, this.el.height);
 	}
 }
