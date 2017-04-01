@@ -10,7 +10,7 @@ module.exports = {
 	},
 	devtool: "cheap-eval-source-map",
 
-	watch: true,
+	//watch: true,
 
 	module: {
 		rules: [{

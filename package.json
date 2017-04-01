@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "jshint --config .jshintrc ./static",
     "test": "npm run lint && npm run pug",
-    "start": "node server.js",
+    "start": "npm run webpack && node server.js",
     "pug": "pug -c -D -E pug.js static/blocks/**/*.pug",
     "webpack": "webpack --config webpack.config.js"
   },
