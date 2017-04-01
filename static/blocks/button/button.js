@@ -10,7 +10,7 @@ export default class Button {
 		this.el = document.createElement(options.tagname || "a");
 		//debugger;
 		if (options.tagname == "input") {
-			this.attrs["value"] = this.text;
+			this.attrs.value = this.text;
 		}
 	}
 

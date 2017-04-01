@@ -4,6 +4,7 @@ import BaseView from "./base.js";
 import Page from "../blocks/page/page.js";
 import Form from "../blocks/form/form.js";
 import HTTP from "../modules/http.js";
+const CustomEvent = window.CustomEvent;
 
 export default class SignupView extends BaseView {
 
@@ -89,7 +90,7 @@ export default class SignupView extends BaseView {
 					.then(resp => {
 						if (resp.status === 200) {
 							resp.json()
-								.then(new_user => {
+								.then(() => {
 									document.dispatchEvent(new CustomEvent("redirect", {detail: ""}));
 								});
 						}

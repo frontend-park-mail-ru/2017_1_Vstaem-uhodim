@@ -29,9 +29,8 @@ export default class Mediator {
 		});
 	}
 
-	unsubscribe(name, func) {
-		//
-	}
+	//unsubscribe(name, func) {
+	//}
 
 
 

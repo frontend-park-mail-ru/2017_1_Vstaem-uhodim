@@ -1,4 +1,5 @@
 "use strict";
+const location = window.location;
 
 export default class Router {
 	constructor() {
@@ -14,7 +15,7 @@ export default class Router {
 	}
 
 	start() {
-		document.addEventListener("click", e => {
+		document.addEventListener("click", event => {
 			if (event.target.tagName != "A") {
 				return;
 			}
@@ -23,6 +24,7 @@ export default class Router {
 			this.go(event.target.getAttribute("href"));
 		});
 
+
 		this.current = this.getViewByRoute(location.pathname);
 	}
 
@@ -30,7 +32,7 @@ export default class Router {
 
 		let view = this.getViewByRoute(path);
 
-		if (path == "/logout") {
+		if (path === "/logout") {
 			view.render();
 			return;
 		}
@@ -39,12 +41,12 @@ export default class Router {
 			return;
 		}
 
-		if (this.current && this.current != view) {
+		if (this.current && this.current !== view) {
 			this.current.hide();
 		}
 
 		view.show();
-		if (path == "") {
+		if (path === "") {
 			path = "/";
 		}
 		window.history.pushState({page: 0}, 'Page 0', path);

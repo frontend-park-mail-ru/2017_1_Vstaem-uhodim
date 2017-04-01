@@ -51,7 +51,7 @@ export default class GameView extends BaseView {
 		this.chat = new Chat();
 		this.chat.render();
 		gameSinglePage.el.appendChild(this.chat.el);
-		this.chat.el.addEventListener("submit", event => {
+		this.chat.el.addEventListener("submit", () => {
 			if (this.chat.getMessage() !== "") {
 				this.chat.addMessage("currentUser", this.chat.getMessage(), "black");
 				this.chat.resetMessage();

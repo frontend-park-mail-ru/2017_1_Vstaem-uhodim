@@ -43,59 +43,6 @@ export default class Game {
 
 	startSinglePainting() {
 		function getPicture() {
-			let picture1 = {
-				color: "brown",
-				word: "дом",
-				points: [
-					{
-						time: 0,
-						x: 330,
-						y: 10
-					},
-					{
-						time: 3,
-						x: 100,
-						y: 140
-					},
-					{
-						time: 5,
-						x: 150,
-						y: 140
-					},
-					{
-						time: 6,
-						x: 150,
-						y: 350
-					},
-					{
-						time: 7,
-						x: 500,
-						y: 350
-					},
-					{
-						time: 8,
-						x: 500,
-						y: 140
-					},
-					{
-						time: 10,
-						x: 550,
-						y: 140
-					},
-					{
-						time: 11,
-						x: 330,
-						y: 10
-					},
-					{
-						time: 12,
-						x: 0,
-						y: 0
-					}
-				]
-
-			};
-
 			let picture2 = {
 				color: "#C3DBCF",
 				word: "звезда",
@@ -139,56 +86,6 @@ export default class Game {
 				]
 			};
 
-
-			let picture3 = {
-				color: "red",
-				word: "сердце",
-				points: [
-					{
-						time: 0,
-						x: 330,
-						y: 150
-					},
-					{
-						time: 1,
-						x: 250,
-						y: 80
-					},
-					{
-						time: 2,
-						x: 120,
-						y: 200
-					},
-					{
-						time: 3,
-						x: 330,
-						y: 400
-					},
-					{
-						time: 4,
-						x: 540,
-						y: 200
-					},
-					{
-						time: 5,
-						x: 410,
-						y: 80
-					},
-					{
-						time: 6,
-						x: 330,
-						y: 150
-					},
-					{
-						time: 7,
-						x: 330,
-						y: 10
-					}
-
-				]
-			};
-
-
 			return JSON.stringify(picture2);
 		}
 		// request /getPicture/
@@ -215,7 +112,7 @@ export default class Game {
 	}
 
 	showRules() {
-		this.chat.addMessage("Задача", "угадать, что будет нарисовано на картинке и написать ответ в чат")
+		this.chat.addMessage("Задача", "угадать, что будет нарисовано на картинке и написать ответ в чат");
 	}
 
 }

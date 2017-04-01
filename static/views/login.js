@@ -4,6 +4,7 @@ import BaseView from "./base.js";
 import Page from "../blocks/page/page.js";
 import Form from "../blocks/form/form.js";
 import HTTP from "../modules/http.js";
+const CustomEvent = window.CustomEvent;
 
 export default class LoginView extends BaseView {
 	render() {
@@ -58,8 +59,6 @@ export default class LoginView extends BaseView {
 
 		loginSinglePage.el.addEventListener("backtoindex", () => {
 			loginForm.reset();
-			login.hidden = true;
-			index.hidden = false;
 		});
 
 		loginForm.el.addEventListener("submit", (event) => {
@@ -69,7 +68,7 @@ export default class LoginView extends BaseView {
 					.then(resp => {
 						if (resp.status === 200) {
 							http.get("who-am-i/")
-								.then(resp => {
+								.then(() => {
 									document.dispatchEvent(new CustomEvent("redirect", {detail: ""}));
 								});
 						}
@@ -85,7 +84,7 @@ export default class LoginView extends BaseView {
 						}
 					});
 			}
-		})
+		});
 
 		this.rendered = true;
 	}

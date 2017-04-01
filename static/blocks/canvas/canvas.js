@@ -58,7 +58,7 @@ export default class Canvas {
 
 	drawPictureByPoints(points, color) {
 		let canvas = this.el;
-		const getComputedStyle = window.getComputedStyle;
+
 		canvas.width = this.el.offsetWidth;
 		canvas.height = this.el.offsetHeight;
 		let context = canvas.getContext("2d");
@@ -85,7 +85,6 @@ export default class Canvas {
 				context.stroke();
 			}
 			if (number + 1 > points.length) {
-				context.
 				return;
 			}
 			number++;

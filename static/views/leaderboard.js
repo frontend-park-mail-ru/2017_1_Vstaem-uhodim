@@ -10,7 +10,7 @@ export default class LeaderboardView extends BaseView {
 	bests() {
 		let http = new HTTP();
 
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			http.get('best/')
 				.then(resp => {
 					if (resp.status === 200) {

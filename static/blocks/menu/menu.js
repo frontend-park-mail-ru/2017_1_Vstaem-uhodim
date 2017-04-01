@@ -2,7 +2,6 @@
 
 import "./menu.css";
 import Button from "../button/button.js";
-const Event = window.Event;
 
 export default class Menu {
 	constructor(options) {

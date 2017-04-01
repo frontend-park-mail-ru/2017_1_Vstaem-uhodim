@@ -26,7 +26,9 @@ export default class Chat {
 		this.submit.classList.add("chat__submit");
 		this.submit.textContent = "￫";
 		this.el.appendChild(this.submit);
-		this.submit.addEventListener("click", event => {
+
+		const CustomEvent = window.CustomEvent;
+		this.submit.addEventListener("click", () => {
 			this.el.dispatchEvent(new CustomEvent("submit", {"detail": this.input.value}));
 		});
 		document.addEventListener("keyup", event => {

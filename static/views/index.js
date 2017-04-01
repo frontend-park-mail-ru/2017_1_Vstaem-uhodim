@@ -11,7 +11,7 @@ export default class IndexView extends BaseView {
 
 	currentUser() {
 		let http = new HTTP();
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			http.get("who-am-i/")
 				.then(resp => {
 					if (resp.status === 200) {
