@@ -9,6 +9,7 @@ export default class Game {
 		this.canvas = canvas;
 		this.chat = chat;
 		this.timer = timer;
+		this.timer.setStartValue(30);
 		this.shadow = shadow;
 		this.windowMenu = windowMenu;
 		this.strategy = new Strategy();
@@ -30,6 +31,7 @@ export default class Game {
 		this.windowMenu.el.hidden = true;
 		this.chat.reset();
 		this.canvas.reset();
+		this.timer.stop();
 		this.mediator.publish("START_GAME");
 	}
 
@@ -95,9 +97,13 @@ export default class Game {
 		this.canvas.drawPictureByPoints(picture.points, picture.color);
 
 		this.chat.el.addEventListener("submit", event => {
-			if (event.detail == answer) {
+			if (event.detail === answer) {
 				this.mediator.publish("RIGHT_ANSWER");
 			}
+		});
+
+		this.timer.el.addEventListener("stop", () => {
+			this.mediator.publish("FAILURE");
 		});
 	}
 
@@ -105,9 +111,17 @@ export default class Game {
 		this.canvas.stopSinglePainting = true;
 	}
 
-	showSingleResult() {
+	showSingleResult(result) {
 		this.shadow.el.hidden = false;
-		this.windowMenu.setTitle("Вы угадали!");
+		let title;
+		if (result === 0) {
+			title = "Неудача...";
+		}
+		else {
+			title = "Вы угадали!";
+		}
+
+		this.windowMenu.setTitle(title);
 		this.windowMenu.el.hidden = false;
 	}
 

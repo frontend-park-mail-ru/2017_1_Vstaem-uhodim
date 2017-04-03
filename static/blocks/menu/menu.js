@@ -29,6 +29,8 @@ export default class Menu {
 			controlEl.el.classList.add("button_size_big");
 			controlEl.el.classList.add("menu__button");
 
+			controlEl.el.addEventListener("click", control.click);
+
 			this.el.appendChild(controlEl.el);
 		});
 	}

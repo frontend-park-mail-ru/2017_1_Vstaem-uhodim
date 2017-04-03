@@ -4,32 +4,18 @@ import "./window_menu.css";
 import Menu from "../menu/menu.js";
 
 export default class WindowMenu {
-	constructor() {
+	constructor(options) {
+		this.titleText = options.title;
 		this.el = document.createElement("div");
+		this.menu = options.menu;
 	}
 
 	render() {
 		this.title = document.createElement("div");
 		this.title.classList.add("windowMenu__title");
-		this.title.innerHTML = this.title;
+		this.title.innerHTML = this.titleText;
 		this.el.appendChild(this.title);
 
-
-		this.menu = new Menu({
-			controls: [
-				{
-					text: "Новая игра!",
-					action: true,
-					id: "js-index-game",
-					href: "/game"
-				},
-				{
-					text: "На главную",
-					action: false,
-					href: "/"
-				}
-			]
-		});
 
 		this.menu.render();
 

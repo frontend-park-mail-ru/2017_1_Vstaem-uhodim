@@ -94,11 +94,10 @@ export default class Canvas {
 
 		draw();
 
-
-
 	}
 
 	reset() {
 		this.el.getContext("2d").clearRect(0, 0, this.el.width, this.el.height);
+		this.el.stopSinglePainting = true;
 	}
 }

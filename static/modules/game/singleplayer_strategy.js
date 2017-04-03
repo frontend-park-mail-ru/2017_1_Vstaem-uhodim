@@ -6,7 +6,8 @@ export default class SinglePlayerStrategy extends GameStrategy {
 	constructor() {
 		super();
 		this.mediator.subscribe("START_GAME", this.startGame.bind(this));
-		this.mediator.subscribe("RIGHT_ANSWER", this.stopGame.bind(this));
+		this.mediator.subscribe("RIGHT_ANSWER", this.stopGame.bind(this, 1));
+		this.mediator.subscribe("FAILURE", this.stopGame.bind(this, 0));
 	}
 
 	startGame() {
@@ -19,10 +20,10 @@ export default class SinglePlayerStrategy extends GameStrategy {
 		setTimeout(starting.bind(this), 3000);
 	}
 
-	stopGame() {
+	stopGame(result) {
 		this.mediator.publish("STOP_TIMER");
 		this.mediator.publish("STOP_SINGLE_PAINTING");
-		this.mediator.publish("SHOW_SINGLE_RESULT");
+		this.mediator.publish("SHOW_SINGLE_RESULT", result);
 	}
 
 }

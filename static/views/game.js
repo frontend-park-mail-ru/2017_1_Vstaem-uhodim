@@ -6,6 +6,7 @@ import Canvas from "../blocks/canvas/canvas.js";
 import Chat from "../blocks/chat/chat.js";
 import Shadow from "../blocks/shadow/shadow.js";
 import WindowMenu from "../blocks/window_menu/window_menu.js";
+import Menu from "../blocks/menu/menu.js";
 import Timer from "../blocks/timer/timer.js";
 import Game from "../modules/game/game.js";
 import SinglePlayerStrategy from "../modules/game/singleplayer_strategy.js";
@@ -19,7 +20,23 @@ export default class GameView extends BaseView {
 		this.el.appendChild(this.shadow.el);
 		this.shadow.el.hidden = true;
 
-		this.windowMenu = new WindowMenu({title: ""});
+		this.menu = new Menu({
+			controls: [
+				{
+					text: "Новая игра!",
+					action: true,
+					id: "js-index-game",
+					href: "/game"
+				},
+				{
+					text: "На главную",
+					action: false,
+					href: "/"
+				}
+			]
+		});
+
+		this.windowMenu = new WindowMenu({title: "", menu: this.menu});
 		this.windowMenu.render();
 
 		this.el.appendChild(this.windowMenu.el);
@@ -39,14 +56,13 @@ export default class GameView extends BaseView {
 
 		this.el.appendChild(gameSinglePage.el);
 
-		this.timer = new Timer(120);
+		this.timer = new Timer();
 		this.timer.render();
 		gameSinglePage.el.appendChild(this.timer.el);
 
 		this.canvas = new Canvas();
 		this.canvas.render();
 		gameSinglePage.el.appendChild(this.canvas.el);
-		this.canvas.paint();
 
 		this.chat = new Chat();
 		this.chat.render();

@@ -5,6 +5,8 @@ import Page from "../blocks/page/page.js";
 import UserArea from "../blocks/user_area/user_area.js";
 import ImageCroc from "../blocks/image_croc/image_croc.js";
 import Menu from "../blocks/menu/menu.js";
+import Shadow from "../blocks/shadow/shadow.js";
+import WindowMenu from "../blocks/window_menu/window_menu.js";
 import HTTP from "../modules/http.js";
 
 export default class IndexView extends BaseView {
@@ -97,7 +99,7 @@ export default class IndexView extends BaseView {
 					text: "Играть!",
 					action: true,
 					id: "js-index-game",
-					href: "/game"
+					click: openDialog.bind(this)
 				},
 				{
 					text: "Рейтинг",
@@ -122,6 +124,39 @@ export default class IndexView extends BaseView {
 		window.addEventListener("resize", () => {
 			image.fixTail();
 		});
+
+
+		this.shadow = new Shadow();
+		this.shadow.render();
+
+		this.el.appendChild(this.shadow.el);
+		this.shadow.el.hidden = true;
+
+		this.gameMenu = new Menu({
+			controls: [
+				{
+					text: "Играть в одиночестве",
+					id: "js-index-game",
+					href: "/game"
+				},
+				{
+					text: "Играть с друзьями",
+					action: false,
+					href: "/"
+				}
+			]
+		});
+
+		this.windowMenu = new WindowMenu({title: "Надо выбрать", menu: this.gameMenu});
+		this.windowMenu.render();
+
+		function openDialog() {
+			this.shadow.el.hidden = false;
+			this.windowMenu.el.hidden = false;
+		}
+
+		this.el.appendChild(this.windowMenu.el);
+		this.windowMenu.el.hidden = true;
 
 		this.rendered = true;
 	}

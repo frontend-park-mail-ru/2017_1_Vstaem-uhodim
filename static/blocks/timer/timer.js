@@ -2,28 +2,35 @@
 import "./timer.css";
 
 export default class Timer {
-	constructor(startValue) {
-		this.value = startValue;
+	constructor() {
 		this.el = document.createElement("div");
 	}
 
 	render() {
 		this.el.classList.add("timer");
-		this.updateTime();
+		this.el.innerHTML = "Игра скоро начнется...";
 		return this;
 	}
 
+	setStartValue(startValue) {
+		this.startValue = startValue;
+	}
+
 	updateTime() {
-		this.el.innerHTML = `${this.value / 60 | 0}:${this.value % 60}`;
+		if (this.value === 0 ) {
+			this.el.dispatchEvent(new CustomEvent("stop"));
+		}
+		let sec = `0${this.value % 60}`.slice(-2);
+		this.el.innerHTML = `${this.value / 60 | 0}:${sec}`;
 	}
 
 	start() {
+		this.value = this.startValue;
 		this.stopped = false;
 
 		function dec() {
 			if (this.stopped) {
 				this.stopped = false;
-				console.log("stop");
 				return;
 			}
 			this.value -= 1;
@@ -37,5 +44,6 @@ export default class Timer {
 
 	stop() {
 		this.stopped = true;
+		this.el.innerHTML = "Игра скоро начнется...";
 	}
 }

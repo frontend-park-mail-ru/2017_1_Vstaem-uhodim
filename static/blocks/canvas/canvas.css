@@ -1,9 +1,10 @@
 canvas {
     float: left;
     display: inline-block;
-    margin: 4% 1% 1% 4%;
+    margin: 2% 1% 1% 4%;
     border: 1px solid #c3dbcf;
     border-radius: 10px;
+    user-select: none;
 }
 
 @media screen and (min-width: 1000px) {

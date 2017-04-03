@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Pangolin');
 @import url('https://fonts.googleapis.com/css?family=Comfortaa');
 
+body {
+    margin: 0;
+}
+
 .background {
     top: 0;
     left: 0;
