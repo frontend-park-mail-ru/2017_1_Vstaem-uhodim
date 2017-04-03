@@ -32,6 +32,4 @@ export default class Mediator {
 	//unsubscribe(name, func) {
 	//}
 
-
-
 }
