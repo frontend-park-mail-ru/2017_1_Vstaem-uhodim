@@ -12,6 +12,7 @@
     border: 3px double #b1b1b1;
     padding: 10px;
     box-sizing: border-box;
+    background-position: 10%;
 }
 
 .windowMenu__title {

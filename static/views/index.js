@@ -135,29 +135,42 @@ export default class IndexView extends BaseView {
 		this.gameMenu = new Menu({
 			controls: [
 				{
-					text: "Играть в одиночестве",
+					text: "Играть одному",
 					id: "js-index-game",
 					href: "/game"
 				},
 				{
-					text: "Играть с друзьями",
+					text: "Найти комнату",
 					action: false,
 					href: "/"
 				}
 			]
 		});
 
-		this.windowMenu = new WindowMenu({title: "Надо выбрать", menu: this.gameMenu});
+		this.windowMenu = new WindowMenu({title: "Выбор режима", menu: this.gameMenu});
 		this.windowMenu.render();
+
+		this.shadow.el.addEventListener("click", closeDialog.bind(this));
 
 		function openDialog() {
 			this.shadow.el.hidden = false;
 			this.windowMenu.el.hidden = false;
 		}
 
+		function closeDialog() {
+			this.shadow.el.hidden = true;
+			this.windowMenu.el.hidden = true;
+		}
+
 		this.el.appendChild(this.windowMenu.el);
 		this.windowMenu.el.hidden = true;
 
 		this.rendered = true;
+	}
+
+	show() {
+		BaseView.prototype.show.apply(this);
+		this.shadow.el.hidden = true;
+		this.windowMenu.el.hidden = true;
 	}
 }

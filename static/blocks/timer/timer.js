@@ -1,5 +1,6 @@
 "use strict";
 import "./timer.css";
+const CustomEvent = window.CustomEvent;
 
 export default class Timer {
 	constructor() {

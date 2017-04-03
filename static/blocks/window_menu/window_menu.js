@@ -1,7 +1,6 @@
 "use strict";
 
 import "./window_menu.css";
-import Menu from "../menu/menu.js";
 
 export default class WindowMenu {
 	constructor(options) {
