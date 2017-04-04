@@ -39,7 +39,7 @@ export default class Canvas {
 			let y = event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop);
 			this.context.beginPath();
 			this.context.moveTo(x, y);
-			this.picture.points.push({time: (new Date - this.time), x: (x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3), down:true, color:this.context.strokeStyle});
+			this.picture.points.push({time: (new Date() - this.time), x: (x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3), down:true, color:this.context.strokeStyle});
 			this.count++;
 		}
 
