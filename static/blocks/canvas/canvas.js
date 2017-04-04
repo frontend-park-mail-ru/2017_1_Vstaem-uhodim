@@ -13,6 +13,10 @@ export default class Canvas {
 	}
 
 	paint() {
+		this.picture = {word: "", points: []};
+		this.time = new Date();
+		this.count = 0;
+
 		this.el.width = this.el.offsetWidth;
 		this.el.height = this.el.offsetHeight;
 
@@ -24,15 +28,19 @@ export default class Canvas {
 		this.context.lineJoin = "round";
 		this.context.lineWidth = 5;
 
-		this.el.onmousedown = startPainting;
-		this.el.onmouseup = stopPainting;
-		this.el.onmouseout = stopPainting;
-		this.el.onmousemove = painting;
+		this.el.onmousedown = startPainting.bind(this);
+		this.el.onmouseup = stopPainting.bind(this);
+		this.el.onmouseout = stopPainting.bind(this);
+		this.el.onmousemove = painting.bind(this);
 
 		function startPainting(event) {
 			this.isPainting = true;
+			let x = event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft);
+			let y = event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop);
 			this.context.beginPath();
-			this.context.moveTo(event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft), event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop));
+			this.context.moveTo(x, y);
+			this.picture.points.push({time: (new Date - this.time), x: (x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3), down:true, color:this.context.strokeStyle});
+			this.count++;
 		}
 
 		function painting(event) {
@@ -40,8 +48,17 @@ export default class Canvas {
 				let x = event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft);
 				let y = event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop);
 
+
 				this.context.lineTo(x, y);
 				this.context.stroke();
+				this.count++;
+				if (this.count % 3 === 0) {
+					this.picture.points.push({
+						time: (new Date() - this.time),
+						x: (x / this.el.width).toFixed(3),
+						y: (y / this.el.height).toFixed(3)
+					});
+				}
 			}
 		}
 
@@ -74,10 +91,10 @@ export default class Canvas {
 			}
 			if (points[number].down) {
 				this.context.beginPath();
-				this.context.moveTo(points[number].x, points[number].y);
+				this.context.moveTo(points[number].x * this.el.width, points[number].y * this.el.height);
 			}
 			if (!points[number + 1].down) {
-				this.context.lineTo(points[number + 1].x, points[number + 1].y);
+				this.context.lineTo(points[number + 1].x * this.el.width, points[number + 1].y * this.el.height);
 			}
 			this.context.stroke();
 			if (number + 3 > points.length) {
@@ -85,11 +102,15 @@ export default class Canvas {
 			}
 			number++;
 
-			setTimeout(draw.bind(this), (points[number+1].time - points[number].time)*1000);
+			setTimeout(draw.bind(this), (points[number+1].time - points[number].time));
 		}
 
 		draw.bind(this)();
 
+	}
+
+	savePicture() {
+		return JSON.stringify(this.picture);
 	}
 
 	reset() {
