@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint static && jshint --config .jshintrc ./static",
-    "test": "npm run lint",
+    "test": "npm run lint && npm run webpack",
     "start": "npm run webpack && node server.js",
     "webpack": "webpack --config webpack.config.js"
   },

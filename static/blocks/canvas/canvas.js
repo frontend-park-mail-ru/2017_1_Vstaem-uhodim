@@ -1,6 +1,7 @@
 "use strict";
 
 import "./canvas.css";
+const getComputedStyle = window.getComputedStyle;
 
 export default class Canvas {
 	constructor() {
@@ -12,92 +13,87 @@ export default class Canvas {
 	}
 
 	paint() {
-		let canvas = this.el;
-		let page;
-		let context;
-		let isPainting;
+		this.el.width = this.el.offsetWidth;
+		this.el.height = this.el.offsetHeight;
 
-		const getComputedStyle = window.getComputedStyle;
-		canvas.width = this.el.offsetWidth;
-		canvas.height = this.el.offsetHeight;
+		this.page = document.getElementsByClassName("page_type_game")[0];
+		this.context = this.el.getContext("2d");
+		this.isPainting = false;
 
-		page = document.getElementsByClassName("page_type_game")[0];
-		context = canvas.getContext("2d");
-		isPainting = false;
+		this.context.strokeStyle = "black";
+		this.context.lineJoin = "round";
+		this.context.lineWidth = 5;
 
-		context.strokeStyle = "black";
-		context.lineJoin = "round";
-		context.lineWidth = 5;
-
-		canvas.onmousedown = startPainting;
-		canvas.onmouseup = stopPainting;
-		canvas.onmouseout = stopPainting;
-		canvas.onmousemove = painting;
+		this.el.onmousedown = startPainting;
+		this.el.onmouseup = stopPainting;
+		this.el.onmouseout = stopPainting;
+		this.el.onmousemove = painting;
 
 		function startPainting(event) {
-			isPainting = true;
-			context.beginPath();
-			context.moveTo(event.pageX - canvas.offsetLeft - parseInt(getComputedStyle(page).marginLeft), event.pageY - canvas.offsetTop - parseInt(getComputedStyle(page).marginTop));
+			this.isPainting = true;
+			this.context.beginPath();
+			this.context.moveTo(event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft), event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop));
 		}
 
 		function painting(event) {
-			if (isPainting) {
-				let x = event.pageX - canvas.offsetLeft - parseInt(getComputedStyle(page).marginLeft);
-				let y = event.pageY - canvas.offsetTop - parseInt(getComputedStyle(page).marginTop);
+			if (this.isPainting) {
+				let x = event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft);
+				let y = event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop);
 
-				context.lineTo(x, y);
-				context.stroke();
+				this.context.lineTo(x, y);
+				this.context.stroke();
 			}
 		}
 
 		function stopPainting() {
-			isPainting = false;
+			this.isPainting = false;
 		}
 
 	}
 
-	drawPictureByPoints(points, color) {
-		let canvas = this.el;
+	drawPictureByPoints(points) {
+		this.el.width = this.el.offsetWidth;
+		this.el.height = this.el.offsetHeight;
+		this.context = this.el.getContext("2d");
 
-		canvas.width = this.el.offsetWidth;
-		canvas.height = this.el.offsetHeight;
-		let context = canvas.getContext("2d");
-
-		context.lineJoin = "round";
-		context.lineCap = "round";
-		context.strokeStyle = color;
-		context.lineWidth = 5;
+		this.context.lineJoin = "round";
+		this.context.lineCap = "round";
+		this.context.lineWidth = 4;
 
 
 		let number = 0;
-		canvas.stopSinglePainting = false;
+		this.stopSinglePainting = false;
 
 		function draw() {
-			if (canvas.stopSinglePainting) {
-				canvas.stopSinglePainting = false;
+			if (this.stopSinglePainting) {
+				this.stopSinglePainting = false;
 				return;
 			}
-			if (number > 0) {
-				if (number === 1) {
-					context.moveTo(points[number - 1].x, points[number - 1].y);
-				}
-				context.lineTo(points[number].x, points[number].y);
-				context.stroke();
+			if (points[number].color !== undefined) {
+				this.context.strokeStyle = points[number].color;
 			}
-			if (number + 1 > points.length) {
+			if (points[number].down) {
+				this.context.beginPath();
+				this.context.moveTo(points[number].x, points[number].y);
+			}
+			if (!points[number + 1].down) {
+				this.context.lineTo(points[number + 1].x, points[number + 1].y);
+			}
+			this.context.stroke();
+			if (number + 3 > points.length) {
 				return;
 			}
 			number++;
 
-			setTimeout(draw, (points[number+1].time - points[number].time)*1000);
+			setTimeout(draw.bind(this), (points[number+1].time - points[number].time)*1000);
 		}
 
-		draw();
+		draw.bind(this)();
 
 	}
 
 	reset() {
 		this.el.getContext("2d").clearRect(0, 0, this.el.width, this.el.height);
-		this.el.stopSinglePainting = true;
+		this.stopSinglePainting = true;
 	}
 }

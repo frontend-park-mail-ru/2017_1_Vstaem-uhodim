@@ -9,7 +9,7 @@ export default class Game {
 		this.canvas = canvas;
 		this.chat = chat;
 		this.timer = timer;
-		this.timer.setStartValue(30);
+		this.timer.setStartValue(130);
 		this.shadow = shadow;
 		this.windowMenu = windowMenu;
 		this.strategy = new Strategy();
@@ -46,13 +46,14 @@ export default class Game {
 	startSinglePainting() {
 		function getPicture() {
 			let picture2 = {
-				color: "#C3DBCF",
 				word: "звезда",
 				points: [
 					{
 						time: 0,
 						x: 330,
-						y: 10
+						y: 10,
+						down: true,
+						color: "#C3DBCF"
 					},
 					{
 						time: 1,
@@ -72,19 +73,15 @@ export default class Game {
 					{
 						time: 4,
 						x: 460,
-						y: 400
+						y: 400,
+						down: true,
+						color: "red"
 					},
 					{
 						time: 5,
 						x: 330,
 						y: 10
-					},
-					{
-						time: 6,
-						x: 330,
-						y: 10
 					}
-
 				]
 			};
 
