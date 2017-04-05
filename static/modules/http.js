@@ -16,7 +16,8 @@ export default class HTTP {
 
 	makeRequest(reqMethod, url, headers = null, body = null, query = null) {
 		if (query) {
-			url += Object.keys(query).map(name => encodeURIComponent(`${name}=${query[name]}`)).join("&");
+			url += "?";
+			url += Object.keys(query).map(name => `${name}=${encodeURIComponent(query[name])}`).join("&");
 		}
 		let headersObj = new Headers();
 		if (headers) {
@@ -29,10 +30,10 @@ export default class HTTP {
 		return this.makeRequest("GET", url, null, null, query);
 	}
 
-	post(url, body = null) {
+	post(url, body = null, query = null) {
 		if (body) {
 			body = JSON.stringify(body);
 		}
-		return this.makeRequest("POST", url, {"Content-type": "application/json; charset=utf-8"}, body);
+		return this.makeRequest("POST", url, {"Content-type": "application/json; charset=utf-8"}, body, query);
 	}
 }
