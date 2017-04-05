@@ -1,11 +1,14 @@
 var path = require('path');
+var glob = require("glob");
 
-module.exports = {
+
+module.exports = [{
 	entry: {
-		test: "./static/main.js"
+		main: "./static/main.js",
+		test: glob.sync("./static/api-specs/*.js"),
 	},
 	output: {
-		filename: "build.js",
+		filename: "build_[name].js",
 		path: path.resolve(__dirname, "static"),
 	},
 	devtool: "cheap-eval-source-map",
@@ -25,4 +28,4 @@ module.exports = {
 			loader: "pug-loader"
 		}]
 	}
-};
+}];
