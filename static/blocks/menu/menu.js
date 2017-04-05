@@ -12,9 +12,6 @@ export default class Menu {
 	setControls() {
 		this.controls.forEach(control => {
 			let htmlClass = null;
-			if (control.action) {
-				htmlClass = "menu__button_action";
-			}
 
 			let controlEl = new Button({
 				text: control.text,
@@ -25,6 +22,18 @@ export default class Menu {
 				}
 			});
 			controlEl.render();
+
+			if (control.action) {
+				controlEl.el.classList.add("menu__button_action");
+			}
+
+			if (control.main) {
+				controlEl.el.classList.add("menu__button_main");
+			}
+
+			if (control.wide) {
+				controlEl.el.classList.add("menu__button_wide");
+			}
 
 			controlEl.el.classList.add("button_size_big");
 			controlEl.el.classList.add("menu__button");

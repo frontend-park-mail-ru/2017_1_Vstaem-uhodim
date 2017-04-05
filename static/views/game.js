@@ -11,6 +11,8 @@ import Timer from "../blocks/timer/timer.js";
 import Game from "../modules/game/game.js";
 import SinglePlayerStrategy from "../modules/game/singleplayer_strategy.js";
 
+const CustomEvent = window.CustomEvent;
+
 export default class GameView extends BaseView {
 
 	render() {
@@ -80,6 +82,14 @@ export default class GameView extends BaseView {
 
 	show() {
 		BaseView.prototype.show.apply(this);
-		this.game.start();
+		this.currentUser()
+			.then(user => {
+				if (user.type === "authorized") {
+					this.game.start();
+				}
+				else {
+					document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
+				}
+			});
 	}
 }

@@ -7,37 +7,8 @@ import ImageCroc from "../blocks/image_croc/image_croc.js";
 import Menu from "../blocks/menu/menu.js";
 import Shadow from "../blocks/shadow/shadow.js";
 import WindowMenu from "../blocks/window_menu/window_menu.js";
-import HTTP from "../modules/http.js";
 
 export default class IndexView extends BaseView {
-
-	currentUser() {
-		let http = new HTTP();
-		return new Promise((resolve) => {
-			http.get("who-am-i/")
-				.then(resp => {
-					if (resp.status === 200) {
-						return resp.json();
-					}
-					else {
-						throw Error("log out");
-					}
-				})
-				.then(user => {
-					resolve({
-						type: "authorized",
-						nickname: user.login,
-						score: user.rating
-					});
-				}, () => {
-					resolve({
-						type: "notAuthorized",
-						nickname: "",
-						score: ""
-					});
-				});
-		});
-	}
 
 	update() {
 
@@ -98,8 +69,9 @@ export default class IndexView extends BaseView {
 				{
 					text: "Играть!",
 					action: true,
+					main: true,
 					id: "js-index-game",
-					click: openDialog.bind(this)
+					click: openModeDialog.bind(this)
 				},
 				{
 					text: "Рейтинг",
@@ -132,38 +104,71 @@ export default class IndexView extends BaseView {
 		this.el.appendChild(this.shadow.el);
 		this.shadow.el.hidden = true;
 
-		this.gameMenu = new Menu({
+
+		this.notAuthorizedMenu = new Menu({
 			controls: [
 				{
-					text: "Играть одному",
-					id: "js-index-game",
-					href: "/game"
+					text: "Авторизоваться",
+					href: "/login",
+					wide: true
 				},
 				{
-					text: "Найти комнату",
-					action: false,
-					href: "/"
+					text: "Создать профиль",
+					href: "/signup",
+					wide: true
 				}
 			]
 		});
 
-		this.windowMenu = new WindowMenu({title: "Выбор режима", menu: this.gameMenu});
-		this.windowMenu.render();
+		this.windowMenuNotAuthorized = new WindowMenu({title: "Войдите в аккаунт, чтобы начать играть", menu: this.notAuthorizedMenu});
+		this.windowMenuNotAuthorized.render();
+
+		this.el.appendChild(this.windowMenuNotAuthorized.el);
+		this.windowMenuNotAuthorized.el.hidden = true;
+
+
+		this.gameMenu = new Menu({
+			controls: [
+				{
+					text: "Играть одному",
+					href: "/game",
+					wide: true
+				},
+				{
+					text: "Найти комнату",
+					href: "/",
+					wide: true
+				}
+			]
+		});
+
+		this.windowMenuGameMode = new WindowMenu({title: "Выбор режима", menu: this.gameMenu});
+		this.windowMenuGameMode.render();
+
+		this.el.appendChild(this.windowMenuGameMode.el);
+		this.windowMenuGameMode.el.hidden = true;
 
 		this.shadow.el.addEventListener("click", closeDialog.bind(this));
 
-		function openDialog() {
-			this.shadow.el.hidden = false;
-			this.windowMenu.el.hidden = false;
+		function openModeDialog() {
+			this.currentUser()
+				.then(user => {
+					if (user.type === "authorized") {
+						this.shadow.el.hidden = false;
+						this.windowMenuGameMode.el.hidden = false;
+					}
+					else {
+						this.shadow.el.hidden = false;
+						this.windowMenuNotAuthorized.el.hidden = false;
+					}
+				});
 		}
 
 		function closeDialog() {
 			this.shadow.el.hidden = true;
-			this.windowMenu.el.hidden = true;
+			this.windowMenuGameMode.el.hidden = true;
+			this.windowMenuNotAuthorized.el.hidden = true;
 		}
-
-		this.el.appendChild(this.windowMenu.el);
-		this.windowMenu.el.hidden = true;
 
 		this.rendered = true;
 	}
@@ -171,6 +176,7 @@ export default class IndexView extends BaseView {
 	show() {
 		BaseView.prototype.show.apply(this);
 		this.shadow.el.hidden = true;
-		this.windowMenu.el.hidden = true;
+		this.windowMenuGameMode.el.hidden = true;
+		this.windowMenuNotAuthorized.el.hidden = true;
 	}
 }
