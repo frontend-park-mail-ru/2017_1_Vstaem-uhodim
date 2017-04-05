@@ -2,7 +2,6 @@
     top: 15%;
     left: 30%;
     width: 40%;
-    height: 55%;
     position: absolute;
     z-index: 3;
     background: linear-gradient(#dbdbdb, transparent 1px), linear-gradient(90deg, #dbdbdb, transparent 1px), linear-gradient(90deg, #ffbaba 2px, transparent 1px) repeat-y;
@@ -10,15 +9,46 @@
     background-color: #fafafa;
     border-radius: 20px;
     border: 3px double #b1b1b1;
-    padding: 10px;
+    padding: 2%;
     box-sizing: border-box;
     background-position: 10%;
 }
 
 .windowMenu__title {
     color: #7a3001;
-    font-size: 280%;
+    font-size: 250%;
     text-align: center;
     margin: 10px;
-    margin-bottom: 9%;
+    margin-bottom: 5%;
+}
+
+@media screen and (min-width: 1000px) {
+    .windowMenu__title {
+        font-size: 250%;
+    }
+}
+
+
+@media screen and (max-width: 1000px) {
+    .windowMenu {
+        left: 25%;
+        width: 50%;
+    }
+    .windowMenu__title {
+        font-size: 180%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .windowMenu {
+        left: 8%;
+        width: 84%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .windowMenu {
+        left: 2%;
+        width: 96%;
+    }
 }

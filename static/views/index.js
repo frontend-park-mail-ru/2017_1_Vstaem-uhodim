@@ -120,7 +120,7 @@ export default class IndexView extends BaseView {
 			]
 		});
 
-		this.windowMenuNotAuthorized = new WindowMenu({title: "Войдите в аккаунт, чтобы начать играть", menu: this.notAuthorizedMenu});
+		this.windowMenuNotAuthorized = new WindowMenu({title: "Присоединяетесь, чтобы поиграть!", menu: this.notAuthorizedMenu});
 		this.windowMenuNotAuthorized.render();
 
 		this.el.appendChild(this.windowMenuNotAuthorized.el);
@@ -142,7 +142,7 @@ export default class IndexView extends BaseView {
 			]
 		});
 
-		this.windowMenuGameMode = new WindowMenu({title: "Выбор режима", menu: this.gameMenu});
+		this.windowMenuGameMode = new WindowMenu({title: "Выбор режима игры", menu: this.gameMenu});
 		this.windowMenuGameMode.render();
 
 		this.el.appendChild(this.windowMenuGameMode.el);
