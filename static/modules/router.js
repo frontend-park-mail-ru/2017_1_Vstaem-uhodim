@@ -3,15 +3,31 @@ const location = window.location;
 
 export default class Router {
 	constructor() {
-		this.routes = {};
+		this.routes = new Map();
+		this.counter = 0;
+
+		window.addEventListener("popstate", event => {
+			event.preventDefault();
+			this.go(this.getRouteById(event.state.id), true);
+		});
+
 	}
 
 	getViewByRoute(route) {
-		return this.routes[route];
+		return this.routes.get(route);
+	}
+
+	getRouteById(id) {
+		for (const route of this.routes.keys()) {
+			if (this.routes.get(route).id === id) {
+				return route;
+			}
+		}
 	}
 
 	register(route, view) {
-		this.routes[route] = view;
+		this.routes.set(route, {source: view, id: this.counter});
+		this.counter++;
 	}
 
 	start() {
@@ -28,37 +44,27 @@ export default class Router {
 		this.current = this.getViewByRoute(location.pathname);
 	}
 
-	go(path) {
+	go(path, popState = false) {
 
 		let view = this.getViewByRoute(path);
-
-		if (path === "/logout") {
-			view.render();
-			return;
-		}
 
 		if (!view) {
 			return;
 		}
 
 		if (this.current && this.current !== view) {
-			this.current.hide();
+			this.current.source.hide();
 		}
 
-		view.show();
+		view.source.show();
 		if (path === "") {
 			path = "/";
 		}
-		window.history.pushState({page: 0}, 'Page 0', path);
+
+		if (!popState) {
+			window.history.pushState({id: view.id}, 'Page', path);
+		}
 
 		this.current = view;
-	}
-
-	back() {
-
-	}
-
-	forward() {
-
 	}
 }

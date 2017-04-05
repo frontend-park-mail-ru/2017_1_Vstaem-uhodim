@@ -69,7 +69,7 @@ export default class LoginView extends BaseView {
 						if (resp.status === 200) {
 							http.get("who-am-i/")
 								.then(() => {
-									document.dispatchEvent(new CustomEvent("redirect", {detail: ""}));
+									document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
 								});
 						}
 						else {

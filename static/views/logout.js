@@ -2,14 +2,18 @@
 
 import HTTP from "../modules/http.js";
 const CustomEvent = window.CustomEvent;
-const location = window.location;
 
 export default class LogoutView {
-	render() {
+	show() {
+		console.log("logout");
 		let http = new HTTP();
 		http.post("logout/")
 			.then(() => {
-				document.dispatchEvent(new CustomEvent("redirect", {detail: location.pathname}));
-			});
+				document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
+		});
+	}
+
+	hide() {
+
 	}
 }
