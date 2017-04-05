@@ -31,9 +31,6 @@ export default class AboutView extends BaseView {
 
 		aboutLeftPage.el.appendChild(aboutGame.el);
 
-
-		//aboutLeftPage.el.innerHTML += "<div class=\"some-picture\">Это картинка будет </div>";
-
 		const aboutRightPage = new Page({
 			title: "Список:",
 			type: "right"

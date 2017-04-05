@@ -5,7 +5,7 @@
     "no-multiple-empty-lines": ["error"]
   },
   "parserOptions": {
-    "ecmaVersion" : 6,
+    "ecmaVersion" : 8,
     "sourceType": "module"
   }
 }

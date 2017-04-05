@@ -77,19 +77,21 @@ export default class GameView extends BaseView {
 		});
 
 		this.game = new Game(SinglePlayerStrategy, "kate", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu);
-
 	}
 
-	show() {
+	async show() {
 		BaseView.prototype.show.apply(this);
-		this.currentUser()
-			.then(user => {
-				if (user.type === "authorized") {
-					this.game.start();
-				}
-				else {
-					document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
-				}
-			});
+		this.shadow.el.hidden = true;
+		this.windowMenu.el.hidden = true;
+
+		const user = await this.currentUser();
+		if (user.type === "authorized") {
+			this.game.start();
+		}
+		else {
+			document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
+		}
 	}
+
+
 }

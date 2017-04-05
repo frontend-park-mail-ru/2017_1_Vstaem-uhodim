@@ -7,23 +7,21 @@ import HTTP from "../modules/http.js";
 
 export default class LeaderboardView extends BaseView {
 
-	bests() {
+	async bests() {
 		let http = new HTTP();
 
-		return new Promise((resolve) => {
-			http.get('best/')
-				.then(resp => {
-					if (resp.status === 200) {
-						return resp.json();
-					}
-				})
-				.then(players => {
-					resolve(players);
-				});
-		});
+		const resp = await http.get("best/");
+		if (resp.status === 200) {
+			const bests = resp.json();
+			return bests;
+		}
+		else {
+			console.log("failed to get bests");
+			return [];
+		}
 	}
 
-	render() {
+	async render() {
 		this.el.innerHTML = "";
 
 		const leaderboardSinglePage = new Page({
@@ -43,15 +41,14 @@ export default class LeaderboardView extends BaseView {
 
 		let firstScoreTable;
 
+		const players = await this.bests();
+		players.forEach((player, number) => {
+			player.number = number + 1;
+		});
+		firstScoreTable = new ScoreTable(players);
+		firstScoreTable.render();
+		leaderboardSinglePage.el.appendChild(firstScoreTable.el);
 
-		this.bests()
-			.then(players => {
-				players.forEach((player, number) => {
-					player.number = number + 1;
-				});
-				firstScoreTable = new ScoreTable(players);
-				firstScoreTable.render();
-				leaderboardSinglePage.el.appendChild(firstScoreTable.el);
-			});
+		this.rendered = false;
 	}
 }

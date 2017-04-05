@@ -82,31 +82,23 @@ export default class SignupView extends BaseView {
 
 		signupSinglePage.el.appendChild(signupForm.el);
 
-
-		signupForm.el.addEventListener("submit", (event) => {
+		signupForm.el.addEventListener("submit", async event => {
 			event.preventDefault();
 			if (signupForm.isValid()) {
-				http.post("register/", signupForm.getValues())
-					.then(resp => {
-						if (resp.status === 200) {
-							resp.json()
-								.then(() => {
-									document.dispatchEvent(new CustomEvent("redirect", {detail: ""}));
-								});
-						}
-						else {
-							return resp.json()
-								.then(error => {
-									switch (error.code) {
-										case "exists":
-											signupForm.showErrorByType("login", "Nickname уже занят");
-											break;
-										case "log_out":
-											break;
-									}
-								});
-						}
-					});
+				const resp = await http.post("register/", signupForm.getValues());
+				if (resp.status === 200) {
+					document.dispatchEvent(new CustomEvent("redirect", {detail: ""}));
+				}
+				else {
+					const error = await resp.json();
+					switch (error.code) {
+						case "exists":
+							signupForm.showErrorByType("login", "Nickname уже занят");
+							break;
+						case "log_out":
+							break;
+					}
+				}
 			}
 		});
 

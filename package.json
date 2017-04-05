@@ -4,7 +4,7 @@
   "description": "## Team - [@SemenovaEkaterina](https://github.com/SemenovaEkaterina) - [@J0kerPanda](https://github.com/J0kerPanda)",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint static && jshint --config .jshintrc ./static",
+    "lint": "eslint static",
     "test": "npm run lint && npm run webpack",
     "start": "npm run webpack && node server.js",
     "webpack": "webpack --config webpack.config.js"
@@ -27,7 +27,6 @@
     "css-loader": "^0.27.3",
     "eslint": "^3.19.0",
     "glob": "^7.1.1",
-    "jshint": "^2.9.4",
     "pug-loader": "^2.3.0",
     "style-loader": "^0.16.0",
     "webpack": "^2.3.0"

@@ -61,28 +61,22 @@ export default class LoginView extends BaseView {
 			loginForm.reset();
 		});
 
-		loginForm.el.addEventListener("submit", (event) => {
+		loginForm.el.addEventListener("submit", async (event) => {
 			event.preventDefault();
 			if (loginForm.isValid()) {
-				http.post("login/", loginForm.getValues())
-					.then(resp => {
-						if (resp.status === 200) {
-							http.get("who-am-i/")
-								.then(() => {
-									document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
-								});
-						}
-						else {
-							resp.json()
-								.then(error => {
-									switch (error.code) {
-										case "forbidden":
-											loginForm.showErrorByType("login", "");
-											loginForm.showErrorByType("password", "Неправильно!");
-									}
-								});
-						}
-					});
+				let resp = await http.post("login/", loginForm.getValues());
+				if (resp.status === 200) {
+					resp = await http.get("who-am-i/");
+					document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
+				}
+				else {
+					const error = await resp.json();
+					switch (error.code) {
+						case "forbidden":
+							loginForm.showErrorByType("login", "");
+							loginForm.showErrorByType("password", "Неправильно!");
+					}
+				}
 			}
 		});
 

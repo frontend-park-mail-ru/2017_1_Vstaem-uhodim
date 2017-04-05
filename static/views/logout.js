@@ -4,13 +4,13 @@ import HTTP from "../modules/http.js";
 const CustomEvent = window.CustomEvent;
 
 export default class LogoutView {
-	show() {
-		console.log("logout");
+	async show() {
 		let http = new HTTP();
-		http.post("logout/")
-			.then(() => {
-				document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
-		});
+		const resp = await http.post("logout/");
+
+		console.log("logout");
+		debugger;
+		document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
 	}
 
 	hide() {

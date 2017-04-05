@@ -54,13 +54,12 @@ router.register("/game", gameView);
 let logoutView = new LogoutView();
 router.register("/logout", logoutView);
 
-
 router.start();
-
-const location = window.location;
-router.go(location.pathname);
 
 document.addEventListener("redirect", event => {
 	router.go(event.detail);
 });
+
+const location = window.location;
+router.go(location.pathname);
 

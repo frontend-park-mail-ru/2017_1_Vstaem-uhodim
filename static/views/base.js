@@ -6,32 +6,25 @@ export default class BaseView {
 		this.rendered = false;
 	}
 
-	currentUser() {
+	async currentUser() {
 		let http = new HTTP();
-		return new Promise((resolve) => {
-			http.get("who-am-i/")
-				.then(resp => {
-					if (resp.status === 200) {
-						return resp.json();
-					}
-					else {
-						throw Error("log out");
-					}
-				})
-				.then(user => {
-					resolve({
-						type: "authorized",
-						nickname: user.login,
-						score: user.rating
-					});
-				}, () => {
-					resolve({
-						type: "notAuthorized",
-						nickname: "",
-						score: ""
-					});
-				});
-		});
+		const resp = await http.get("who-am-i/");
+		if (resp.status === 200) {
+			const user = await resp.json();
+
+			return {
+				type: "authorized",
+				nickname: user.login,
+				score: user.rating
+			};
+		}
+		else {
+			return {
+				type: "notAuthorized",
+				nickname: "",
+				score: ""
+			};
+		}
 	}
 
 	show() {

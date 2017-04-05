@@ -10,16 +10,12 @@ import WindowMenu from "../blocks/window_menu/window_menu.js";
 
 export default class IndexView extends BaseView {
 
-	update() {
-
-		this.currentUser()
-			.then(user => {
-				this.userArea.update(user);
-			});
-
+	async update() {
+		const user = await this.currentUser();
+		this.userArea.update(user);
 	}
 
-	render() {
+	async render() {
 		this.el.innerHTML = "";
 		const indexLeftPage = new Page({
 			type: "left"
@@ -31,28 +27,23 @@ export default class IndexView extends BaseView {
 
 		let userArea = null;
 
+		const user = await this.currentUser();
+		userArea = new UserArea(user);
+		userArea.render();
+		this.userArea = userArea;
 
-		this.currentUser()
-			.then(user => {
-				userArea = new UserArea(user);
+		if (document.querySelector("#main")) {
+			indexLeftPage.el.insertBefore(userArea.el, document.querySelector("#main"));
+		}
+		else {
+			indexLeftPage.el.appendChild(userArea.el);
+		}
 
-				userArea.render();
-				this.userArea = userArea;
+		this.image = new ImageCroc();
+		this.image.render();
 
-				if (document.querySelector("#main")) {
-					indexLeftPage.el.insertBefore(userArea.el, document.querySelector("#main"));
-				}
-				else {
-					indexLeftPage.el.appendChild(userArea.el);
-				}
-			});
-
-
-		const image = new ImageCroc();
-		image.render();
-
-		indexLeftPage.el.appendChild(image.el);
-		image.fixTail();
+		indexLeftPage.el.appendChild(this.image.el);
+		this.image.fixTail();
 
 		const indexRightPage = new Page({
 			type: "right"
@@ -94,7 +85,7 @@ export default class IndexView extends BaseView {
 
 
 		window.addEventListener("resize", () => {
-			image.fixTail();
+			this.image.fixTail();
 		});
 
 
@@ -150,18 +141,17 @@ export default class IndexView extends BaseView {
 
 		this.shadow.el.addEventListener("click", closeDialog.bind(this));
 
-		function openModeDialog() {
-			this.currentUser()
-				.then(user => {
-					if (user.type === "authorized") {
-						this.shadow.el.hidden = false;
-						this.windowMenuGameMode.el.hidden = false;
-					}
-					else {
-						this.shadow.el.hidden = false;
-						this.windowMenuNotAuthorized.el.hidden = false;
-					}
-				});
+		async function openModeDialog() {
+			const user = await this.currentUser();
+
+			if (user.type === "authorized") {
+				this.shadow.el.hidden = false;
+				this.windowMenuGameMode.el.hidden = false;
+			}
+			else {
+				this.shadow.el.hidden = false;
+				this.windowMenuNotAuthorized.el.hidden = false;
+			}
 		}
 
 		function closeDialog() {
@@ -178,5 +168,6 @@ export default class IndexView extends BaseView {
 		this.shadow.el.hidden = true;
 		this.windowMenuGameMode.el.hidden = true;
 		this.windowMenuNotAuthorized.el.hidden = true;
+		this.image.fixTail();
 	}
 }
