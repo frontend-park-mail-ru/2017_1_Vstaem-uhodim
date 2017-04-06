@@ -20,6 +20,7 @@ export default class Chat {
 
 		this.input = document.createElement("input");
 		this.input.classList.add("chat__input");
+		this.input.setAttribute("autofocus", "");
 		this.el.appendChild(this.input);
 
 		this.submit = document.createElement("button");
@@ -36,6 +37,10 @@ export default class Chat {
 			if (event.keyCode === 13) {
 				this.el.dispatchEvent(new CustomEvent("submit", {"detail": this.input.value}));
 			}
+		});
+
+		this.input.addEventListener("input", event => {
+			this.input.classList.remove("chat__input_incorrect");
 		});
 
 		return this;
@@ -69,5 +74,9 @@ export default class Chat {
 
 	reset() {
 		this.list.innerHTML = "";
+	}
+
+	fail() {
+		this.input.classList.add("chat__input_incorrect");
 	}
 }

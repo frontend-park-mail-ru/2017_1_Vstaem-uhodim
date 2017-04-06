@@ -2,20 +2,20 @@
 import "./text_paragraph.css";
 
 export default class TextParagraph {
-	constructor(options) {
-		this.text = options.text;
-		this.title = options.title || "";
+	constructor({text, title = ""}) {
+		this.text = text;
+		this.title = title;
 
 		this.el = document.createElement("div");
 	}
 
 	setTitle() {
 		if (this.title !== "") {
-			let titleEl = document.createElement("div");
-			titleEl.classList.add("paragraph__title");
-			titleEl.innerHTML = this.title;
+			this.titleEl = document.createElement("div");
+			this.titleEl.classList.add("paragraph__title");
+			this.titleEl.innerHTML = this.title;
 
-			this.el.appendChild(titleEl);
+			this.el.appendChild(this.titleEl);
 		}
 	}
 

@@ -3,10 +3,10 @@
 import "./window_menu.css";
 
 export default class WindowMenu {
-	constructor(options) {
-		this.titleText = options.title;
+	constructor({title, menu}) {
+		this.titleText = title;
 		this.el = document.createElement("div");
-		this.menu = options.menu;
+		this.menu = menu;
 	}
 
 	render() {

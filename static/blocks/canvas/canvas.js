@@ -105,7 +105,7 @@ export default class Canvas {
 			setTimeout(draw.bind(this), (points[number+1].time - points[number].time));
 		}
 
-		draw.bind(this)();
+		draw.call(this);
 
 	}
 

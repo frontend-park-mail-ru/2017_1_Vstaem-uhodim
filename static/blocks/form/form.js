@@ -5,9 +5,9 @@ import template from "./form.pug";
 import Button from "../button/button.js";
 
 export default class Form {
-	constructor(options) {
-		this.fields = options.fields || [];
-		this.control = options.control || [];
+	constructor({fields = [], control = []}) {
+		this.fields = fields;
+		this.control = control;
 		this.el = document.createElement("form");
 	}
 

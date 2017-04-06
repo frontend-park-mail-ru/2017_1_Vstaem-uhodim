@@ -52,12 +52,12 @@ router.register("/game", gameView);
 
 
 let logoutView = new LogoutView();
-router.register("/logout", logoutView);
+router.register("/logout", logoutView, false);
 
 router.start();
 
 document.addEventListener("redirect", event => {
-	router.go(event.detail);
+	router.go(event.detail, true);
 });
 
 const location = window.location;

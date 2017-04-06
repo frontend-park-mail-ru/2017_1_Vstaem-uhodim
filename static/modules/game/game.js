@@ -30,7 +30,13 @@ export default class Game {
 
 			const resp = await http.post("check-answer/", null, {word: event.detail});
 			if (resp.status === 200) {
-				this.mediator.publish("RIGHT_ANSWER");
+				const json = await resp.json();
+				if (json.correct) {
+					this.mediator.publish("RIGHT_ANSWER");
+				}
+				else {
+					this.chat.fail();
+				}
 			}
 		});
 
@@ -44,9 +50,6 @@ export default class Game {
 		this.shadow.el.hidden = true;
 		this.windowMenu.setTitle("");
 		this.windowMenu.el.hidden = true;
-		this.chat.reset();
-		this.canvas.reset();
-		this.timer.stop();
 		this.mediator.publish("START_GAME");
 	}
 
@@ -77,6 +80,10 @@ export default class Game {
 	}
 
 	showSingleResult(result) {
+		this.chat.reset();
+		this.canvas.reset();
+		this.timer.stop();
+
 		this.shadow.el.hidden = false;
 		let title;
 		if (result === 0) {

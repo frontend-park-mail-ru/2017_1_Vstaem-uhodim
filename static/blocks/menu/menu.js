@@ -4,8 +4,8 @@ import "./menu.css";
 import Button from "../button/button.js";
 
 export default class Menu {
-	constructor(options) {
-		this.controls = options.controls;
+	constructor({controls}) {
+		this.controls = controls;
 		this.el = document.createElement("div");
 	}
 

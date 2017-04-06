@@ -4,10 +4,10 @@ import "./page.css";
 import Button from "../button/button.js";
 const Event = window.Event;
 export default class Page {
-	constructor(options) {
-		this.type = options.type;
-		this.title = options.title || "";
-		this.controls = options.controls || [];
+	constructor({type, title = "", controls = []}) {
+		this.type = type;
+		this.title = title;
+		this.controls = controls;
 		this.el = document.createElement("div");
 	}
 

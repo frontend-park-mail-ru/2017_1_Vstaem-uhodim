@@ -23,6 +23,10 @@
     padding-left: 6px;
 }
 
+.chat__input_incorrect {
+    border-color: #ff7369;
+}
+
 .chat__submit {
     float: right;
     margin-top: 7%;

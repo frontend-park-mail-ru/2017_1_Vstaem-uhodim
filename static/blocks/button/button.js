@@ -3,13 +3,12 @@
 import "./button.css";
 
 export default class Button {
-	constructor(options) {
-		this.text = options.text;
-		this.attrs = options.attrs || {};
+	constructor({text, attrs = {}, tagname = "a"}) {
+		this.text = text;
+		this.attrs = attrs;
 
-		this.el = document.createElement(options.tagname || "a");
-		//debugger;
-		if (options.tagname == "input") {
+		this.el = document.createElement(tagname);
+		if (tagname == "input") {
 			this.attrs.value = this.text;
 		}
 	}

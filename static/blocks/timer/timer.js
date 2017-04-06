@@ -21,8 +21,13 @@ export default class Timer {
 		if (this.value === 0 ) {
 			this.el.dispatchEvent(new CustomEvent("stop"));
 		}
-		let sec = `0${this.value % 60}`.slice(-2);
-		this.el.innerHTML = `${this.value / 60 | 0}:${sec}`;
+		if (Number.isInteger(this.value)) {
+			let sec = `0${this.value % 60}`.slice(-2);
+			this.el.innerHTML = `${this.value / 60 | 0}:${sec}`;
+		}
+		else {
+			this.el.innerHTML = "00:00";
+		}
 	}
 
 	start() {

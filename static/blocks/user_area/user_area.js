@@ -5,10 +5,10 @@ import template from "./user_area.pug";
 const Event = window.Event;
 
 export default class UserArea {
-	constructor(options) {
-		this.type = options.type;
-		this.nickname = options.nickname;
-		this.score = options.score;
+	constructor({type, nickname, score}) {
+		this.type = type;
+		this.nickname = nickname;
+		this.score = score;
 		this.el = document.createElement("div");
 	}
 

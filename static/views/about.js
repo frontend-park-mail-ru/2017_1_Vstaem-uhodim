@@ -23,8 +23,11 @@ export default class AboutView extends BaseView {
 		this.el.appendChild(aboutLeftPage.el);
 
 		const aboutGame = new TextParagraph({
-			text: "Смысл игры состоит в том, чтобы отгадать загаданное слово. Один игрок рисует " +
-			"слово на страничке, остальные угадывают ответ в чате."
+			title: "Правила:",
+			text: "Смысл игры состоит в том, чтобы отгадать загаданное слово <br><br>" +
+			"Можно играть одному, угадывая картинки и зарабатывая за это рейтинг <br>" +
+			"А можно играть с другими игроками, не просто отгадывая, но и рисуя <br><br>" +
+			"Один игрок рисует слово на страничке, остальные угадывают ответ в чате <br>"
 		});
 
 		aboutGame.render();
@@ -41,30 +44,13 @@ export default class AboutView extends BaseView {
 		this.el.appendChild(aboutRightPage.el);
 
 		const firstPar = new TextParagraph({
-			title: "Человек 1",
-			text: "Some text some text some text some text some text"
+			title: "Авторы:",
+			text: "1: <br> <br>" +
+			"2: <br>"
 		});
 
 		firstPar.render();
 
 		aboutRightPage.el.appendChild(firstPar.el);
-
-		const secPar = new TextParagraph({
-			title: "Человек 2",
-			text: "Some text some text some text some text some text"
-		});
-
-		secPar.render();
-
-		aboutRightPage.el.appendChild(secPar.el);
-
-		const otherPar = new TextParagraph({
-			title: "...",
-			text: "Some text some text some text some text some text"
-		});
-
-		otherPar.render();
-
-		aboutRightPage.el.appendChild(otherPar.el);
 	}
 }

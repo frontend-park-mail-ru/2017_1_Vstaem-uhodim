@@ -26,8 +26,8 @@ export default class Router {
 		}
 	}
 
-	register(route, view) {
-		this.routes.set(route, {source: view, id: this.counter});
+	register(route, view, pushState = true) {
+		this.routes.set(route, {source: view, id: this.counter, pushState: pushState});
 		this.counter++;
 	}
 
@@ -46,7 +46,6 @@ export default class Router {
 	}
 
 	go(path, popState = false) {
-
 		let view = this.getViewByRoute(path);
 
 		if (!view) {
@@ -62,7 +61,7 @@ export default class Router {
 			path = "/";
 		}
 
-		if (!popState) {
+		if (!popState && view.pushState) {
 			window.history.pushState({id: view.id}, 'Page', path);
 		}
 
