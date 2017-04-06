@@ -7,7 +7,7 @@ export default class BaseView {
 	}
 
 	async currentUser() {
-		let http = new HTTP();
+		const http = new HTTP();
 		const resp = await http.get("who-am-i/");
 		if (resp.status === 200) {
 			const user = await resp.json();

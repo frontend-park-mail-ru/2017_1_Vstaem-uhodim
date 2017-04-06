@@ -2,7 +2,7 @@
 
 import "./page.css";
 import Button from "../button/button.js";
-const Event = window.Event;
+const [Event] = [window.Event];
 export default class Page {
 	constructor({type, title = "", controls = []}) {
 		this.type = type;
@@ -13,7 +13,7 @@ export default class Page {
 
 	setTitle(title) {
 		if (this.title !== "") {
-			let titleEl = document.createElement("div");
+			const titleEl = document.createElement("div");
 			titleEl.innerText = title;
 			titleEl.classList.add("page__title");
 			this.el.appendChild(titleEl);
@@ -36,7 +36,7 @@ export default class Page {
 
 	setControls(controls) {
 		controls.forEach(control => {
-			let controlButton = new Button({
+			const controlButton = new Button({
 				text: control.text,
 				attrs: {
 					class: "button_size_mini button_type_back",
@@ -45,7 +45,7 @@ export default class Page {
 			});
 			this.el.appendChild(controlButton.render().el);
 
-			let page = this.el;
+			const page = this.el;
 			controlButton.el.addEventListener("click", (event) => {
 				event.preventDefault();
 				page.dispatchEvent(new Event(control.event));

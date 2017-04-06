@@ -1,7 +1,6 @@
 "use strict";
 
-const Headers = window.Headers;
-const fetch = window.fetch;
+const [Headers, fetch] = [window.Headers, window.fetch];
 
 export default class HTTP {
 	constructor() {
@@ -19,7 +18,7 @@ export default class HTTP {
 			url += "?";
 			url += Object.keys(query).map(name => `${name}=${encodeURIComponent(query[name])}`).join("&");
 		}
-		let headersObj = new Headers();
+		const headersObj = new Headers();
 		if (headers) {
 			Object.keys(headers).forEach(name => headersObj.append(name, headers[name]));
 		}

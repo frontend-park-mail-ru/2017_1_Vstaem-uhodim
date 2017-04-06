@@ -33,7 +33,7 @@ export default class Form {
 
 	resetError(input) {
 		input.className = input.className.replace("form__input_invalid", "form__input_valid");
-		let error = input.parentNode.getElementsByClassName("form__error");
+		const error = input.parentNode.getElementsByClassName("form__error");
 		if (error.length > 0) {
 			error[0].textContent = "";
 		}
@@ -41,7 +41,7 @@ export default class Form {
 
 	reset() {
 		Array.prototype.slice.call(this.inputs).forEach(input => {
-			if (input.type != "submit") {
+			if (input.type !== "submit") {
 				this.resetError(input);
 				input.value = "";
 			}
@@ -57,7 +57,7 @@ export default class Form {
 	}
 
 	showFieldError(input, errorMessage) {
-		const error = input.parentNode.getElementsByClassName("form__error")[0];
+		const [error] = [input.parentNode.getElementsByClassName("form__error")[0]];
 		if (errorMessage !== "") {
 			error.textContent = `✗ ${errorMessage}`;
 		}
@@ -131,7 +131,7 @@ export default class Form {
 	}
 
 	getValues() {
-		let values = {};
+		const values = {};
 		Array.prototype.slice.call(this.inputs).forEach(input => {
 			switch (input.getAttribute("type_attr")) {
 				case "email":

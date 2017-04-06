@@ -16,42 +16,42 @@ const leaderboard = document.getElementById("js-leaderboard");
 const game = document.getElementById("js-game");
 const about = document.getElementById("js-about");
 
-let router = new Router();
+const router = new Router();
 
 /*-----------------------Index----------------------------*/
 
-let indexView = new IndexView(index);
+const indexView = new IndexView(index);
 router.register("", indexView);
 router.register("/", indexView);
 
 /*-----------------------Signup----------------------------*/
 
-let signupView = new SignupView(signup);
+const signupView = new SignupView(signup);
 router.register("/signup", signupView);
 
 /*-----------------------Login----------------------------*/
 
-let loginView = new LoginView(login);
+const loginView = new LoginView(login);
 router.register("/login", loginView);
 
 /*-----------------------Leaderboard----------------------------*/
 
-let leaderboardView = new LeaderboardView(leaderboard);
+const leaderboardView = new LeaderboardView(leaderboard);
 router.register("/leaderboard", leaderboardView);
 
 
 /*-----------------------About----------------------------*/
 
-let aboutView = new AboutView(about);
+const aboutView = new AboutView(about);
 router.register("/about", aboutView);
 
 /*-----------------------Game----------------------------*/
 
-let gameView = new GameView(game);
+const gameView = new GameView(game);
 router.register("/game", gameView);
 
 
-let logoutView = new LogoutView();
+const logoutView = new LogoutView();
 router.register("/logout", logoutView, false);
 
 router.start();
@@ -60,6 +60,6 @@ document.addEventListener("redirect", event => {
 	router.go(event.detail, true);
 });
 
-const location = window.location;
-router.go(location.pathname);
+const [location] = [window.location];
+router.go(location.pathname, false, true);
 

@@ -1,18 +1,13 @@
 import HTTP from "../modules/http.js";
 import getRandomLogin from "./commonSpecs.js";
 
-const describe = window.describe;
-const it = window.it;
-const beforeEach = window.beforeEach;
-const expect = window.expect;
-const fail = window.fail;
-
+const [describe, it, beforeEach, expect, fail] = [window.describe, window.it, window.beforeEach, window.expect, window.fail];
 
 const http = new HTTP();
 
-describe('Тестирование best/', function () {
+describe('Тестирование best/', () => {
 
-	beforeEach(function (done) {
+	beforeEach((done) => {
 		http.post("logout/")
 			.then(resp => {
 				expect(resp.status).toBe(200);
@@ -20,8 +15,8 @@ describe('Тестирование best/', function () {
 			});
 	}, 25000);
 
-	it('Метод GET best/ возвращает статус 200, массив пользователей', function (done) {
-		let newUser = {
+	it('Метод GET best/ возвращает статус 200, массив пользователей', (done) => {
+		const newUser = {
 			login: getRandomLogin(),
 			password: "123456",
 			email: "123@mail.ru"

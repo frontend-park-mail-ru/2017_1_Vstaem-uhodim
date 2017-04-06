@@ -11,7 +11,7 @@ import Timer from "../blocks/timer/timer.js";
 import Game from "../modules/game/game.js";
 import SinglePlayerStrategy from "../modules/game/singleplayer_strategy.js";
 
-const CustomEvent = window.CustomEvent;
+const [CustomEvent] = [window.CustomEvent];
 
 export default class GameView extends BaseView {
 

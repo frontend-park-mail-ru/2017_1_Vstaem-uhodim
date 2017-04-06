@@ -1,18 +1,13 @@
 import HTTP from "../modules/http.js";
 import getRandomLogin from "./commonSpecs.js";
 
-const describe = window.describe;
-const it = window.it;
-const expect = window.expect;
-const fail = window.fail;
-const beforeEach = window.beforeEach;
-const jasmine = window.jasmine;
+const [describe, it, beforeEach, expect, fail, jasmine] = [window.describe, window.it, window.beforeEach, window.expect, window.fail, window.jasmine];
 
 const http = new HTTP();
 
-describe('Тестирование login/', function () {
+describe('Тестирование login/', () => {
 
-	beforeEach(function (done) {
+	beforeEach((done) => {
 		http.post("logout/")
 			.then(resp => {
 				expect(resp.status).toBe(200);
@@ -21,15 +16,15 @@ describe('Тестирование login/', function () {
 	}, 25000);
 
 
-	it('Метод POST login/ возвращает статус 200', function (done) {
+	it('Метод POST login/ возвращает статус 200', (done) => {
 
-		let new_user = {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123456",
 			email: "123@mail.ru"
 		};
 
-		let shortForm = {
+		const shortForm = {
 			login: new_user.login,
 			password: new_user.password
 		};
@@ -54,14 +49,14 @@ describe('Тестирование login/', function () {
 			});
 	}, 5000);
 
-	it('Метод POST login/ возвращает статус 400, код "insufficient", если не передан password', function (done) {
-		let new_user = {
+	it('Метод POST login/ возвращает статус 400, код "insufficient", если не передан password', (done) => {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123456",
 			email: "123@mail.ru"
 		};
 
-		let short_form = {
+		const short_form = {
 			login: new_user.login
 		};
 
@@ -91,14 +86,14 @@ describe('Тестирование login/', function () {
 			});
 	}, 5000);
 
-	it('Метод POST login/ возвращает статус 400, код "insufficient", если не передан login', function (done) {
-		let new_user = {
+	it('Метод POST login/ возвращает статус 400, код "insufficient", если не передан login', (done) => {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123456",
 			email: "123@mail.ru"
 		};
 
-		let short_form = {
+		const short_form = {
 			password: new_user.password
 		};
 
@@ -128,14 +123,14 @@ describe('Тестирование login/', function () {
 			});
 	}, 5000);
 
-	it('Метод POST login/ возвращает статус 403, код "log_out", если авторизованный пользователь пытается авторизоваться', function (done) {
-		let new_user = {
+	it('Метод POST login/ возвращает статус 403, код "log_out", если авторизованный пользователь пытается авторизоваться', (done) => {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123456",
 			email: "123@mail.ru"
 		};
 
-		let short_form = {
+		const short_form = {
 			login: new_user.login
 		};
 
@@ -162,15 +157,15 @@ describe('Тестирование login/', function () {
 	}, 5000);
 
 
-	it('Метод POST login/ возвращает статус 403, код "forbidden", если введены неверные аторизационные данные', function (done) {
+	it('Метод POST login/ возвращает статус 403, код "forbidden", если введены неверные аторизационные данные', (done) => {
 
-		let new_user = {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123456",
 			email: "123@mail.ru"
 		};
 
-		let short_form = {
+		const short_form = {
 			login: new_user.login,
 			password: "djowejoidjweoi"
 		};

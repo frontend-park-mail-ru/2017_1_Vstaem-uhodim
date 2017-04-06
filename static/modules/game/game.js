@@ -50,6 +50,7 @@ export default class Game {
 		this.shadow.el.hidden = true;
 		this.windowMenu.setTitle("");
 		this.windowMenu.el.hidden = true;
+		this.timer.el.innerHTML = "Игра скоро начнется...";
 		this.mediator.publish("START_GAME");
 	}
 

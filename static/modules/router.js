@@ -1,5 +1,5 @@
 "use strict";
-const location = window.location;
+const [location] = [window.location];
 
 export default class Router {
 	constructor() {
@@ -33,7 +33,7 @@ export default class Router {
 
 	start() {
 		document.addEventListener("click", event => {
-			if (event.target.tagName != "A") {
+			if (event.target.tagName !== "A") {
 				return;
 			}
 			event.preventDefault();
@@ -45,8 +45,8 @@ export default class Router {
 		this.current = this.getViewByRoute(location.pathname);
 	}
 
-	go(path, popState = false) {
-		let view = this.getViewByRoute(path);
+	go(path, popState = false, start = false) {
+		const view = this.getViewByRoute(path);
 
 		if (!view) {
 			return;
@@ -62,7 +62,12 @@ export default class Router {
 		}
 
 		if (!popState && view.pushState) {
-			window.history.pushState({id: view.id}, 'Page', path);
+			if (start) {
+				window.history.replaceState({id: view.id}, 'Page', path);
+			}
+			else {
+				window.history.pushState({id: view.id}, 'Page', path);
+			}
 		}
 
 		this.current = view;

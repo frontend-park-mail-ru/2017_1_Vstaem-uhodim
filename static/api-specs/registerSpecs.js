@@ -1,18 +1,13 @@
 import HTTP from "../modules/http.js";
 import getRandomLogin from "./commonSpecs.js";
 
-const describe = window.describe;
-const it = window.it;
-const expect = window.expect;
-const fail = window.fail;
-const beforeEach = window.beforeEach;
-const jasmine = window.jasmine;
+const [describe, it, beforeEach, expect, fail, jasmine] = [window.describe, window.it, window.beforeEach, window.expect, window.fail, window.jasmine];
 
 const http = new HTTP();
 
-describe('Тестирование register/', function () {
+describe('Тестирование register/', () => {
 
-	beforeEach(function (done) {
+	beforeEach((done) => {
 		http.post("logout/")
 			.then(resp => {
 				expect(resp.status).toBe(200);
@@ -20,8 +15,8 @@ describe('Тестирование register/', function () {
 			});
 	}, 25000);
 
-	it('Метод POST register/ возвращает статус 200, JSON с данными зарегистрированного пользователя', function (done) {
-		let new_user = {
+	it('Метод POST register/ возвращает статус 200, JSON с данными зарегистрированного пользователя', (done) => {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123456",
 			email: "123@mail.ru"
@@ -49,8 +44,8 @@ describe('Тестирование register/', function () {
 	}, 5000);
 
 
-	it('Метод POST register/ возвращает статус 400, код "insufficient", если не передан email', function (done) {
-		let new_user = {
+	it('Метод POST register/ возвращает статус 400, код "insufficient", если не передан email', (done) => {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123456"
 		};
@@ -70,8 +65,8 @@ describe('Тестирование register/', function () {
 
 	}, 5000);
 
-	it('Метод POST register/ возвращает статус 400, код "insufficient", если не передан password', function (done) {
-		let new_user = {
+	it('Метод POST register/ возвращает статус 400, код "insufficient", если не передан password', (done) => {
+		const new_user = {
 			login: getRandomLogin(),
 			email: "asd@mail.ru"
 		};
@@ -91,8 +86,8 @@ describe('Тестирование register/', function () {
 
 	}, 5000);
 
-	it('Метод POST register/ возвращает статус 400, код "insufficient", если не передан login', function (done) {
-		let new_user = {
+	it('Метод POST register/ возвращает статус 400, код "insufficient", если не передан login', (done) => {
+		const new_user = {
 			password: "123456",
 			email: "asd@mail.ru"
 		};
@@ -112,8 +107,8 @@ describe('Тестирование register/', function () {
 
 	}, 5000);
 
-	it('Метод POST register/ возвращает статус 400, код "invalid_field", если есть невалиден email', function (done) {
-		let new_user = {
+	it('Метод POST register/ возвращает статус 400, код "invalid_field", если есть невалиден email', (done) => {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123456",
 			email: "123@"
@@ -138,8 +133,8 @@ describe('Тестирование register/', function () {
 
 	}, 5000);
 
-	it('Метод POST register/ возвращает статус 400, код "invalid_field", если есть невалиден password', function (done) {
-		let new_user = {
+	it('Метод POST register/ возвращает статус 400, код "invalid_field", если есть невалиден password', (done) => {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123",
 			email: "123@mail.ru"
@@ -164,8 +159,8 @@ describe('Тестирование register/', function () {
 
 	}, 5000);
 
-	it('Метод POST /register возвращает статус 403, код "exists", если login занят', function (done) {
-		let new_user = {
+	it('Метод POST /register возвращает статус 403, код "exists", если login занят', (done) => {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123456",
 			email: "123@mail.ru"
@@ -198,8 +193,8 @@ describe('Тестирование register/', function () {
 
 	}, 5000);
 
-	it('Метод POST register/ возвращает статус 403, код "log_out", если авторизованный пользователь пытается зарегистрироваться', function (done) {
-		let new_user = {
+	it('Метод POST register/ возвращает статус 403, код "log_out", если авторизованный пользователь пытается зарегистрироваться', (done) => {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123456",
 			email: "123@mail.ru"

@@ -1,6 +1,6 @@
 "use strict";
 import "./timer.css";
-const CustomEvent = window.CustomEvent;
+const [CustomEvent] = [window.CustomEvent];
 
 export default class Timer {
 	constructor() {
@@ -9,7 +9,6 @@ export default class Timer {
 
 	render() {
 		this.el.classList.add("timer");
-		this.el.innerHTML = "Игра скоро начнется...";
 		return this;
 	}
 
@@ -22,7 +21,7 @@ export default class Timer {
 			this.el.dispatchEvent(new CustomEvent("stop"));
 		}
 		if (Number.isInteger(this.value)) {
-			let sec = `0${this.value % 60}`.slice(-2);
+			const sec = `0${this.value % 60}`.slice(-2);
 			this.el.innerHTML = `${this.value / 60 | 0}:${sec}`;
 		}
 		else {

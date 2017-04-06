@@ -11,9 +11,9 @@ export default class Menu {
 
 	setControls() {
 		this.controls.forEach(control => {
-			let htmlClass = null;
+			const htmlClass = null;
 
-			let controlEl = new Button({
+			const controlEl = new Button({
 				text: control.text,
 				attrs: {
 					class: htmlClass,

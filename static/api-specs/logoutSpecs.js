@@ -1,17 +1,13 @@
 import HTTP from "../modules/http.js";
 import getRandomLogin from "./commonSpecs.js";
 
-const describe = window.describe;
-const it = window.it;
-const beforeEach = window.beforeEach;
-const expect = window.expect;
-const fail = window.fail;
+const [describe, it, beforeEach, expect, fail] = [window.describe, window.it, window.beforeEach, window.expect, window.fail];
 
 const http = new HTTP();
 
-describe('Тестирование logout/', function () {
+describe('Тестирование logout/', () => {
 
-	beforeEach(function (done) {
+	beforeEach((done) => {
 		http.post("logout/")
 			.then(resp => {
 				expect(resp.status).toBe(200);
@@ -19,7 +15,7 @@ describe('Тестирование logout/', function () {
 			});
 	}, 25000);
 
-	it('Метод POST logout/ возвращает статус 200, если пользователь не был авторизован', function (done) {
+	it('Метод POST logout/ возвращает статус 200, если пользователь не был авторизован', (done) => {
 		http.post("logout/")
 			.then(resp => {
 				expect(resp.status).toBe(200);
@@ -32,14 +28,14 @@ describe('Тестирование logout/', function () {
 			});
 	}, 5000);
 
-	it('Метод POST logout/ возвращает статус 200, если пользователь был авторизован', function (done) {
-		let new_user = {
+	it('Метод POST logout/ возвращает статус 200, если пользователь был авторизован', (done) => {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123456",
 			email: "123@mail.ru"
 		};
 
-		let shortForm = {
+		const shortForm = {
 			login: new_user.login,
 			password: new_user.password
 		};

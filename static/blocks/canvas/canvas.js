@@ -1,7 +1,7 @@
 "use strict";
 
 import "./canvas.css";
-const getComputedStyle = window.getComputedStyle;
+const [getComputedStyle] = [window.getComputedStyle];
 
 export default class Canvas {
 	constructor() {
@@ -20,7 +20,7 @@ export default class Canvas {
 		this.el.width = this.el.offsetWidth;
 		this.el.height = this.el.offsetHeight;
 
-		this.page = document.getElementsByClassName("page_type_game")[0];
+		[this.page] = [document.getElementsByClassName("page_type_game")[0]];
 		this.context = this.el.getContext("2d");
 		this.isPainting = false;
 
@@ -35,18 +35,18 @@ export default class Canvas {
 
 		function startPainting(event) {
 			this.isPainting = true;
-			let x = event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft);
-			let y = event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop);
+			const x = event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft);
+			const y = event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop);
 			this.context.beginPath();
 			this.context.moveTo(x, y);
-			this.picture.points.push({time: (new Date() - this.time), x: (x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3), down:true, color:this.context.strokeStyle});
+			this.picture.points.push({time: new Date() - this.time, x: (x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3), down:true, color:this.context.strokeStyle});
 			this.count++;
 		}
 
 		function painting(event) {
 			if (this.isPainting) {
-				let x = event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft);
-				let y = event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop);
+				const x = event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft);
+				const y = event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop);
 
 
 				this.context.lineTo(x, y);
@@ -54,7 +54,7 @@ export default class Canvas {
 				this.count++;
 				if (this.count % 3 === 0) {
 					this.picture.points.push({
-						time: (new Date() - this.time),
+						time: new Date() - this.time,
 						x: (x / this.el.width).toFixed(3),
 						y: (y / this.el.height).toFixed(3)
 					});
@@ -102,7 +102,7 @@ export default class Canvas {
 			}
 			number++;
 
-			setTimeout(draw.bind(this), (points[number+1].time - points[number].time));
+			setTimeout(draw.bind(this), points[number+1].time - points[number].time);
 		}
 
 		draw.call(this);

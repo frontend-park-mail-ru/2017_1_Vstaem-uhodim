@@ -10,8 +10,8 @@ export default class ImageCroc {
 	}
 
 	fixTail() {
-		let tail = this.el.querySelector("#tail");
-		let main = this.el;
+		const tail = this.el.querySelector("#tail");
+		const main = this.el;
 
 		main.style.height = `${main.offsetWidth}px`;
 

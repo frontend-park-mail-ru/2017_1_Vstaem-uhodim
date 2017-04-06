@@ -1,18 +1,13 @@
 import HTTP from "../modules/http.js";
 import getRandomLogin from "./commonSpecs.js";
 
-const describe = window.describe;
-const it = window.it;
-const expect = window.expect;
-const fail = window.fail;
-const beforeEach = window.beforeEach;
-const jasmine = window.jasmine;
+const [describe, it, beforeEach, expect, fail, jasmine] = [window.describe, window.it, window.beforeEach, window.expect, window.fail, window.jasmine];
 
 const http = new HTTP();
 
-describe('Тестирование who-am-i/', function () {
+describe('Тестирование who-am-i/', () => {
 
-	beforeEach(function (done) {
+	beforeEach((done) => {
 		http.post("logout/")
 			.then(resp => {
 				expect(resp.status).toBe(200);
@@ -20,8 +15,8 @@ describe('Тестирование who-am-i/', function () {
 			});
 	}, 25000);
 
-	it('Метод GET who-am-i/ возвращает статус 200 для вновь зарегистрированного пользователя', function (done) {
-		let new_user = {
+	it('Метод GET who-am-i/ возвращает статус 200 для вновь зарегистрированного пользователя', (done) => {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123456",
 			email: "123@mail.ru"
@@ -51,14 +46,14 @@ describe('Тестирование who-am-i/', function () {
 			});
 	}, 5000);
 
-	it('Метод GET who-am-i/ возвращает статус 200 для авторизованного пользователя', function (done) {
-		let new_user = {
+	it('Метод GET who-am-i/ возвращает статус 200 для авторизованного пользователя', (done) => {
+		const new_user = {
 			login: getRandomLogin(),
 			password: "123456",
 			email: "123@mail.ru"
 		};
 
-		let shortForm = {
+		const shortForm = {
 			login: new_user.login,
 			password: new_user.password
 		};
@@ -95,7 +90,7 @@ describe('Тестирование who-am-i/', function () {
 			});
 	}, 5000);
 
-	it('Метод GET who-am-i/ возвращает статус 403, код "log_in" для неавторизованного пользователя', function (done) {
+	it('Метод GET who-am-i/ возвращает статус 403, код "log_in" для неавторизованного пользователя', (done) => {
 
 		http.get("who-am-i/")
 			.then(resp => {

@@ -8,7 +8,7 @@ export default class Button {
 		this.attrs = attrs;
 
 		this.el = document.createElement(tagname);
-		if (tagname == "input") {
+		if (tagname === "input") {
 			this.attrs.value = this.text;
 		}
 	}

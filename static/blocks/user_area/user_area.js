@@ -2,7 +2,7 @@
 import "./user_area.css";
 import template from "./user_area.pug";
 
-const Event = window.Event;
+const [Event] = [window.Event];
 
 export default class UserArea {
 	constructor({type, nickname, score}) {
@@ -13,14 +13,13 @@ export default class UserArea {
 	}
 
 	setContent() {
-		let user_area = this.el;
 		if (this.type === "authorized") {
 			this.el.innerHTML = template({authorized: true, nickname: this.nickname, score: this.score});
 			this.el.id = "js-index-userareaLogin";
 
 			this.el.querySelector("#js-index-logout").addEventListener("click", function (event) {
 				event.preventDefault();
-				user_area.dispatchEvent(new Event("logout"));
+				this.el.dispatchEvent(new Event("logout"));
 			});
 		}
 		if (this.type === "notAuthorized") {
@@ -30,12 +29,12 @@ export default class UserArea {
 
 			this.el.querySelector("#js-index-signup").addEventListener("click", function (event) {
 				event.preventDefault();
-				user_area.dispatchEvent(new Event("signup"));
+				this.el.dispatchEvent(new Event("signup"));
 			});
 
 			this.el.querySelector("#js-index-login").addEventListener("click", function (event) {
 				event.preventDefault();
-				user_area.dispatchEvent(new Event("login"));
+				this.el.dispatchEvent(new Event("login"));
 			});
 		}
 	}

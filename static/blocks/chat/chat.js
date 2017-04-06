@@ -2,6 +2,9 @@
 
 import "./chat.css";
 
+
+const [CustomEvent] = [window.CustomEvent];
+
 export default class Chat {
 	constructor() {
 		this.el = document.createElement("div");
@@ -28,7 +31,6 @@ export default class Chat {
 		this.submit.textContent = "￫";
 		this.el.appendChild(this.submit);
 
-		const CustomEvent = window.CustomEvent;
 		this.submit.addEventListener("click", () => {
 			this.el.dispatchEvent(new CustomEvent("submit", {"detail": this.input.value}));
 		});
@@ -47,7 +49,7 @@ export default class Chat {
 	}
 
 	addUser(name, color) {
-		let newUser = document.createElement("div");
+		const newUser = document.createElement("div");
 		newUser.classList.add("chat__player");
 		newUser.textContent = name;
 		newUser.style.backgroundColor = color;
@@ -57,7 +59,7 @@ export default class Chat {
 	}
 
 	addMessage(author, text, color) {
-		let newMessage = document.createElement("div");
+		const newMessage = document.createElement("div");
 		newMessage.classList.add("chat__message");
 		newMessage.style.color = color;
 		newMessage.textContent = `${author}: ${text}`;

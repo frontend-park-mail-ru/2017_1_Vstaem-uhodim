@@ -4,11 +4,11 @@ import BaseView from "./base.js";
 import Page from "../blocks/page/page.js";
 import Form from "../blocks/form/form.js";
 import HTTP from "../modules/http.js";
-const CustomEvent = window.CustomEvent;
+const [CustomEvent] = [window.CustomEvent];
 
 export default class LoginView extends BaseView {
 	render() {
-		let http = new HTTP();
+		const http = new HTTP();
 
 		const loginSinglePage = new Page({
 			title: "Авторизация",

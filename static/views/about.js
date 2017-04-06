@@ -45,8 +45,10 @@ export default class AboutView extends BaseView {
 
 		const firstPar = new TextParagraph({
 			title: "Авторы:",
-			text: "1: <br> <br>" +
-			"2: <br>"
+			text: "Семенов Антон  -  back-end разработчик<br><br>" +
+			"Семенова Екатерина  -  front-end разработчик<br><br>" +
+			"Создано в рамках проекта \"Технопарк\"<br><br>" +
+			"Ментор: Слимов Никита"
 		});
 
 		firstPar.render();

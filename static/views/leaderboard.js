@@ -8,7 +8,7 @@ import HTTP from "../modules/http.js";
 export default class LeaderboardView extends BaseView {
 
 	async bests() {
-		let http = new HTTP();
+		const http = new HTTP();
 
 		const resp = await http.get("best/");
 		if (resp.status === 200) {
@@ -16,7 +16,6 @@ export default class LeaderboardView extends BaseView {
 			return bests;
 		}
 		else {
-			console.log("failed to get bests");
 			return [];
 		}
 	}
