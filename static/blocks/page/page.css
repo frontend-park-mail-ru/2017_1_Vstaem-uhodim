@@ -31,12 +31,6 @@
     padding-bottom: 20px;
 }
 
-.page_type_game {
-    width: 80%;
-    margin-left: 10%;
-    padding: 10px;
-}
-
 .page__title {
     text-align: center;
     font-size: 300%;
@@ -92,6 +86,12 @@
         float: none;
         width: 50%;
     }
+
+    .page_type_game {
+        width: 80%;
+        margin-left: 10%;
+        padding: 10px;
+    }
 }
 
 @media screen and (max-width: 1000px) {
@@ -115,7 +115,21 @@
         margin-top: 0;
         border-top: none;
     }
+
+    .page_type_game {
+        width: 96%;
+        margin-left: 2%;
+        padding: 5px;
+        height: 660px;
+    }
 }
+
+@media screen and (max-width: 700px) {
+    .page_type_game {
+        height: 550px;
+    }
+}
+
 
 @media screen and (max-width: 500px) {
     .page {

@@ -8,8 +8,6 @@ export default class LogoutView {
 		let http = new HTTP();
 		const resp = await http.post("logout/");
 
-		console.log("logout");
-		debugger;
 		document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
 	}
 

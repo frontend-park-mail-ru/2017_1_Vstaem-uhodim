@@ -19,7 +19,7 @@
     height: 25px;
     border: 1px solid black;
     border-radius: 5px;
-    width: 80%;
+    width: 78%;
     padding-left: 6px;
 }
 
@@ -45,7 +45,7 @@
     margin: 5%;
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 700px) {
     .chat {
         width: 25%;
         height: 550px;
@@ -54,4 +54,25 @@
     .chat__list {
         height: 500px;
     }
+}
+
+@media screen and (max-width: 700px) {
+    .chat__list {
+        display: none;
+    }
+
+    .chat__input {
+        position: absolute;
+        left: 10%;
+        width: 60%;
+        margin: 5px;
+    }
+
+    .chat__submit {
+        position: absolute;
+        left: 75%;
+        width: 10%;
+        margin: 5px;
+    }
+
 }

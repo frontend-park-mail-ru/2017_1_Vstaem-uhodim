@@ -66,7 +66,5 @@ export default class AboutView extends BaseView {
 		otherPar.render();
 
 		aboutRightPage.el.appendChild(otherPar.el);
-
-		this.rendered = true;
 	}
 }

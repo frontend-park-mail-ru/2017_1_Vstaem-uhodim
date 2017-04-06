@@ -25,7 +25,7 @@ export default class LoginView extends BaseView {
 		this.el.appendChild(loginSinglePage.el);
 
 
-		const loginForm = new Form(
+		this.loginForm = new Form(
 			{
 				fields: [
 					{
@@ -53,18 +53,14 @@ export default class LoginView extends BaseView {
 			}
 		);
 
-		loginForm.render();
+		this.loginForm.render();
 
-		loginSinglePage.el.appendChild(loginForm.el);
+		loginSinglePage.el.appendChild(this.loginForm.el);
 
-		loginSinglePage.el.addEventListener("backtoindex", () => {
-			loginForm.reset();
-		});
-
-		loginForm.el.addEventListener("submit", async (event) => {
+		this.loginForm.el.addEventListener("submit", async (event) => {
 			event.preventDefault();
-			if (loginForm.isValid()) {
-				let resp = await http.post("login/", loginForm.getValues());
+			if (this.loginForm.isValid()) {
+				let resp = await http.post("login/", this.loginForm.getValues());
 				if (resp.status === 200) {
 					resp = await http.get("who-am-i/");
 					document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
@@ -73,13 +69,15 @@ export default class LoginView extends BaseView {
 					const error = await resp.json();
 					switch (error.code) {
 						case "forbidden":
-							loginForm.showErrorByType("login", "");
-							loginForm.showErrorByType("password", "Неправильно!");
+							this.loginForm.showErrorByType("login", "");
+							this.loginForm.showErrorByType("password", "Неправильно!");
 					}
 				}
 			}
 		});
+	}
 
-		this.rendered = true;
+	update() {
+		this.loginForm.reset();
 	}
 }

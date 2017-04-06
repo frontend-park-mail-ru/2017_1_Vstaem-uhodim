@@ -21,10 +21,20 @@ export default class LeaderboardView extends BaseView {
 		}
 	}
 
+	async setTable() {
+		const players = await this.bests();
+		players.forEach((player, number) => {
+			player.number = number + 1;
+		});
+		this.firstScoreTable = new ScoreTable(players);
+		this.firstScoreTable.render();
+		this.leaderboardSinglePage.el.appendChild(this.firstScoreTable.el);
+	}
+
 	async render() {
 		this.el.innerHTML = "";
 
-		const leaderboardSinglePage = new Page({
+		this.leaderboardSinglePage = new Page({
 			title: "Лучшие:",
 			type: "single",
 			controls: [
@@ -35,20 +45,14 @@ export default class LeaderboardView extends BaseView {
 			]
 		});
 
-		leaderboardSinglePage.render();
+		this.leaderboardSinglePage.render();
 
-		this.el.appendChild(leaderboardSinglePage.el);
+		this.el.appendChild(this.leaderboardSinglePage.el);
+		await this.setTable();
+	}
 
-		let firstScoreTable;
-
-		const players = await this.bests();
-		players.forEach((player, number) => {
-			player.number = number + 1;
-		});
-		firstScoreTable = new ScoreTable(players);
-		firstScoreTable.render();
-		leaderboardSinglePage.el.appendChild(firstScoreTable.el);
-
-		this.rendered = false;
+	update () {
+		this.firstScoreTable.el.remove();
+		this.setTable();
 	}
 }

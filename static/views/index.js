@@ -25,19 +25,17 @@ export default class IndexView extends BaseView {
 
 		this.el.appendChild(indexLeftPage.el);
 
-		let userArea = null;
-
-		const user = await this.currentUser();
-		userArea = new UserArea(user);
-		userArea.render();
-		this.userArea = userArea;
-
-		if (document.querySelector("#main")) {
-			indexLeftPage.el.insertBefore(userArea.el, document.querySelector("#main"));
-		}
-		else {
-			indexLeftPage.el.appendChild(userArea.el);
-		}
+		this.currentUser()
+			.then(user => {
+				this.userArea = new UserArea(user);
+				this.userArea.render();
+				if (document.querySelector("#main")) {
+					indexLeftPage.el.insertBefore(this.userArea.el, document.querySelector("#main"));
+				}
+				else {
+					indexLeftPage.el.appendChild(this.userArea.el);
+				}
+			});
 
 		this.image = new ImageCroc();
 		this.image.render();
@@ -159,8 +157,6 @@ export default class IndexView extends BaseView {
 			this.windowMenuGameMode.el.hidden = true;
 			this.windowMenuNotAuthorized.el.hidden = true;
 		}
-
-		this.rendered = true;
 	}
 
 	show() {

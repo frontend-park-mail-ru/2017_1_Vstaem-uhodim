@@ -8,10 +8,6 @@ const CustomEvent = window.CustomEvent;
 
 export default class SignupView extends BaseView {
 
-	update() {
-		this.form.reset();
-	}
-
 	render() {
 		let http = new HTTP();
 
@@ -29,7 +25,7 @@ export default class SignupView extends BaseView {
 		signupSinglePage.render();
 		this.el.appendChild(signupSinglePage.el);
 
-		const signupForm = new Form(
+		this.signupForm = new Form(
 			{
 				fields: [
 					{
@@ -76,16 +72,14 @@ export default class SignupView extends BaseView {
 			}
 		);
 
-		signupForm.render();
+		this.signupForm.render();
 
-		this.form = signupForm;
+		signupSinglePage.el.appendChild(this.signupForm.el);
 
-		signupSinglePage.el.appendChild(signupForm.el);
-
-		signupForm.el.addEventListener("submit", async event => {
+		this.signupForm.el.addEventListener("submit", async event => {
 			event.preventDefault();
-			if (signupForm.isValid()) {
-				const resp = await http.post("register/", signupForm.getValues());
+			if (this.signupForm.isValid()) {
+				const resp = await http.post("register/", this.signupForm.getValues());
 				if (resp.status === 200) {
 					document.dispatchEvent(new CustomEvent("redirect", {detail: ""}));
 				}
@@ -93,7 +87,7 @@ export default class SignupView extends BaseView {
 					const error = await resp.json();
 					switch (error.code) {
 						case "exists":
-							signupForm.showErrorByType("login", "Nickname уже занят");
+							this.signupForm.showErrorByType("login", "Nickname уже занят");
 							break;
 						case "log_out":
 							break;
@@ -101,7 +95,9 @@ export default class SignupView extends BaseView {
 				}
 			}
 		});
+	}
 
-		this.rendered = true;
+	update() {
+		this.signupForm.reset();
 	}
 }
