@@ -1,47 +1,52 @@
-(function() {
-  "use strict";
-  const Button = window.Button;
-  const Event = window.Event;
+"use strict";
 
-  class Menu {
-    constructor(options) {
-      this.controls = options.controls;
-      this.el = document.createElement("div");
-    }
+import "./menu.css";
+import Button from "../button/button.js";
 
-    setControls() {
-      this.controls.forEach(control => {
-        let htmlClass = null;
-        if (control.action) { htmlClass = "menu__button_action"; }
+export default class Menu {
+	constructor({controls}) {
+		this.controls = controls;
+		this.el = document.createElement("div");
+	}
 
-        let controlEl = new Button({
-          text: control.text,
-          attrs: {
-            class: htmlClass,
-            id: control.id
-          }
-        });
-        controlEl.render();
+	setControls() {
+		this.controls.forEach(control => {
+			const htmlClass = null;
 
-        controlEl.el.classList.add("button_size_big");
-        controlEl.el.classList.add("menu__button");
+			const controlEl = new Button({
+				text: control.text,
+				attrs: {
+					class: htmlClass,
+					id: control.id,
+					href: control.href
+				}
+			});
+			controlEl.render();
 
-        let menu = this.el;
-        controlEl.el.addEventListener("click", function()
-          {
-            menu.dispatchEvent(new Event(control.event));
-          });
+			if (control.action) {
+				controlEl.el.classList.add("menu__button_action");
+			}
 
-        this.el.appendChild(controlEl.el);
-      });
-    }
+			if (control.main) {
+				controlEl.el.classList.add("menu__button_main");
+			}
 
-    render() {
-      this.setControls();
-      this.el.classList.add("menu");
-      return this;
-    }
-  }
+			if (control.wide) {
+				controlEl.el.classList.add("menu__button_wide");
+			}
 
-  window.Menu = Menu;
-})();
+			controlEl.el.classList.add("button_size_big");
+			controlEl.el.classList.add("menu__button");
+
+			controlEl.el.addEventListener("click", control.click);
+
+			this.el.appendChild(controlEl.el);
+		});
+	}
+
+	render() {
+		this.setControls();
+		this.el.classList.add("menu");
+		return this;
+	}
+}

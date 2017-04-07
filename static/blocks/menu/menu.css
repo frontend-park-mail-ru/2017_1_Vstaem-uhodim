@@ -2,19 +2,29 @@
 }
 
 .menu__button {
-    width: 190px;
+    width: 200px;
     margin: 0 auto;
     padding: 15px;
     margin-bottom: 20px;
 
-    background: rgb(255, 80, 1);
+    background: #ff841d;
 
-    box-shadow: 0 0 0 4px rgb(255, 80, 1);
+    box-shadow: 0 0 0 4px #ff841d;
     border-radius: 3px;
 
-    opacity: 0.9;
+    opacity: 0.85;
 }
 
 .menu__button_action {
     animation: move-play 1s infinite;
+}
+
+.menu__button_main {
+    background: rgb(255, 80, 1);
+
+    box-shadow: 0 0 0 4px rgb(255, 80, 1);
+}
+
+.menu__button_wide {
+    width: 270px;
 }

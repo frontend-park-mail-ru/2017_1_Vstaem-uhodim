@@ -1,71 +1,66 @@
-(function () {
-  const describe = window.describe;
-  const it = window.it;
-  const getRandomLogin = window.getRandomLogin;
-  const beforeEach = window.beforeEach;
-  const HTTP = window.HTTP;
-  const expect = window.expect;
-  const fail = window.fail;
+import HTTP from "../modules/http.js";
+import getRandomLogin from "./commonSpecs.js";
 
-  const http = new HTTP();
+const [describe, it, beforeEach, expect, fail] = [window.describe, window.it, window.beforeEach, window.expect, window.fail];
 
-  describe('Тестирование logout/', function () {
+const http = new HTTP();
 
-    beforeEach(function (done) {
-      http.post("logout/")
-        .then(resp => {
-          expect(resp.status).toBe(200);
-          done(true);
-        });
-    }, 25000);
+describe('Тестирование logout/', () => {
 
-    it('Метод POST logout/ возвращает статус 200, если пользователь не был авторизован', function (done) {
-      http.post("logout/")
-        .then(resp => {
-          expect(resp.status).toBe(200);
+	beforeEach((done) => {
+		http.post("logout/")
+			.then(resp => {
+				expect(resp.status).toBe(200);
+				done(true);
+			});
+	}, 25000);
 
-          done(true);
-        })
-        .catch((e) => {
-          fail(e);
-          done(false);
-        });
-    }, 5000);
+	it('Метод POST logout/ возвращает статус 200, если пользователь не был авторизован', (done) => {
+		http.post("logout/")
+			.then(resp => {
+				expect(resp.status).toBe(200);
 
-    it('Метод POST logout/ возвращает статус 200, если пользователь был авторизован', function (done) {
-      let new_user = {
-        login: getRandomLogin(),
-        password: "123456",
-        email: "123@mail.ru"
-      };
+				done(true);
+			})
+			.catch((e) => {
+				fail(e);
+				done(false);
+			});
+	}, 5000);
 
-      let shortForm = {
-        login: new_user.login,
-        password: new_user.password
-      };
+	it('Метод POST logout/ возвращает статус 200, если пользователь был авторизован', (done) => {
+		const new_user = {
+			login: getRandomLogin(),
+			password: "123456",
+			email: "123@mail.ru"
+		};
 
-      http.post("register/", new_user)
-        .then(resp => {
-          expect(resp.status).toBe(200);
-          return http.post("logout/");
-        })
-        .then(resp => {
-          expect(resp.status).toBe(200);
-          return http.post("login/", shortForm);
-        })
-        .then(resp => {
-          expect(resp.status).toBe(200);
-          return http.post("logout/");
-        })
-        .then(resp => {
-          expect(resp.status).toBe(200);
+		const shortForm = {
+			login: new_user.login,
+			password: new_user.password
+		};
 
-          done(true);
-        })
-        .catch((e) => {
-          fail(e);
-          done(false);
-        });
-    }, 5000);
-  });
-})();
+		http.post("register/", new_user)
+			.then(resp => {
+				expect(resp.status).toBe(200);
+				return http.post("logout/");
+			})
+			.then(resp => {
+				expect(resp.status).toBe(200);
+				return http.post("login/", shortForm);
+			})
+			.then(resp => {
+				expect(resp.status).toBe(200);
+				return http.post("logout/");
+			})
+			.then(resp => {
+				expect(resp.status).toBe(200);
+
+				done(true);
+			})
+			.catch((e) => {
+				fail(e);
+				done(false);
+			});
+	}, 5000);
+});

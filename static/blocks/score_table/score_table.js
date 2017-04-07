@@ -1,23 +1,23 @@
-/* globals template */
+"use strict";
 
-(function () {
-  "use strict";
-  const tmpl = template;
-  class ScoreTable {
-    constructor(players) {
-      this.players = players;
-      this.el = document.createElement("table");
-    }
-    setRating() {
-      this.el.innerHTML = tmpl({
-        players: this.players
-      });
-    }
-    render() {
-      this.setRating();
-      this.el.classList.add("score-table");
-      return this;
-    }
-  }
-  window.ScoreTable = ScoreTable;
-})();
+import "./score_table.css";
+import template from "./score_table.pug";
+
+export default class ScoreTable {
+	constructor(players) {
+		this.players = players;
+		this.el = document.createElement("table");
+	}
+
+	setRating() {
+		this.el.innerHTML = template({
+			players: this.players
+		});
+	}
+
+	render() {
+		this.setRating();
+		this.el.classList.add("score-table");
+		return this;
+	}
+}

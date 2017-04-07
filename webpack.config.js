@@ -1,0 +1,31 @@
+var path = require('path');
+var glob = require("glob");
+
+
+module.exports = [{
+	entry: {
+		main: "./static/main.js",
+		test: glob.sync("./static/api-specs/*.js"),
+	},
+	output: {
+		filename: "build_[name].js",
+		path: path.resolve(__dirname, "static"),
+	},
+	devtool: "cheap-eval-source-map",
+
+	//watch: true,
+
+	module: {
+		rules: [{
+			test: /\.js$/,
+			loader: "babel-loader",
+			options: {presets: ['es2015']}
+		}, {
+			test: /\.css$/,
+			loader: "style-loader!css-loader"
+		}, {
+			test: /\.pug$/,
+			loader: "pug-loader"
+		}]
+	}
+}];

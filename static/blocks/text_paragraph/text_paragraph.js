@@ -1,31 +1,32 @@
-(function () {
-  "use strict";
-  class TextParagraph {
-    constructor(options) {
-      this.text = options.text;
-      this.title = options.title || "";
+"use strict";
+import "./text_paragraph.css";
 
-      this.el = document.createElement("div");
-    }
-    setTitle() {
-      if (this.title !== "") {
-        let titleEl = document.createElement("div");
-        titleEl.classList.add("paragraph__title");
-        titleEl.innerHTML = this.title;
+export default class TextParagraph {
+	constructor({text, title = ""}) {
+		this.text = text;
+		this.title = title;
 
-        this.el.appendChild(titleEl);
-      }
-    }
-    setText() {
-      this.el.innerHTML += this.text;
-    }
-    render() {
-      this.setTitle();
-      this.setText();
-      this.el.classList.add("paragraph");
-      return this;
-    }
-  }
+		this.el = document.createElement("div");
+	}
 
-  window.TextParagraph = TextParagraph;
-})();
+	setTitle() {
+		if (this.title !== "") {
+			this.titleEl = document.createElement("div");
+			this.titleEl.classList.add("paragraph__title");
+			this.titleEl.innerHTML = this.title;
+
+			this.el.appendChild(this.titleEl);
+		}
+	}
+
+	setText() {
+		this.el.innerHTML += this.text;
+	}
+
+	render() {
+		this.setTitle();
+		this.setText();
+		this.el.classList.add("paragraph");
+		return this;
+	}
+}
