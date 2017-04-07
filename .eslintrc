@@ -18,8 +18,9 @@
     "no-dupe-class-members": [2],
     "no-duplicate-imports": [2],
     "block-spacing": [2],
-    "indent": ["error", "tab", { "SwitchCase": 1 }]
+    "indent": ["error", "tab", { "SwitchCase": 1 }],
 
+    "no-debugger": [2]
   },
   "parserOptions": {
     "ecmaVersion" : 8,
