@@ -86,7 +86,6 @@ export default class Form {
 			}
 			switch (input.getAttribute("type_attr")) {
 				case "email":
-					debugger;
 					const r = /\S+@\S+\.\S+/;
 					if (!r.test(input.value)) {
 						this.showFieldError(input, "Невалидный email");

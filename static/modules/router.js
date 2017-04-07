@@ -8,7 +8,6 @@ export default class Router {
 
 		window.addEventListener("popstate", event => {
 			event.preventDefault();
-			debugger;
 			this.go(this.getRouteById(event.state.id), true);
 		});
 
