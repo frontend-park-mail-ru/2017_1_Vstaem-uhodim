@@ -74,6 +74,10 @@ export default class Form {
 
 		Array.prototype.slice.call(this.inputs).forEach(input => {
 
+			if (input.getAttribute("type") === "submit") {
+				return !hasError;
+			}
+
 			this.resetError(input);
 			if (input.value === "") {
 				this.showFieldError(input, "Поле обязательно для заполнения");
@@ -82,6 +86,7 @@ export default class Form {
 			}
 			switch (input.getAttribute("type_attr")) {
 				case "email":
+					debugger;
 					const r = /\S+@\S+\.\S+/;
 					if (!r.test(input.value)) {
 						this.showFieldError(input, "Невалидный email");
@@ -111,6 +116,8 @@ export default class Form {
 						this.showFieldError(password, "");
 					}
 					break;
+				default:
+					break;
 			}
 
 			if (password !== null && passwordrep !== null && passwordrep.value !== password.value) {
@@ -122,12 +129,7 @@ export default class Form {
 
 		});
 
-		if (hasError) {
-			return false;
-		}
-		else {
-			return true;
-		}
+		return !hasError;
 	}
 
 	getValues() {

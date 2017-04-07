@@ -18,6 +18,7 @@ const worker = function (req, resp) {
 		case "/about":
 		case "/game":
 		case "/login":
+		case "/signup":
 		case "/logout":
 			url = '/index';
 		case "/tests":
