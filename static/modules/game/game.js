@@ -24,6 +24,9 @@ export default class Game {
 		this.mediator.subscribe("SHOW_SINGLE_RESULT", this.showSingleResult.bind(this));
 		this.mediator.subscribe("SHOW_RULES", this.showRules.bind(this));
 
+		this.mediator.subscribe("DISABLE_CHAT", this.disableChat.bind(this));
+		this.mediator.subscribe("ENABLE_PAINTING", this.enablePainting.bind(this));
+
 
 		this.chat.el.addEventListener("submit", async (event) => {
 			const http = new HTTP();
@@ -100,6 +103,15 @@ export default class Game {
 
 	showRules() {
 		this.chat.addMessage("Задача", "угадать, что будет нарисовано на картинке и написать ответ в чат");
+	}
+
+	disableChat() {
+		this.chat.input.hidden = true;
+		this.chat.submit.hidden = true;
+	}
+
+	enablePainting(word) {
+		this.canvas.paint(word);
 	}
 
 }

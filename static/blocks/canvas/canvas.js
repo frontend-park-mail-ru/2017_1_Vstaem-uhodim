@@ -1,18 +1,21 @@
 "use strict";
 
 import "./canvas.css";
+import Transport from "../../modules/transport.js";
+
 const [getComputedStyle] = [window.getComputedStyle];
 
 export default class Canvas {
 	constructor() {
 		this.el = document.createElement("canvas");
+		this.transport = new Transport();
 	}
 
 	render() {
 		return this;
 	}
 
-	paint() {
+	paint(word) {
 		this.picture = {word: "", points: []};
 		this.time = new Date();
 		this.count = 0;
@@ -22,6 +25,10 @@ export default class Canvas {
 
 		[this.page] = [document.getElementsByClassName("page_type_game")[0]];
 		this.context = this.el.getContext("2d");
+		//
+		this.context.font = "27px Pangolin";
+		this.context.fillText(`Изобразите: ${word}`, this.el.offsetWidth/2 - 150, 30);
+
 		this.isPainting = false;
 
 		this.context.strokeStyle = "black";
@@ -40,6 +47,7 @@ export default class Canvas {
 			this.context.beginPath();
 			this.context.moveTo(x, y);
 			this.picture.points.push({time: new Date() - this.time, x: (x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3), down:true, color:this.context.strokeStyle});
+			this.transport.send("NEW_POINT", {x:(x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3), down:true, color:this.context.strokeStyle});
 			this.count++;
 		}
 
@@ -58,6 +66,7 @@ export default class Canvas {
 						x: (x / this.el.width).toFixed(3),
 						y: (y / this.el.height).toFixed(3)
 					});
+					this.transport.send("NEW_POINT", {x:(x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3)});
 				}
 			}
 		}

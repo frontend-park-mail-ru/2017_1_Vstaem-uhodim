@@ -1,25 +1,28 @@
 "use strict";
 
 import GameStrategy from "./game_strategy.js";
+import Transport from "../transport.js";
 
 export default class MultiPlayerStrategy extends GameStrategy {
 	constructor() {
+		super();
+		this.transport = new Transport();
 		this.mediator.subscribe("START_MP_GAME", this.startGame.bind(this));
 		this.mediator.subscribe("NEW_POINT", this.newPoint.bind(this));
 		this.mediator.subscribe("GET_ANSWER", this.newMessage.bind(this));
 		this.mediator.subscribe("STOP_GAME", this.stopGame.bind(this));
+
+		this.transport.send("START_MP_GAME");
 	}
 
 	startGame(content) {
-		if (content.game_type !== "multi") {
+		if (content.game_type !== "mp") {
 			return;
 		}
 		switch (content.role) {
 			case "main":
 				this.mediator.publish("DISABLE_CHAT");
-				break;
-			case "other":
-				this.mediator.publish("DISABLE_PAINTING");
+				this.mediator.publish("ENABLE_PAINTING", content.word);
 				break;
 			default:
 				return;

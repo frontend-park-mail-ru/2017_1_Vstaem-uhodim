@@ -10,10 +10,22 @@ import Menu from "../blocks/menu/menu.js";
 import Timer from "../blocks/timer/timer.js";
 import Game from "../modules/game/game.js";
 import SinglePlayerStrategy from "../modules/game/singleplayer_strategy.js";
+import MultiPlayerStrategy from "../modules/game/multiplayer_strategy.js";
 
 const [CustomEvent] = [window.CustomEvent];
 
 export default class GameView extends BaseView {
+	constructor(el) {
+		super(el);
+		this.mediator.subscribe("SET_GAME_MODE", (mode) => {
+			if (mode === "single") {
+				this.strategy = SinglePlayerStrategy;
+			}
+			if (mode === "multi") {
+				this.strategy = MultiPlayerStrategy;
+			}
+		});
+	}
 
 	render() {
 		this.shadow = new Shadow();
@@ -75,8 +87,6 @@ export default class GameView extends BaseView {
 				this.chat.resetMessage();
 			}
 		});
-
-		this.game = new Game(SinglePlayerStrategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu);
 	}
 
 	async show() {
@@ -86,7 +96,7 @@ export default class GameView extends BaseView {
 
 		const user = await this.currentUser();
 		if (user.type === "authorized") {
-			this.game.start();
+			this.game = new Game(this.strategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu);
 		}
 		else {
 			document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));

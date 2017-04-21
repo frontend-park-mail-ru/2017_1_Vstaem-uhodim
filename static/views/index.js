@@ -121,7 +121,18 @@ export default class IndexView extends BaseView {
 				{
 					text: "Играть одному",
 					href: "/game",
-					wide: true
+					wide: true,
+					click: (() => {
+						this.mediator.publish("SET_GAME_MODE", "single");
+					}).bind(this)
+				},
+				{
+					text: "Играть",
+					href: "/game",
+					wide: true,
+					click: (() => {
+						this.mediator.publish("SET_GAME_MODE", "multi");
+					}).bind(this)
 				},
 				{
 					text: "Найти комнату",

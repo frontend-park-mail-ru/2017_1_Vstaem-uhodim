@@ -1,9 +1,11 @@
 import HTTP from "../modules/http.js";
+import Mediator from "../modules/mediator.js";
 
 export default class BaseView {
 	constructor(node) {
 		this.el = node;
 		this.rendered = false;
+		this.mediator = new Mediator();
 	}
 
 	async currentUser() {
