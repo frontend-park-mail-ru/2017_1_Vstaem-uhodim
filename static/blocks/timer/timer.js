@@ -16,11 +16,15 @@ export default class Timer {
 		this.startValue = startValue;
 	}
 
+	setMessage(message) {
+		this.el.innerHTML = "Игра скоро начнется...";
+	}
+
 	updateTime() {
 		if (this.value === 0 ) {
 			this.el.dispatchEvent(new CustomEvent("stop"));
 		}
-		if (Number.isInteger(this.value)) {
+		if (Number.isInteger(this.value) && this.value > 0) {
 			const sec = `0${this.value % 60}`.slice(-2);
 			this.el.innerHTML = `${this.value / 60 | 0}:${sec}`;
 		}
@@ -49,6 +53,6 @@ export default class Timer {
 
 	stop() {
 		this.stopped = true;
-		this.el.innerHTML = "Игра скоро начнется...";
+		this.setMessage("Игра скоро начнется...")
 	}
 }

@@ -50,6 +50,7 @@ export default class Page {
 				event.preventDefault();
 				page.dispatchEvent(new Event(control.event));
 			});
+			controlButton.el.addEventListener("click", control.click);
 		});
 	}
 

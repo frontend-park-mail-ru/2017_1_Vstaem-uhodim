@@ -9,10 +9,28 @@ export default class Canvas {
 	constructor() {
 		this.el = document.createElement("canvas");
 		this.transport = new Transport();
+		[this.page] = [document.getElementsByClassName("page_type_game")[0]];
 	}
 
 	render() {
 		return this;
+	}
+
+	showMPResult(content) {
+		if (this.resultTable == undefined) {
+			this.resultTable = document.createElement("div");
+			this.resultTable.classList.add("canvas__result");
+			this.el.parentNode.appendChild(this.resultTable);
+		}
+
+		this.resultTable.innerHTML = `Угадал: ${content.winner}<br>Слово: ${content.word}`;
+		this.resultTable.hidden = false;
+	}
+
+	hideResult() {
+		if (this.resultTable !== undefined) {
+			this.resultTable.hidden = true;
+		}
 	}
 
 	paint(word) {
@@ -23,9 +41,9 @@ export default class Canvas {
 		this.el.width = this.el.offsetWidth;
 		this.el.height = this.el.offsetHeight;
 
-		[this.page] = [document.getElementsByClassName("page_type_game")[0]];
+		//[this.page] = [document.getElementsByClassName("page_type_game")[0]];
 		this.context = this.el.getContext("2d");
-		//
+
 		this.context.font = "27px Pangolin";
 		this.context.fillText(`Изобразите: ${word}`, this.el.offsetWidth/2 - 150, 30);
 
@@ -75,6 +93,13 @@ export default class Canvas {
 			this.isPainting = false;
 		}
 
+	}
+
+	disablePaint() {
+		this.el.onmousedown = null;
+		this.el.onmouseup = null;
+		this.el.onmouseout = null;
+		this.el.onmousemove = null;
 	}
 
 	drawPictureByPoints(points) {

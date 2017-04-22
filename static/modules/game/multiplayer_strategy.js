@@ -11,11 +11,13 @@ export default class MultiPlayerStrategy extends GameStrategy {
 		this.mediator.subscribe("NEW_POINT", this.newPoint.bind(this));
 		this.mediator.subscribe("GET_ANSWER", this.newMessage.bind(this));
 		this.mediator.subscribe("STOP_GAME", this.stopGame.bind(this));
+		this.mediator.subscribe("EXIT", this.exit.bind(this));
 
 		this.transport.send("START_MP_GAME");
 	}
 
 	startGame(content) {
+		this.mediator.publish("RESET_CHAT");
 		if (content.game_type !== "mp") {
 			return;
 		}
@@ -39,12 +41,17 @@ export default class MultiPlayerStrategy extends GameStrategy {
 	}
 
 	newMessage(content) {
-		this.mediator.publish("NEW_MESSAGE", {player: content.player, color: content.color, message: content.answer});
+		this.mediator.publish("NEW_MESSAGE", {player: content.player, color: content.color, answer: content.answer});
 	}
 
 	stopGame(content) {
 		this.mediator.publish("STOP_TIMER");
-		this.mediator.publish("STOP_PAINTING");
-		this.mediator.publish("SHOW_MP_RESULT", {word: content.word, winner: content.winer});
+		this.mediator.publish("DISABLE_PAINTING");
+		this.mediator.publish("SHOW_MP_RESULT", content);
+		setTimeout(() => { this.transport.send("START_MP_GAME"); }, 5000);
+	}
+
+	exit(nickname) {
+		this.transport.send("EXIT", nickname);
 	}
 }

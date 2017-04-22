@@ -26,7 +26,11 @@ export default class Game {
 
 		this.mediator.subscribe("DISABLE_CHAT", this.disableChat.bind(this));
 		this.mediator.subscribe("ENABLE_PAINTING", this.enablePainting.bind(this));
-
+		this.mediator.subscribe("DISABLE_PAINTING", this.disablePainting.bind(this));
+		this.mediator.subscribe("ADD_PLAYER", this.addPlayer.bind(this));
+		this.mediator.subscribe("NEW_MESSAGE", this.newMessage.bind(this));
+		this.mediator.subscribe("SHOW_MP_RESULT", this.showMPResult.bind(this));
+		this.mediator.subscribe("RESET_CHAT", this.resetChat.bind(this));
 
 		this.chat.el.addEventListener("submit", async (event) => {
 			const http = new HTTP();
@@ -111,7 +115,30 @@ export default class Game {
 	}
 
 	enablePainting(word) {
+		this.canvas.hideResult();
 		this.canvas.paint(word);
+	}
+
+	disablePainting() {
+		this.canvas.reset();
+		this.canvas.disablePaint();
+	}
+
+	addPlayer(player) {
+		this.chat.addUser(player.nickname, player.color);
+	}
+
+	showMPResult(content) {
+		this.canvas.showMPResult(content);
+	}
+
+	resetChat() {
+		this.chat.players.innerHTML = "";
+		this.chat.list.innerHTML = "";
+	}
+
+	newMessage(message) {
+		this.chat.addMessage(message.player, message.answer, message.color);
 	}
 
 }

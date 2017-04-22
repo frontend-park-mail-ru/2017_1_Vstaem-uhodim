@@ -17,3 +17,15 @@ canvas {
         height: 400px;
     }
 }
+
+.canvas__result {
+    position: absolute;
+    border-radius: 20px;
+    border: 1px solid black;
+    text-align: center;
+    font-size: 200%;
+    left: 17%;
+    top: 35%;
+    padding: 30px;
+    width: 30%;
+}
