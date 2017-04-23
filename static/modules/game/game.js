@@ -1,7 +1,7 @@
 "use strict";
 
 import Mediator from "../mediator.js";
-import HTTP from "../http.js";
+import Transport from "../transport.js";
 
 export default class Game {
 	constructor(Strategy, username, canvas, chat, timer, shadow, windowMenu) {
@@ -15,13 +15,14 @@ export default class Game {
 		this.windowMenu = windowMenu;
 		this.strategy = new Strategy();
 		this.mediator = new Mediator();
+		this.transport = new Transport();
 
 
 		this.mediator.subscribe("START_TIMER", this.startTimer.bind(this));
 		this.mediator.subscribe("START_SINGLE_PAINTING", this.startSinglePainting.bind(this));
 		this.mediator.subscribe("STOP_TIMER", this.stopTimer.bind(this));
 		this.mediator.subscribe("STOP_SINGLE_PAINTING", this.stopSinglePainting.bind(this));
-		this.mediator.subscribe("SHOW_SINGLE_RESULT", this.showSingleResult.bind(this));
+		this.mediator.subscribe("SHOW_SP_RESULT", this.showSPResult.bind(this));
 		this.mediator.subscribe("SHOW_RULES", this.showRules.bind(this));
 
 		this.mediator.subscribe("DISABLE_CHAT", this.disableChat.bind(this));
@@ -31,20 +32,10 @@ export default class Game {
 		this.mediator.subscribe("NEW_MESSAGE", this.newMessage.bind(this));
 		this.mediator.subscribe("SHOW_MP_RESULT", this.showMPResult.bind(this));
 		this.mediator.subscribe("RESET_CHAT", this.resetChat.bind(this));
+		this.mediator.subscribe("DRAW_ONE_POINT", this.drawPoint.bind(this));
 
 		this.chat.el.addEventListener("submit", async (event) => {
-			const http = new HTTP();
-
-			const resp = await http.post("check-answer/", null, {word: event.detail});
-			if (resp.status === 200) {
-				const json = await resp.json();
-				if (json.correct) {
-					this.mediator.publish("RIGHT_ANSWER");
-				}
-				else {
-					this.chat.fail();
-				}
-			}
+			this.transport.send("GET_ANSWER", {answer: event.detail});
 		});
 
 		this.timer.el.addEventListener("stop", () => {
@@ -69,25 +60,15 @@ export default class Game {
 		this.timer.stop();
 	}
 
-	async startSinglePainting() {
-		const http = new HTTP();
-
-		const resp = await http.post("start-game/");
-		if (resp.status === 200) {
-			const picture = await resp.json();
-			this.mediator.publish("RECEIVE_PICTURE");
-			this.canvas.drawPictureByPoints(picture.points);
-		}
-		else {
-
-		}
+	async startSinglePainting(content) {
+		this.canvas.drawPictureByPoints(content.points);
 	}
 
 	stopSinglePainting() {
 		this.canvas.stopSinglePainting = true;
 	}
 
-	showSingleResult(result) {
+	showSPResult(result) {
 		this.chat.reset();
 		this.canvas.reset();
 		this.timer.stop();
@@ -126,6 +107,9 @@ export default class Game {
 
 	addPlayer(player) {
 		this.chat.addUser(player.nickname, player.color);
+		if (player.nickname === this.username) {
+			this.color = player.color;
+		}
 	}
 
 	showMPResult(content) {
@@ -141,4 +125,7 @@ export default class Game {
 		this.chat.addMessage(message.player, message.answer, message.color);
 	}
 
+	drawPoint(point) {
+		this.canvas.addPoint(point);
+	}
 }

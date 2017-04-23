@@ -10,6 +10,7 @@ export default class Canvas {
 		this.el = document.createElement("canvas");
 		this.transport = new Transport();
 		[this.page] = [document.getElementsByClassName("page_type_game")[0]];
+		this.lastPoint = null;
 	}
 
 	render() {
@@ -150,5 +151,29 @@ export default class Canvas {
 	reset() {
 		this.el.getContext("2d").clearRect(0, 0, this.el.width, this.el.height);
 		this.stopSinglePainting = true;
+		this.lastPoint = null;
+	}
+
+	addPoint(point) {
+		this.context = this.el.getContext("2d");
+
+		if (this.lastPoint === null) {
+			this.lastPoint = point;
+			return;
+		}
+
+		if (this.lastPoint.color !== undefined) {
+			this.context.strokeStyle = this.lastPoint.color;
+		}
+		if (this.lastPoint.down) {
+			this.context.beginPath();
+			this.context.moveTo(this.lastPoint.x * this.el.width, this.lastPoint.y * this.el.height);
+		}
+		if (!point.down) {
+			this.context.lineTo(point.x * this.el.width, point.y * this.el.height);
+		}
+		this.context.stroke();
+
+		this.lastPoint = point;
 	}
 }

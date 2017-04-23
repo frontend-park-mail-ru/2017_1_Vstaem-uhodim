@@ -28,7 +28,6 @@ export default class Transport {
 	}
 
 	handleMessage(event) {
-		console.log("new message");
 		const message = JSON.parse(event.data);
 		this.mediator.publish(message.type, message.content);
 	}
