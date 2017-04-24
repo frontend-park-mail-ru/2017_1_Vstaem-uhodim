@@ -36,6 +36,10 @@ const worker = function (req, resp) {
 		content = `Path '${path}' is not found!`;
 		resp.writeHead(404);
 	}
+
+	if (url.slice(-2) === "js") {
+		resp.writeHead(200, {"Content-Type": "application/x-javascript"});
+	}
 	resp.write(content);
 	resp.end();
 };

@@ -63,3 +63,13 @@ document.addEventListener("redirect", event => {
 const [location] = [window.location];
 router.go(location.pathname, false, true);
 
+
+/*
+navigator.serviceWorker.register("/service_worker.js", { scope: "/" })
+	.then((registration) => {
+		console.log('ServiceWorker registration', registration);
+	})
+	.catch((error) => {
+		throw new Error('ServiceWorker error: ' + error);
+	});
+*/
