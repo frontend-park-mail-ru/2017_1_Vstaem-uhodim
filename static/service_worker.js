@@ -12,20 +12,20 @@ const cacheUrls = [
 	"https://fonts.googleapis.com/css?family=Pangolin"
 ];
 
-self.addEventListener('install', function(event) {
-	console.log('install', event);
+self.addEventListener('install', (event) => {
+	//console.log('install', event);
 
 	event.waitUntil(
 		caches.open(CACHE_NAME)
-			.then(function (cache) {
+			.then((cache) => {
 				return cache.addAll(cacheUrls);
 			})
 	);
 });
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', (event) => {
 	event.respondWith(
-		caches.match(event.request).then(function(cachedResponse) {
+		caches.match(event.request).then((cachedResponse) => {
 			if (cachedResponse) {
 				return cachedResponse;
 			}
@@ -33,6 +33,4 @@ self.addEventListener('fetch', function(event) {
 		})
 	);
 });
-
-
 

@@ -18,7 +18,7 @@ export default class Canvas {
 	}
 
 	showMPResult(content) {
-		if (this.resultTable == undefined) {
+		if (this.resultTable === undefined) {
 			this.resultTable = document.createElement("div");
 			this.resultTable.classList.add("canvas__result");
 			this.el.parentNode.appendChild(this.resultTable);

@@ -12,7 +12,7 @@ export default class Transport {
 
 		this.mediator = new Mediator;
 
-		let url = "ws://localhost:9000";
+		const url = "ws://localhost:9000";
 
 		this.ws = new WebSocket(url);
 		this.ws.onopen = (event) => {
@@ -39,7 +39,6 @@ export default class Transport {
 					return;
 				}
 				this.count++;
-				console.log("setting_connection...");
 				this.send(type, payload);
 			}, 1000)
 		}
