@@ -4,7 +4,7 @@ var glob = require("glob");
 
 module.exports = [{
 	entry: {
-		main: "./static/main.js",
+		main: ['babel-polyfill',"./static/main.js"],
 		test: glob.sync("./static/api-specs/*.js"),
 	},
 	output: {
@@ -19,7 +19,7 @@ module.exports = [{
 		rules: [{
 			test: /\.js$/,
 			loader: "babel-loader",
-			options: {presets: ['es2015']}
+			options: {presets: ['es2015', 'stage-0']}
 		}, {
 			test: /\.css$/,
 			loader: "style-loader!css-loader"

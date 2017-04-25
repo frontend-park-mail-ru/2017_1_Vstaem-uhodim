@@ -8,7 +8,8 @@ const cacheUrls = [
 	"build_main.js",
 	"/build_test.js",
 	"/about",
-	"/leaderboard"
+	"/leaderboard",
+	"https://fonts.googleapis.com/css?family=Pangolin"
 ];
 
 self.addEventListener('install', function(event) {
