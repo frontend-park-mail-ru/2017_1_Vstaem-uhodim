@@ -6,7 +6,8 @@ import Transport from "../../modules/transport.js";
 const [getComputedStyle] = [window.getComputedStyle];
 
 export default class Canvas {
-	constructor() {
+	constructor({wide = false}) {
+		this.wide = wide;
 		this.el = document.createElement("canvas");
 		this.transport = new Transport();
 		[this.page] = [document.getElementsByClassName("page_type_game")[0]];
@@ -14,6 +15,11 @@ export default class Canvas {
 	}
 
 	render() {
+		if (this.wide) {
+			this.el.style.width = "96%";
+			this.el.style.marginLeft = "2%";
+			this.el.style.marginRight = "2%";
+		}
 		return this;
 	}
 
@@ -34,7 +40,7 @@ export default class Canvas {
 		}
 	}
 
-	paint(word) {
+	paint(word = null) {
 		this.picture = {word: "", points: []};
 		this.time = new Date();
 		this.count = 0;
@@ -45,9 +51,10 @@ export default class Canvas {
 		//[this.page] = [document.getElementsByClassName("page_type_game")[0]];
 		this.context = this.el.getContext("2d");
 
-		this.context.font = "27px Pangolin";
-		this.context.fillText(`Изобразите: ${word}`, this.el.offsetWidth/2 - 150, 30);
-
+		if (word !== null) {
+			this.context.font = "27px Pangolin";
+			this.context.fillText(`Изобразите: ${word}`, this.el.offsetWidth / 2 - 150, 30);
+		}
 		this.isPainting = false;
 
 		this.context.strokeStyle = "black";

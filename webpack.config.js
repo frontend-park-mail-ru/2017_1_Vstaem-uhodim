@@ -4,8 +4,9 @@ var glob = require("glob");
 
 module.exports = [{
 	entry: {
-		main: ['babel-polyfill',"./static/main.js"],
+		main: ["babel-polyfill","./static/main.js"],
 		test: glob.sync("./static/api-specs/*.js"),
+		offline: ["babel-regenerator-runtime", "./static/offline.js"]
 	},
 	output: {
 		filename: "build_[name].js",

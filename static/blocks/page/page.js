@@ -4,34 +4,44 @@ import "./page.css";
 import Button from "../button/button.js";
 const [Event] = [window.Event];
 export default class Page {
-	constructor({type, title = "", controls = []}) {
+	constructor({type, title = "", notification = "", controls = []}) {
 		this.type = type;
 		this.title = title;
+		this.notification = notification;
 		this.controls = controls;
 		this.el = document.createElement("div");
 	}
 
-	setTitle(title) {
+	setTitle() {
 		if (this.title !== "") {
 			const titleEl = document.createElement("div");
-			titleEl.innerText = title;
+			titleEl.innerText = this.title;
 			titleEl.classList.add("page__title");
 			this.el.appendChild(titleEl);
 		}
 	}
 
-	setType(type) {
-		switch (type) {
+	setNotification() {
+		if (this.notification !== "") {
+			const notEl = document.createElement("div");
+			notEl.innerText = this.notification;
+			notEl.classList.add("page__notification");
+			this.el.appendChild(notEl);
+		}
+	}
+
+	setType() {
+		switch (this.type) {
 			case "single":
 			case "left":
 			case "right":
 			case "game":
 				break;
 			default:
-				type = "single";
+				this.type = "single";
 				break;
 		}
-		this.el.classList.add(`page_type_${type}`);
+		this.el.classList.add(`page_type_${this.type}`);
 	}
 
 	setControls(controls) {
@@ -56,8 +66,9 @@ export default class Page {
 
 	render() {
 		this.setControls(this.controls);
-		this.setTitle(this.title);
-		this.setType(this.type);
+		this.setNotification();
+		this.setTitle();
+		this.setType();
 		this.el.classList.add("page");
 		return this;
 	}
