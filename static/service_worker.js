@@ -13,7 +13,7 @@ const cacheUrls = [
 ];
 
 self.addEventListener("install", (event) => {
-	console.log('install', event);
+	//console.log('install', event);
 
 	event.waitUntil(
 		caches.open(CACHE_NAME)
@@ -32,7 +32,7 @@ self.addEventListener('fetch', (event) => {
 			return fetch(event.request)
 				.catch(error => {
 					if (event.request.url === "http://localhost/build_main.js") {
-						return caches.open(CACHE_NAME).then(function (cache) {
+						return caches.open(CACHE_NAME).then((cache) => {
 							return cache.match("http://localhost/build_offline.js").then((cachedResponse) => {
 								return cachedResponse;
 							})
@@ -45,8 +45,3 @@ self.addEventListener('fetch', (event) => {
 		})
 	)
 });
-
-
-
-
-

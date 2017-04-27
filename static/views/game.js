@@ -75,12 +75,16 @@ export default class GameView extends BaseView {
 		this.timer.render();
 		gameSinglePage.el.appendChild(this.timer.el);
 
-		this.canvas = new Canvas();
+		this.canvas = new Canvas({});
 		this.canvas.render();
 		gameSinglePage.el.appendChild(this.canvas.el);
 
 		this.chat = new Chat();
 		this.chat.render();
+
+		this.chat.input.hidden = true;
+		this.chat.submit.hidden = true;
+
 		gameSinglePage.el.appendChild(this.chat.el);
 		this.chat.el.addEventListener("submit", () => {
 			if (this.chat.getMessage() !== "") {

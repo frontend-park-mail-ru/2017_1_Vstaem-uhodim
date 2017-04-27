@@ -95,7 +95,7 @@ export default class Form {
 				case "password":
 					password = input;
 					if (input.value.length <= 5) {
-						this.showFieldError(input, "Пароль должен содержать более 5 символов");
+						this.showFieldError(input, "Пароль должен содержать 6 и более символов");
 						hasError = true;
 					}
 					else {

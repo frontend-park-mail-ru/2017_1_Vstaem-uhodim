@@ -9,6 +9,7 @@ export default class HTTP {
 		}
 
 		this.baseUrl = "https://croco2017.herokuapp.com/";
+		//this.baseUrl = "http://localhost:8082/";
 
 		HTTP.__instance = this;
 	}

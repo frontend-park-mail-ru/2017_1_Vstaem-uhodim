@@ -17,8 +17,9 @@ export default class MultiPlayerStrategy extends GameStrategy {
 	}
 
 	startGame(content) {
+		this.mediator.publish("HIDE_RESULT");
 		this.mediator.publish("RESET_CHAT");
-		if (content.game_type !== "mp") {
+		if (content.type !== "mp") {
 			return;
 		}
 		switch (content.role) {
@@ -27,6 +28,7 @@ export default class MultiPlayerStrategy extends GameStrategy {
 				this.mediator.publish("ENABLE_PAINTING", content.word);
 				break;
 			case "other":
+				this.mediator.publish("ENABLE_CHAT");
 				break;
 			default:
 				return;

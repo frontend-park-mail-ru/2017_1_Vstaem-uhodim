@@ -10,7 +10,7 @@ export default class SinglePlayerStrategy extends GameStrategy {
 		this.mediator.subscribe("START_SP_GAME", this.startGame.bind(this));
 		this.mediator.subscribe("STOP_GAME", this.stopGame.bind(this));
 
-		this.transport.send("START_MP_GAME");
+		this.transport.send("START_SP_GAME");
 	}
 
 	startGame(content) {
@@ -18,6 +18,7 @@ export default class SinglePlayerStrategy extends GameStrategy {
 		function starting() {
 			this.mediator.publish("START_SINGLE_PAINTING", content);
 			this.mediator.publish("START_TIMER");
+			this.mediator.publish("ENABLE_CHAT");
 		}
 
 		setTimeout(starting.bind(this), 3000);

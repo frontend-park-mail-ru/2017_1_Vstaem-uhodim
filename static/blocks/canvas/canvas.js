@@ -29,8 +29,8 @@ export default class Canvas {
 			this.resultTable.classList.add("canvas__result");
 			this.el.parentNode.appendChild(this.resultTable);
 		}
-
-		this.resultTable.innerHTML = `Угадал: ${content.winner}<br>Слово: ${content.word}`;
+		// remove default values
+		this.resultTable.innerHTML = `Угадал: ${content.winner || "-"}<br>Слово: ${content.word || "-"}`;
 		this.resultTable.hidden = false;
 	}
 
@@ -92,7 +92,8 @@ export default class Canvas {
 						x: (x / this.el.width).toFixed(3),
 						y: (y / this.el.height).toFixed(3)
 					});
-					this.transport.send("NEW_POINT", {x:(x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3)});
+					// remove color
+					this.transport.send("NEW_POINT", {x:(x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3), color: "black"});
 				}
 			}
 		}

@@ -23,14 +23,16 @@ export default class Game {
 		this.mediator.subscribe("STOP_TIMER", this.stopTimer.bind(this));
 		this.mediator.subscribe("STOP_SINGLE_PAINTING", this.stopSinglePainting.bind(this));
 		this.mediator.subscribe("SHOW_SP_RESULT", this.showSPResult.bind(this));
-		this.mediator.subscribe("SHOW_RULES", this.showRules.bind(this));
+		//this.mediator.subscribe("SHOW_RULES", this.showRules.bind(this));
 
 		this.mediator.subscribe("DISABLE_CHAT", this.disableChat.bind(this));
+		this.mediator.subscribe("ENABLE_CHAT", this.enableChat.bind(this));
 		this.mediator.subscribe("ENABLE_PAINTING", this.enablePainting.bind(this));
 		this.mediator.subscribe("DISABLE_PAINTING", this.disablePainting.bind(this));
 		this.mediator.subscribe("ADD_PLAYER", this.addPlayer.bind(this));
 		this.mediator.subscribe("NEW_MESSAGE", this.newMessage.bind(this));
 		this.mediator.subscribe("SHOW_MP_RESULT", this.showMPResult.bind(this));
+		this.mediator.subscribe("HIDE_RESULT", this.hideResult.bind(this));
 		this.mediator.subscribe("RESET_CHAT", this.resetChat.bind(this));
 		this.mediator.subscribe("DRAW_ONE_POINT", this.drawPoint.bind(this));
 
@@ -95,6 +97,12 @@ export default class Game {
 		this.chat.submit.hidden = true;
 	}
 
+	enableChat() {
+		this.chat.reset();
+		this.chat.input.hidden = false;
+		this.chat.submit.hidden = false;
+	}
+
 	enablePainting(word) {
 		this.canvas.hideResult();
 		this.canvas.paint(word);
@@ -106,14 +114,21 @@ export default class Game {
 	}
 
 	addPlayer(player) {
+		// replace
+		this.chat.addUser(player, "#c6c6c6");
+		/*
 		this.chat.addUser(player.nickname, player.color);
 		if (player.nickname === this.username) {
 			this.color = player.color;
-		}
+		}*/
 	}
 
 	showMPResult(content) {
 		this.canvas.showMPResult(content);
+	}
+
+	hideResult(word) {
+		this.canvas.hideResult();
 	}
 
 	resetChat() {
@@ -122,7 +137,7 @@ export default class Game {
 	}
 
 	newMessage(message) {
-		this.chat.addMessage(message.player, message.answer, message.color);
+		//this.chat.addMessage(message.player, message.answer, message.color);
 	}
 
 	drawPoint(point) {
