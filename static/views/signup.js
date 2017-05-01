@@ -95,6 +95,7 @@ export default class SignupView extends BaseView {
 				}
 			}
 		});
+		this.mediator.publish("VIEW_LOADED");
 	}
 
 	update() {

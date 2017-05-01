@@ -1,0 +1,41 @@
+.score-table {
+    letter-spacing: 0px;
+    margin: 30px 7%;
+    width: 86%;
+    border-collapse: collapse;
+    background: #fafafa;
+    th, td {
+        border: 1px solid #1b3751;
+        padding: 4px 10px;
+        font-size: 140%;
+    }
+
+}
+.medal {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 17pt;
+    margin: 0 auto;
+    &_type_gold {
+        background-color: yellow;
+        color: #d58512;
+        border: 1px solid #d58512;
+    }
+    &_type_silver {
+        background-color: rgba(220, 221, 212, 0.71);
+        color: rgba(168, 169, 160, 0.71);
+        border: 1px solid rgba(168, 169, 160, 0.71);
+    }
+    &_type_bronze {
+        background-color: rgba(243, 158, 0, 0.71);
+        color: rgba(164, 106, 0, 0.71);
+        border: 1px solid rgba(164, 106, 0, 0.71);
+    }
+    &_type_other {
+        background-color: transparent;
+        color: black;
+    }
+}
+

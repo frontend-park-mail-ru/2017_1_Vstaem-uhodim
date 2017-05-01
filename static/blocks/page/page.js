@@ -1,6 +1,6 @@
 "use strict";
 
-import "./page.css";
+import "./page.scss";
 import Button from "../button/button.js";
 const [Event] = [window.Event];
 export default class Page {

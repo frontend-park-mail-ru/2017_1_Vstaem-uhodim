@@ -54,5 +54,6 @@ export default class AboutView extends BaseView {
 		firstPar.render();
 
 		aboutRightPage.el.appendChild(firstPar.el);
+		this.mediator.publish("VIEW_LOADED");
 	}
 }

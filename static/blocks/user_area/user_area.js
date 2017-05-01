@@ -1,5 +1,5 @@
 "use strict";
-import "./user_area.css";
+import "./user_area.scss";
 import template from "./user_area.pug";
 
 const [Event] = [window.Event];
@@ -27,15 +27,6 @@ export default class UserArea {
 			this.el.innerHTML = template({authorized: false});
 			this.el.id = "js-index-userareaLogout";
 
-			this.el.querySelector("#js-index-signup").addEventListener("click", function (event) {
-				event.preventDefault();
-				this.el.dispatchEvent(new Event("signup"));
-			});
-
-			this.el.querySelector("#js-index-login").addEventListener("click", function (event) {
-				event.preventDefault();
-				this.el.dispatchEvent(new Event("login"));
-			});
 		}
 	}
 

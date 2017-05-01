@@ -1,6 +1,6 @@
 "use strict";
 
-import "./canvas.css";
+import "./canvas.scss";
 import Transport from "../../modules/transport.js";
 
 const [getComputedStyle] = [window.getComputedStyle];

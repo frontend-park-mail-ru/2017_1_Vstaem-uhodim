@@ -23,7 +23,7 @@ export default class Game {
 		this.mediator.subscribe("STOP_TIMER", this.stopTimer.bind(this));
 		this.mediator.subscribe("STOP_SINGLE_PAINTING", this.stopSinglePainting.bind(this));
 		this.mediator.subscribe("SHOW_SP_RESULT", this.showSPResult.bind(this));
-		//this.mediator.subscribe("SHOW_RULES", this.showRules.bind(this));
+		this.mediator.subscribe("SHOW_RULES", this.showRules.bind(this));
 
 		this.mediator.subscribe("DISABLE_CHAT", this.disableChat.bind(this));
 		this.mediator.subscribe("ENABLE_CHAT", this.enableChat.bind(this));

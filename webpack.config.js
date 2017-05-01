@@ -21,10 +21,12 @@ module.exports = [{
 			test: /\.js$/,
 			loader: "babel-loader",
 			options: {presets: ['es2015', 'stage-0']}
-		}, {
-			test: /\.css$/,
-			loader: "style-loader!css-loader"
-		}, {
+		},
+		{
+			test: /\.scss$/,
+			loader: "style-loader!css-loader!postcss-loader"
+		},
+		{
 			test: /\.pug$/,
 			loader: "pug-loader"
 		}]

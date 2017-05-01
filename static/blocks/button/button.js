@@ -1,6 +1,6 @@
 "use strict";
 
-import "./button.css";
+import "./button.scss";
 
 export default class Button {
 	constructor({text, attrs = {}, tagname = "a"}) {

@@ -1,0 +1,11 @@
+.paragraph {
+    width: 85%;
+    margin: 20px auto;
+    font-size: 110%;
+    line-height: 150%;
+    &__title {
+        margin: 35px 10px;
+        font-size: 150%;
+        color: chocolate;
+    }
+}

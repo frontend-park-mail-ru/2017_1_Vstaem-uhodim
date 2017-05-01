@@ -75,6 +75,8 @@ export default class LoginView extends BaseView {
 				}
 			}
 		});
+
+		this.mediator.publish("VIEW_LOADED");
 	}
 
 	update() {

@@ -12,8 +12,8 @@ export default class Transport {
 
 		this.mediator = new Mediator;
 
-		//const url = "ws://localhost:8082/sp-games/";
-		const url = "ws://croco2017.herokuapp.com/sp-games/";
+		const url = "ws://localhost:8082/sp-games/";
+		//const url = "ws://croco2017.herokuapp.com/sp-games/";
 
 		this.ws = new WebSocket(url);
 		this.ws.onopen = (event) => {

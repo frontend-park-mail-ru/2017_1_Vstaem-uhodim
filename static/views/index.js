@@ -13,6 +13,7 @@ export default class IndexView extends BaseView {
 	async update() {
 		const user = await this.currentUser();
 		this.userArea.update(user);
+		this.mediator.publish("VIEW_LOADED");
 	}
 
 	async render() {
@@ -35,6 +36,7 @@ export default class IndexView extends BaseView {
 				else {
 					indexLeftPage.el.appendChild(this.userArea.el);
 				}
+				this.mediator.publish("VIEW_LOADED");
 			});
 
 		this.image = new ImageCroc();

@@ -39,8 +39,11 @@ export default class GameView extends BaseView {
 				{
 					text: "Новая игра!",
 					action: true,
-					id: "js-index-game",
-					href: "/game"
+					click: (()=> {
+						this.windowMenu.el.hidden = true;
+						this.shadow.el.hidden = true;
+						this.mediator.publish("NEW_SP_GAME");
+					}).bind(this)
 				},
 				{
 					text: "На главную",

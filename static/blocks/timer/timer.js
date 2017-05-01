@@ -1,5 +1,5 @@
 "use strict";
-import "./timer.css";
+import "./timer.scss";
 const [CustomEvent] = [window.CustomEvent];
 
 export default class Timer {
@@ -35,24 +35,15 @@ export default class Timer {
 
 	start() {
 		this.value = this.startValue;
-		this.stopped = false;
 
-		function dec() {
-			if (this.stopped) {
-				this.stopped = false;
-				return;
-			}
+		this.interval = setInterval(() => {
 			this.value -= 1;
 			this.updateTime();
-
-			setTimeout(dec.bind(this), 1000);
-		}
-
-		dec.bind(this)();
+		}, 1000);
 	}
 
 	stop() {
-		this.stopped = true;
+		clearInterval(this.interval);
 		this.setMessage("Игра скоро начнется...")
 	}
 }

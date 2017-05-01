@@ -48,6 +48,7 @@ export default class LeaderboardView extends BaseView {
 
 		this.el.appendChild(this.leaderboardSinglePage.el);
 		await this.setTable();
+		this.mediator.publish("VIEW_LOADED");
 	}
 
 	update () {

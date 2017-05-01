@@ -1,6 +1,6 @@
 "use strict";
 
-import "./form.css";
+import "./form.scss";
 import template from "./form.pug";
 import Button from "../button/button.js";
 

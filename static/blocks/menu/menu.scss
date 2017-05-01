@@ -1,0 +1,24 @@
+$x-orange-light: #ff841d;
+$x-orange: rgb(255, 80, 1);
+.menu {
+    &__button {
+        width: 200px;
+        margin: 0 auto;
+        padding: 15px;
+        margin-bottom: 20px;
+        background: $x-orange-light;
+        box-shadow: 0 0 0 4px $x-orange-light;
+        border-radius: 3px;
+        opacity: 0.85;
+        &_action {
+            animation: move-play 1s infinite;
+        }
+        &_main {
+            background: $x-orange;
+            box-shadow: 0 0 0 4px $x-orange;
+        }
+        &_wide {
+            width: 270px;
+        }
+    }
+}

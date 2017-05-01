@@ -14,9 +14,11 @@ export default class MultiPlayerStrategy extends GameStrategy {
 		this.mediator.subscribe("EXIT", this.exit.bind(this));
 
 		this.transport.send("START_MP_GAME");
+		this.mediator.publish("LOADING");
 	}
 
 	startGame(content) {
+		this.mediator.publish("VIEW_LOADED");
 		this.mediator.publish("HIDE_RESULT");
 		this.mediator.publish("RESET_CHAT");
 		if (content.type !== "mp") {
@@ -52,7 +54,10 @@ export default class MultiPlayerStrategy extends GameStrategy {
 		this.mediator.publish("STOP_TIMER");
 		this.mediator.publish("DISABLE_PAINTING");
 		this.mediator.publish("SHOW_MP_RESULT", content);
-		setTimeout(() => { this.transport.send("START_MP_GAME"); }, 5000);
+		setTimeout(() => {
+			this.transport.send("START_MP_GAME");
+			this.mediator.publish("LOADING");
+		}, 5000);
 	}
 
 	exit(nickname) {
