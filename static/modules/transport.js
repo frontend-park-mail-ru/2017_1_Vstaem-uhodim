@@ -30,13 +30,6 @@ export default class Transport {
 
 	handleMessage(event) {
 		const message = JSON.parse(event.data);
-		// remove
-		if (message.type === "STATE" && message.content.type === "mp") {
-			message.type = "START_MP_GAME";
-		}
-		if (message.type === "STATE" && message.content.type === "sp") {
-			message.type = "START_SP_GAME";
-		}
 		this.mediator.publish(message.type, message.content);
 	}
 

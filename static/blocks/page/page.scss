@@ -6,12 +6,13 @@
     position: relative;
     background-color: #fafafa;
     border-radius: 20px;
-    margin-top: 1%;
+    margin-top: 2%;
     margin-bottom: 2%;
     border: 3px double #b1b1b1;
     padding: 2%;
     @media screen and (min-width: 1000px){
         min-height: 660px;
+        height: 93%;
     }
     @media screen and (max-width: 1000px) {
         margin: 15px 10%;
@@ -41,6 +42,7 @@
             border-radius: 10px 10px 0px 0px;
             margin-bottom: 0;
             border-bottom: none;
+            height: 30%;
         }
     }
     &_type_right {
@@ -58,6 +60,7 @@
             background-position: 10%;
             margin-top: 0;
             border-top: none;
+            height: 70%;
         }
     }
     &_type_single {
@@ -71,6 +74,10 @@
             float: none;
             width: 50%;
         }
+        @media screen and (max-width: 1000px) {
+            height: 100%;
+            margin: 0;
+        }
     }
     &_type_game {
         @media screen and (min-width: 1000px) {
@@ -82,10 +89,14 @@
             width: 96%;
             margin-left: 2%;
             padding: 5px;
-            height: 660px;
+            min-height: 660px;
+            height: 100%;
         }
         @media screen and (max-width: 700px) {
-            height: 550px;
+            width: 100%;
+            margin: 0;
+            min-height: 550px;
+            overflow: hidden;
         }
     }
     &__title {

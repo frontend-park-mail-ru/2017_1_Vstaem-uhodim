@@ -44,6 +44,8 @@ export default class Game {
 			this.mediator.publish("FAILURE");
 		});
 
+		this.colors = ["#736af2", "#73c3dd", "#77d870", "#fff55e", "#fcbe53", "#ff4949"];
+
 	}
 
 	start() {
@@ -114,13 +116,10 @@ export default class Game {
 	}
 
 	addPlayer(player) {
-		// replace
-		this.chat.addUser(player, "#c6c6c6");
-		/*
-		this.chat.addUser(player.nickname, player.color);
-		if (player.nickname === this.username) {
-			this.color = player.color;
-		}*/
+		this.chat.addUser(player.login, this.colors[player.color]);
+		if (player.login === this.username) {
+			this.color = this.colors[player.color];
+		}
 	}
 
 	showMPResult(content) {
@@ -137,7 +136,9 @@ export default class Game {
 	}
 
 	newMessage(message) {
-		//this.chat.addMessage(message.player, message.answer, message.color);
+		if (this.username !== message.player) {
+			this.chat.addMessage(message.player, message.answer, message.color);
+		}
 	}
 
 	drawPoint(point) {

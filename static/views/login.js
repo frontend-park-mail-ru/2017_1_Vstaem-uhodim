@@ -81,5 +81,6 @@ export default class LoginView extends BaseView {
 
 	update() {
 		this.loginForm.reset();
+		super.update();
 	}
 }

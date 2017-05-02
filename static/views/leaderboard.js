@@ -54,5 +54,6 @@ export default class LeaderboardView extends BaseView {
 	update () {
 		this.firstScoreTable.el.remove();
 		this.setTable();
+		super.update();
 	}
 }

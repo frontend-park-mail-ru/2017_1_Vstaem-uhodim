@@ -1,6 +1,6 @@
 .palette {
   position: absolute;
-  left: 40%;
+  margin: auto;
   top: 100px;
   z-index: 3;
   width: 220px;
@@ -51,6 +51,7 @@
     border-radius: 50%;
     width: 28%;
     height: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
     &_color_purple {
       background: #826899;
     }

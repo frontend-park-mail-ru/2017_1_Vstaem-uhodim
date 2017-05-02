@@ -59,6 +59,9 @@
         padding: 3px 6px 3px 6px;
         opacity: 0.75;
         margin: 1%;
+        @media screen and (max-width: 700px) {
+            display: none;
+        }
     }
     .__message {
         margin: 5%;

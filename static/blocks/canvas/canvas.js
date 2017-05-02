@@ -30,7 +30,12 @@ export default class Canvas {
 			this.el.parentNode.appendChild(this.resultTable);
 		}
 		// remove default values
-		this.resultTable.innerHTML = `Угадал: ${content.winner || "-"}<br>Слово: ${content.word || "-"}`;
+		if (content.winner === undefined) {
+			this.resultTable.innerHTML = `Время вышло!<br>Слово: ${content.word || "-"}`;
+		}
+		else {
+			this.resultTable.innerHTML = `Угадал: ${content.winner}<br>Слово: ${content.word || "-"}`;
+		}
 		this.resultTable.hidden = false;
 	}
 
@@ -60,6 +65,27 @@ export default class Canvas {
 		this.context.strokeStyle = "black";
 		this.context.lineJoin = "round";
 		this.context.lineWidth = 5;
+
+
+		this.el.addEventListener("touchstart", ((e) => {
+			const mouseEvent = new MouseEvent("mousedown", {
+				clientX: e.touches[0].clientX,
+				clientY: e.touches[0].clientY
+			});
+			this.el.dispatchEvent(mouseEvent);
+		}).bind(this), false);
+
+		this.el.addEventListener("touchmove", ((e) => {
+			const mouseEvent = new MouseEvent("mousemove", {
+				clientX: e.touches[0].clientX,
+				clientY: e.touches[0].clientY
+			});
+			this.el.dispatchEvent(mouseEvent);
+		}).bind(this), false);
+		this.el.addEventListener("touchend", ((e) => {
+			const mouseEvent = new MouseEvent("mouseup", {});
+			this.el.dispatchEvent(mouseEvent);
+		}).bind(this), false);
 
 		this.el.onmousedown = startPainting.bind(this);
 		this.el.onmouseup = stopPainting.bind(this);

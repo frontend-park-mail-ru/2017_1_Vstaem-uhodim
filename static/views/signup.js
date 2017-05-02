@@ -100,5 +100,6 @@ export default class SignupView extends BaseView {
 
 	update() {
 		this.signupForm.reset();
+		super.update();
 	}
 }

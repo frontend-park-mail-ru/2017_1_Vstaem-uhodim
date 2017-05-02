@@ -1,8 +1,12 @@
 .form {
     height: 80%;
     &__field {
-        height: 16%;
+        height: auto;
+        min-height: 16%;
         margin-bottom: 20px;
+        @media screen and (max-height: 700px){
+            margin: 3px;
+        }
     }
     &__label {
         display: block;
@@ -15,6 +19,7 @@
     &__error {
         text-align: left;
         width: 60%;
+        height: auto;
         margin-left: 18%;
         font-size: 11pt;
         color: #b1b1b1;

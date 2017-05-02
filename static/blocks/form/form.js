@@ -80,7 +80,7 @@ export default class Form {
 
 			this.resetError(input);
 			if (input.value === "") {
-				this.showFieldError(input, "Поле обязательно для заполнения");
+				this.showFieldError(input, "Заполните поле");
 				hasError = true;
 				return;
 			}

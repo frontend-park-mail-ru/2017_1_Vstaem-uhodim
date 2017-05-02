@@ -47,6 +47,9 @@ $count: 5/7;
         height: auto;
         padding: 5px 10px;
         font-size: 15pt;
+        @media screen and (max-height: 700px){
+            margin-top: 5px;
+        }
     }
 
 }

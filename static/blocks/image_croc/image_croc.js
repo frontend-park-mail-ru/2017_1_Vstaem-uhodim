@@ -14,7 +14,7 @@ export default class ImageCroc {
 		const main = this.el;
 
 		//let height = main.offsetWidth;
-		const height = 300;
+		const height = 320;
 
 		main.style.height = `${height}px`;
 		tail.style.borderWidth = `${(height * 110 / 360)}px`;

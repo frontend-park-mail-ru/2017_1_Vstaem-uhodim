@@ -48,6 +48,7 @@ export default class BaseView {
 		if (!this.rendered) {
 			this.render();
 			this.rendered = true;
+			this.el.hidden = false;
 		}
 		else {
 			this.update();

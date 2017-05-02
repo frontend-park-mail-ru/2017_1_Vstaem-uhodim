@@ -19,6 +19,9 @@ $x-orange: rgb(255, 80, 1);
         }
         &_wide {
             width: 270px;
+            @media screen and (max-width: 700px){
+                width: 245px;
+            }
         }
     }
 }
