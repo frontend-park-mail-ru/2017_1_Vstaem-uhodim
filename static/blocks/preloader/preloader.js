@@ -20,26 +20,27 @@ export default class Preloader {
 		let containers = document.getElementsByClassName("palette__container");
 		containers = Array.prototype.slice.call(containers);
 
-		containers.forEach(function(el) {
+		containers.forEach((el) => {
 			el.style.animationPlayState = "";
 		});
 
-		let palette = document.getElementsByClassName("palette")[0];
+		let palette = document.getElementsByClassName("palette");
+		[palette] = [palette[0]];
 		palette.addEventListener("mouseover", () => {
 			containers.forEach((el) => {
 				let values = window.getComputedStyle(el).getPropertyValue("transform");
-				values = values.split('(')[1];
-				values = values.split(')')[0];
+				[values] = [values.split('(')[1]];
+				[values] = [values.split(')')[0]];
 				values = values.split(',');
-				let value = Math.round(Math.atan2(values[1], values[0]) * (180/Math.PI));
+				const value = Math.round(Math.atan2(values[1], values[0]) * (180/Math.PI));
 
-				el.style.transform = "rotate(" + (value + 8).toString() + "deg)";
+				el.style.transform = `rotate(${(value + 8)}"deg)`;
 				el.style.animationPlayState = "paused";
 			});
 		});
 
 		palette.addEventListener("mouseout", () => {
-			containers.forEach(function(el) {
+			containers.forEach((el) => {
 				el.style.animationPlayState = "";
 			})
 		});
@@ -73,34 +74,34 @@ export default class Preloader {
 
 function lightenDarkenColor(col, amt) {
 
-	var usePound = false;
-	if (col[0] == "#") {
+	let usePound = false;
+	if (col[0] === "#") {
 		col = col.slice(1);
 		usePound = true;
 	}
-	var num = parseInt(col,16);
-	var r = (num >> 16) + amt;
+	const num = parseInt(col,16);
+	let r = (num >> 16) + amt;
 	if (r > 255) r = 255;
-	else if  (r < 0) r = 0;
-	var b = ((num >> 8) & 0x00FF) + amt;
+	else if (r < 0) r = 0;
+	let b = (num >> 8 & 0x00FF) + amt;
 	if (b > 255) b = 255;
-	else if  (b < 0) b = 0;
-	var g = (num & 0x0000FF) + amt;
+	else if (b < 0) b = 0;
+	let g = (num & 0x0000FF) + amt;
 	if (g > 255) g = 255;
 	else if (g < 0) g = 0;
-	return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+	return (usePound?"#":"") + (g | b << 8 | r << 16).toString(16);
 
 }
 
 function getHexRGBColor(color)
 {
 	color = color.replace(/\s/g,"");
-	var aRGB = color.match(/^rgb\((\d{1,3}[%]?),(\d{1,3}[%]?),(\d{1,3}[%]?)\)$/i);
+	const aRGB = color.match(/^rgb\((\d{1,3}[%]?),(\d{1,3}[%]?),(\d{1,3}[%]?)\)$/i);
 	if(aRGB)
 	{
 		color = '';
-		for (var i=1;  i<=3; i++) color += Math.round((aRGB[i][aRGB[i].length-1]=="%"?2.55:1)*parseInt(aRGB[i])).toString(16).replace(/^(.)$/,'0$1');
+		for (let i=1; i<=3; i++) color += Math.round((aRGB[i][aRGB[i].length-1]==="%"?2.55:1)*parseInt(aRGB[i])).toString(16).replace(/^(.)$/,'0$1');
 	}
 	else color = color.replace(/^#?([\da-f])([\da-f])([\da-f])$/i, '$1$1$2$2$3$3');
-	return "#" + color.toString();
+	return `#${color}`;
 }
