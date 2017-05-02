@@ -17,43 +17,49 @@ export default class Preloader {
 	}
 
 	animate() {
-		let b = document.getElementsByClassName("palette__container");
-		b = Array.prototype.slice.call(b);
+		let containers = document.getElementsByClassName("palette__container");
+		containers = Array.prototype.slice.call(containers);
 
-		let el = document.getElementsByClassName("palette")[0];
-		el.addEventListener("mouseover", function() {
-			b.forEach(function(el) {
-				let values;
-				let value;
+		containers.forEach(function(el) {
+			el.style.animationPlayState = "";
+		});
 
-				values = window.getComputedStyle(el).getPropertyValue("transform");
+		let palette = document.getElementsByClassName("palette")[0];
+		palette.addEventListener("mouseover", () => {
+			containers.forEach((el) => {
+				let values = window.getComputedStyle(el).getPropertyValue("transform");
 				values = values.split('(')[1];
 				values = values.split(')')[0];
 				values = values.split(',');
-				value = Math.round(Math.atan2(values[1], values[0]) * (180/Math.PI));
+				let value = Math.round(Math.atan2(values[1], values[0]) * (180/Math.PI));
 
 				el.style.transform = "rotate(" + (value + 8).toString() + "deg)";
 				el.style.animationPlayState = "paused";
 			});
 		});
 
-		el.addEventListener("mouseout", function() {
-			el.style.zoom = "1";
-			b.forEach(function(el) {
+		palette.addEventListener("mouseout", () => {
+			containers.forEach(function(el) {
 				el.style.animationPlayState = "";
 			})
 		});
 
-		let a = document.getElementsByClassName("palette__spot");
-		a = Array.prototype.slice.call(a);
-		a.forEach(function(el) {
-			el.addEventListener("click", function() {
-				document.body.style.background = LightenDarkenColor(getHexRGBColor(getComputedStyle(el).backgroundColor), +100);
-			});
-		})
+
+		this.spots = document.getElementsByClassName("palette__spot");
+		this.spots = Array.prototype.slice.call(this.spots);
+		this.spots.forEach(((el) => {
+			el.addEventListener("click", (() => {
+				this.el.style.background = lightenDarkenColor(getHexRGBColor(getComputedStyle(el).backgroundColor), +120);
+			}).bind(this));
+		}).bind(this))
 	}
 	stopAnimation() {
 		document.body.style.background = "#f1f1f1";
+		this.spots.forEach(((el) => {
+			el.addEventListener("click", (() => {
+				el.style.animationPlayState = "paused";
+			}).bind(this));
+		}).bind(this))
 	}
 
 	render() {
@@ -65,7 +71,7 @@ export default class Preloader {
 }
 
 
-function LightenDarkenColor(col, amt) {
+function lightenDarkenColor(col, amt) {
 
 	var usePound = false;
 	if (col[0] == "#") {

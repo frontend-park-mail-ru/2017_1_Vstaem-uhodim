@@ -1,5 +1,7 @@
 "use strict";
 
+import "whatwg-fetch";
+
 import IndexView from "./views/index.js";
 import GameView from "./views/game.js";
 import AboutView from "./views/about.js";

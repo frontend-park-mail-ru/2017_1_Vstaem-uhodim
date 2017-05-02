@@ -1,7 +1,6 @@
 var path = require('path');
 var glob = require("glob");
 
-
 module.exports = [{
 	entry: {
 		main: ["babel-polyfill","./static/main.js"],

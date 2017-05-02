@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Pangolin');
-@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+@import url('https://fonts.googleapis.com/css?family=Pangolin&subset=cyrillic');
 
 body {
     margin: 0;
@@ -13,7 +12,8 @@ body {
     background: #f1f1f1;
     font-family: 'Pangolin', cursive;
     letter-spacing: 3px;
-    position: absolute
+    position: absolute;
+    z-index: 1;
 }
 
 .palette__color {
