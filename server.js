@@ -29,6 +29,13 @@ const worker = function (req, resp) {
 			break;
 	}
 	if (fs.existsSync(path)) {
+		if (url.slice(-3) === "png") {
+			content = fs.readFileSync(path);
+			resp.writeHead(200, {"Content-Type": "image/png"});
+			resp.end(content, 'binary');
+			return;
+		}
+
 		content = fs.readFileSync(path, "utf8");
 	}
 	else {
@@ -40,6 +47,7 @@ const worker = function (req, resp) {
 	if (url.slice(-2) === "js") {
 		resp.writeHead(200, {"Content-Type": "application/x-javascript"});
 	}
+
 	resp.write(content);
 	resp.end();
 };

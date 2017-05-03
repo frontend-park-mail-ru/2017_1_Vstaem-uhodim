@@ -47,4 +47,8 @@ export default class Transport {
 			this.ws.send(JSON.stringify({type: type, content: payload}));
 		}
 	}
+
+	close() {
+		this.ws.close();
+	}
 }

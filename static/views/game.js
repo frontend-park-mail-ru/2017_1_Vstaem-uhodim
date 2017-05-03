@@ -65,7 +65,7 @@ export default class GameView extends BaseView {
 				{
 					text: "&#8630",
 					href: "",
-					click: (() => { this.mediator.publish("EXIT", this.game.username); }).bind(this)
+					click: (() => { this.mediator.publish("EXIT"); }).bind(this)
 				}
 			]
 		});

@@ -21,8 +21,11 @@ export default class OfflineView extends BaseView {
 		});
 		this.canvas.render();
 		offlineSinglePage.el.appendChild(this.canvas.el);
-		this.canvas.paint();
 
+		this.mediator.subscribe("OFFLINE_PAINT", this.paint.bind(this));
 		this.mediator.publish("VIEW_LOADED");
+	}
+	paint() {
+		this.canvas.paint();
 	}
 }

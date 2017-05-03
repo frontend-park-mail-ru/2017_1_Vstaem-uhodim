@@ -60,7 +60,12 @@ export default class MultiPlayerStrategy extends GameStrategy {
 		}, 5000);
 	}
 
-	exit(nickname) {
-		this.transport.send("EXIT", nickname);
+	exit() {
+		this.transport.send("EXIT", {});
+		//this.transport.close();
+		this.mediator.publish("STOP_TIMER");
+		this.mediator.publish("DISABLE_PAINTING");
+		this.mediator.publish("HIDE_RESULT");
+
 	}
 }

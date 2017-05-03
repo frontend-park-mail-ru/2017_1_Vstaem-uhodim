@@ -1,5 +1,6 @@
 .page {
     z-index: 1;
+    min-width: 320px;
     box-sizing: border-box;
     background: linear-gradient(#dbdbdb, transparent 1px), linear-gradient(90deg, #dbdbdb, transparent 1px), linear-gradient(90deg, #ffbaba 2px, transparent 1px) repeat-y;
     background-size: 15px 15px;
@@ -42,7 +43,12 @@
             border-radius: 10px 10px 0px 0px;
             margin-bottom: 0;
             border-bottom: none;
+            height: 29%;
+            min-height: 205px;
+        }
+        @media screen and (max-width: 500px) {
             height: 30%;
+            min-height: 120px;
         }
     }
     &_type_right {
@@ -60,6 +66,11 @@
             background-position: 10%;
             margin-top: 0;
             border-top: none;
+            height: 67%;
+            min-height: 500px;
+        }
+        @media screen and (max-width: 500px) {
+            min-height: 330px;
             height: 70%;
         }
     }
@@ -76,7 +87,11 @@
         }
         @media screen and (max-width: 1000px) {
             height: 100%;
-            margin: 0;
+            margin: auto;
+            min-height: 560px;
+        }
+        @media screen and (max-width: 500px) {
+            min-height: 500px;
         }
     }
     &_type_game {
@@ -114,7 +129,7 @@
             margin-top: 10px;
         }
     }
-    &_notification {
+    &__notification {
         margin: auto;
         width: 70%;
         text-align: center;

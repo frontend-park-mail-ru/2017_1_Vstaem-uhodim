@@ -1,5 +1,5 @@
 "use strict";
-const CACHE_NAME = "cr_app_27";
+const CACHE_NAME = "cr_app";
 
 const cacheUrls = [
 	"",
@@ -7,6 +7,7 @@ const cacheUrls = [
 	"css/style.css",
 	"/about",
 	"https://fonts.googleapis.com/css?family=Pangolin",
+	"https://fonts.googleapis.com/css?family=Pangolin&subset=cyrillic",
 	"https://fonts.gstatic.com/s/pangolin/v1/S-1BH_7IXzlH4pDCWaJVlPesZW2xOQ-xsNqO47m55DA.woff2",
 	"https://fonts.gstatic.com/s/pangolin/v1/WEdvnHsn-aHe-ZJn_sH99hTbgVql8nDJpwnrE27mub0.woff2",
 	"/build_offline.js"

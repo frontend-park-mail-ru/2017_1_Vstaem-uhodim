@@ -5,7 +5,7 @@ body {
     user-select: none;
 }
 
-html, body, #js-index, #js-leaderboard, #js-game, #js-signup, #js-login {
+html, body, #js-index, #js-leaderboard, #js-game, #js-signup, #js-login, #js-offline {
     height: 100%;
 }
 
@@ -19,6 +19,7 @@ html, body, #js-index, #js-leaderboard, #js-game, #js-signup, #js-login {
     position: absolute;
     z-index: 1;
     height: 100%;
+    overflow-x: hidden;
 }
 
 .palette__color {
