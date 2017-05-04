@@ -5,6 +5,7 @@ const fs = require("fs");
 
 const worker = function (req, resp) {
 	let url = req.url;
+	let type = null;
 	let content;
 	let path = "static/";
 
@@ -29,14 +30,43 @@ const worker = function (req, resp) {
 			break;
 	}
 	if (fs.existsSync(path)) {
-		if (url.slice(-3) === "png") {
-			content = fs.readFileSync(path);
-			resp.writeHead(200, {"Content-Type": "image/png"});
-			resp.end(content, 'binary');
-			return;
+		let mtype;
+		let ext = path.split(".")[path.split(".").length - 1];
+
+		switch (ext) {
+			case "png":
+				mtype = "image/png";
+				type = "binary";
+				break;
+			case "woff":
+				mtype = "application/font-woff";
+				break;
+			case "woff2":
+				mtype = "application/font-woff2";
+				break;
+			case "ttf":
+				mtype = "application/x-font-ttf";
+				break;
+			case "oet":
+				mtype = "application/vnd.ms-fontobject";
+				break;
+			case "svg":
+				mtype = "image/svg+xml";
+				break;
+			case "js":
+				mtype = "application/x-javascript";
+				break;
+			case "css":
+				mtype =  "text/css";
+				break;
+			default:
+				break;
 		}
 
-		content = fs.readFileSync(path, "utf8");
+		if (mtype !== undefined) {
+			resp.writeHead(200, {"Content-Type": mtype});
+		}
+		content = fs.readFileSync(path);
 	}
 	else {
 		// 404
@@ -44,12 +74,10 @@ const worker = function (req, resp) {
 		resp.writeHead(404);
 	}
 
-	if (url.slice(-2) === "js") {
-		resp.writeHead(200, {"Content-Type": "application/x-javascript"});
+	if (type !== null) {
+		resp.end(content, type);
 	}
-
-	resp.write(content);
-	resp.end();
+	resp.end(content);
 };
 
 const server = http.createServer(worker);

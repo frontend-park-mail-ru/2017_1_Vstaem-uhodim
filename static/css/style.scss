@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Pangolin&subset=cyrillic');
+/*@import url('https://fonts.googleapis.com/css?family=Pangolin&subset=cyrillic');*/
 
 body {
     margin: 0;
     user-select: none;
 }
 
-html, body, #js-index, #js-leaderboard, #js-game, #js-signup, #js-login, #js-offline {
+html, body, .fix-height {
     height: 100%;
 }
 

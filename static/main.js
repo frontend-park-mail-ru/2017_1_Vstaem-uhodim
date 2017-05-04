@@ -1,6 +1,8 @@
 "use strict";
 
 import "whatwg-fetch";
+import "./css/style.scss";
+import "./css/fonts.scss";
 
 import IndexView from "./views/index.js";
 import GameView from "./views/game.js";
@@ -73,3 +75,4 @@ navigator.serviceWorker.register("/service_worker.js", { scope: "/" })
 	.catch((error) => {
 		throw new Error(`ServiceWorker error: ${error}`);
 	});
+
