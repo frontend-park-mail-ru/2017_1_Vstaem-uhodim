@@ -11,7 +11,8 @@ export default class Canvas {
 		this.el = document.createElement("canvas");
 		this.transport = new Transport();
 		[this.page] = [document.getElementsByClassName("page_type_game")[0]];
-		this.lastPoint = null;
+		this.x1 = null;
+		this.x2 = null;
 	}
 
 	render() {
@@ -110,6 +111,7 @@ export default class Canvas {
 
 
 				this.context.lineTo(x, y);
+				//this.context.quadraticCurveTo(0, 0, x, y);
 				this.context.stroke();
 				this.count++;
 				if (this.count % 3 === 0) {
@@ -121,6 +123,7 @@ export default class Canvas {
 					// remove color
 					this.transport.send("NEW_POINT", {x:(x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3), color: "black"});
 				}
+				//this.transport.send("NEW_POINT", {x:(x/this.el.width).toFixed(6), y: (y/this.el.height).toFixed(6), color: "black"});
 			}
 		}
 
@@ -163,7 +166,8 @@ export default class Canvas {
 				this.context.moveTo(points[number].x * this.el.width, points[number].y * this.el.height);
 			}
 			if (!points[number + 1].down) {
-				this.context.lineTo(points[number + 1].x * this.el.width, points[number + 1].y * this.el.height);
+				//this.context.lineTo(points[number + 1].x * this.el.width, points[number + 1].y * this.el.height);
+				this.context.quadraticCurveTo(0, 0, points[number + 1].x * this.el.width, points[number + 1].y * this.el.height);
 			}
 			this.context.stroke();
 			if (number + 3 > points.length) {
@@ -185,29 +189,42 @@ export default class Canvas {
 	reset() {
 		this.el.getContext("2d").clearRect(0, 0, this.el.width, this.el.height);
 		this.stopSinglePainting = true;
-		this.lastPoint = null;
+		this.x1 = null;
+		this.x2 = null;
 	}
 
 	addPoint(point) {
 		this.context = this.el.getContext("2d");
+		this.context.lineCap = "round";
+		this.context.lineJoin = "round";
 
-		if (this.lastPoint === null) {
-			this.lastPoint = point;
+		if (this.x1 === null) {
+			this.x1 = point;
 			return;
 		}
 
-		if (this.lastPoint.color !== undefined) {
-			this.context.strokeStyle = this.lastPoint.color;
+		if(this.x2 === null) {
+			this.x2 = point;
+			return;
 		}
-		if (this.lastPoint.down) {
+
+		const controlPointX = 1/2 * (this.x1.x + this.x2.x) - 1/5 * (point.x - this.x2.x);
+		const controlPointY = 1/2 * (this.x1.y + this.x2.y) - 1/5 * (point.y - this.x2.y);
+
+		if (this.x1.color !== undefined) {
+			this.context.strokeStyle = this.x1.color;
+		}
+		if (this.x1.down) {
 			this.context.beginPath();
-			this.context.moveTo(this.lastPoint.x * this.el.width, this.lastPoint.y * this.el.height);
+			this.context.moveTo(this.x1.x * this.el.width, this.x1.y * this.el.height);
 		}
-		if (!point.down) {
-			this.context.lineTo(point.x * this.el.width, point.y * this.el.height);
+		if (!this.x2.down) {
+			//this.context.lineTo(this.x2.x * this.el.width, this.x2.y * this.el.height);
+			this.context.quadraticCurveTo(controlPointX * this.el.width, controlPointY * this.el.height, this.x2.x * this.el.width + 0.5, this.x2.y * this.el.height + 0.5);
 		}
 		this.context.stroke();
 
-		this.lastPoint = point;
+		this.x1 = this.x2;
+		this.x2 = point;
 	}
 }
