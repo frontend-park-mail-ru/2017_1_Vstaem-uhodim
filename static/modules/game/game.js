@@ -10,7 +10,6 @@ export default class Game {
 		this.canvas = canvas;
 		this.chat = chat;
 		this.timer = timer;
-		this.timer.setStartValue(30);
 		this.shadow = shadow;
 		this.windowMenu = windowMenu;
 		this.strategy = new Strategy();
@@ -59,8 +58,8 @@ export default class Game {
 		this.mediator.publish("START_GAME");
 	}
 
-	startTimer() {
-		this.timer.start();
+	startTimer(time) {
+		this.timer.start(time);
 	}
 
 	stopTimer() {

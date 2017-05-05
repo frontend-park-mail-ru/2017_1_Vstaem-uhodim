@@ -12,10 +12,6 @@ export default class Timer {
 		return this;
 	}
 
-	setStartValue(startValue) {
-		this.startValue = startValue;
-	}
-
 	setMessage(message) {
 		this.el.innerHTML = "Игра скоро начнется...";
 	}
@@ -33,8 +29,8 @@ export default class Timer {
 		}
 	}
 
-	start() {
-		this.value = this.startValue;
+	start(time) {
+		this.value = time;
 
 		this.interval = setInterval(() => {
 			this.value -= 1;
