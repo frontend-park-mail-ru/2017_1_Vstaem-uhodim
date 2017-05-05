@@ -37,12 +37,14 @@ export default class Game {
 		this.mediator.subscribe("DELETE_GAME", this.del.bind(this));
 
 		this.chat.el.addEventListener("submit", async (event) => {
-			this.transport.send("GET_ANSWER", {answer: event.detail});
+			this.transport.send("GET_ANSWER", {answer: event.detail.toLowerCase()});
 		});
 
 		this.timer.el.addEventListener("stop", () => {
 			this.mediator.publish("FAILURE");
 		});
+
+		this.resetChat();
 
 		this.colors = ["#736af2", "#73c3dd", "#77d870", "#fff55e", "#fcbe53", "#ff4949"];
 
@@ -139,7 +141,7 @@ export default class Game {
 
 	newMessage(message) {
 		if (this.username !== message.player) {
-			this.chat.addMessage(message.player, message.answer, message.color);
+			this.chat.addMessage(message.player, message.answer, this.colors[message.color]);
 		}
 	}
 

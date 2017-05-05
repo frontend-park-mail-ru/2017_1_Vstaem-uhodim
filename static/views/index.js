@@ -111,7 +111,7 @@ export default class IndexView extends BaseView {
 			]
 		});
 
-		this.windowMenuNotAuthorized = new WindowMenu({title: "Присоединяетесь, чтобы поиграть!", menu: this.notAuthorizedMenu});
+		this.windowMenuNotAuthorized = new WindowMenu({title: "Присоединяйтесь, чтобы поиграть!", menu: this.notAuthorizedMenu});
 		this.windowMenuNotAuthorized.render();
 
 		this.el.appendChild(this.windowMenuNotAuthorized.el);

@@ -25,7 +25,7 @@ export default class SinglePlayerStrategy extends GameStrategy {
 		this.mediator.publish("SHOW_RULES");
 		function starting() {
 			this.mediator.publish("START_SINGLE_PAINTING", content);
-			this.mediator.publish("START_TIMER");
+			this.mediator.publish("START_TIMER", content.timer);
 			this.mediator.publish("ENABLE_CHAT");
 		}
 

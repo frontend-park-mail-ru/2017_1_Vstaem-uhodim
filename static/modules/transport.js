@@ -20,10 +20,14 @@ export default class Transport {
 			this.connected = true;
 			this.ws.onmessage = this.handleMessage.bind(this);
 
-			//this.interval = setInterval(() => this.ws.send(JSON.stringify({type: 0, content: "update"})), 10 * 1000);
+
+			this.interval = setInterval(
+				(() => {
+					this.send("UPDATE");
+				}).bind(this), 5000);
 
 			this.ws.onclose = function () {
-				//clearInterval(this.interval);
+				clearInterval(this.interval);
 			};
 		}
 	}
@@ -35,7 +39,6 @@ export default class Transport {
 	}
 
 	async send(type, payload = {}) {
-		//console.log({type: type, content: payload});
 		if (!this.connected) {
 			setTimeout(() => {
 				if (this.count > 20) {
@@ -46,6 +49,7 @@ export default class Transport {
 			}, 1000)
 		}
 		else {
+			//console.log({type: type, content: payload});
 			this.ws.send(JSON.stringify({type: type, content: payload}));
 		}
 	}
