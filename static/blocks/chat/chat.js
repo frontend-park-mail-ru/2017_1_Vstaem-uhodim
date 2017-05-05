@@ -1,6 +1,6 @@
 "use strict";
 
-import "./chat.css";
+import "./chat.scss";
 
 
 const [CustomEvent] = [window.CustomEvent];

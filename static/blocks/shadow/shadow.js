@@ -1,6 +1,6 @@
 "use strict";
 
-import "./shadow.css";
+import "./shadow.scss";
 
 
 export default class WindowMenu {

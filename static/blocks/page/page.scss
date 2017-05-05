@@ -1,0 +1,142 @@
+.page {
+    z-index: 1;
+    min-width: 320px;
+    box-sizing: border-box;
+    background: linear-gradient(#dbdbdb, transparent 1px), linear-gradient(90deg, #dbdbdb, transparent 1px), linear-gradient(90deg, #ffbaba 2px, transparent 1px) repeat-y;
+    background-size: 15px 15px;
+    position: relative;
+    background-color: #fafafa;
+    border-radius: 20px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border: 3px double #b1b1b1;
+    padding: 2%;
+    @media screen and (min-width: 1000px){
+        min-height: 660px;
+        height: 93%;
+    }
+    @media screen and (max-width: 1000px) {
+        margin: 15px 10%;
+        display: block;
+        float: none;
+        width: 80%;
+        height: auto;
+    }
+    @media screen and (max-width: 500px) {
+        margin: 0;
+        width: 100%;
+        font-size: 50%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    &_type_left {
+        margin-right: 0%;
+        background-position: 10%;
+        @media screen and (min-width: 1000px) {
+            margin-left: 5%;
+            display: inline-block;
+            float: left;
+            width: 45%;
+            border-radius: 10px 0px 0px 10px;
+        }
+        @media screen and (max-width: 1000px) {
+            border-radius: 10px 10px 0px 0px;
+            margin-bottom: 0;
+            border-bottom: none;
+            height: 29%;
+            min-height: 205px;
+        }
+        @media screen and (max-width: 500px) {
+            height: 30%;
+            min-height: 120px;
+        }
+    }
+    &_type_right {
+        margin-right: 5%;
+        background-position: 92%;
+        @media screen and (min-width: 1000px) {
+            display: inline-block;
+            margin-left: 0%;
+            float: left;
+            width: 45%;
+            border-radius: 0px 10px 10px 0px;
+        }
+        @media screen and (max-width: 1000px) {
+            border-radius: 0px 0px 10px 10px;
+            background-position: 10%;
+            margin-top: 0;
+            border-top: none;
+            height: 67%;
+            min-height: 500px;
+        }
+        @media screen and (max-width: 500px) {
+            min-height: 330px;
+            height: 70%;
+        }
+    }
+    &_type_single {
+        margin: auto;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        border-radius: 10px 10px 10px 10px;
+        background-position: 10%;
+        padding-bottom: 20px;
+        @media screen and (min-width: 1000px) {
+            float: none;
+            width: 50%;
+        }
+        @media screen and (max-width: 1000px) {
+            height: 100%;
+            margin: auto;
+            min-height: 560px;
+        }
+        @media screen and (max-width: 500px) {
+            min-height: 500px;
+        }
+    }
+    &_type_game {
+        @media screen and (min-width: 1000px) {
+            width: 80%;
+            margin-left: 10%;
+            padding: 10px;
+        }
+        @media screen and (max-width: 1000px) {
+            width: 96%;
+            margin-left: 2%;
+            padding: 5px;
+            height: 100%;
+        }
+        @media screen and (max-width: 700px) {
+            width: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+    }
+    &__title {
+        text-align: center;
+        font-size: 300%;
+        color: #7a3001;
+        margin-top: 10px;
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+        &_main {
+            text-align: center;
+            font-size: 500%;
+            color: #7a3001;
+            font-family: 'Pangolin', cursive;
+            margin-top: 10px;
+        }
+    }
+    &__notification {
+        margin: auto;
+        width: 70%;
+        text-align: center;
+        border-radius: 10px;
+        border: 1px solid #a6ff8e;
+        padding: 5px;
+        color: black;
+        font-size: 110%;
+        background-color: #d8ffce;
+        opacity: 0.7;
+    }
+}

@@ -1,0 +1,185 @@
+.palette {
+  position: absolute;
+  margin: auto;
+  top: 100px;
+  z-index: 3;
+  width: 220px;
+  height: 220px;
+  background: #eacb9a;
+  border-radius: 130px;
+  border: 2px solid #d3b689;
+  &__container {
+    pointer-events: none;
+    position: absolute;
+    left: 11%;
+    top: 39%;
+    padding-left: 58%;
+    width: 21%;
+    height: 23%;
+    animation: appear 0.91s infinite;
+    &_color_purple {
+      transform: rotate(0deg);
+    }
+    &_color_blue {
+      transform: rotate(51deg);
+      animation-delay: 0.13s;
+    }
+    &_color_cyan {
+      transform: rotate(102deg);
+      animation-delay: 0.26s;
+    }
+    &_color_green {
+      transform: rotate(154deg);
+      animation-delay: 0.39s;
+    }
+    &_color_yellow {
+      transform: rotate(205deg);
+      animation-delay: 0.52s;
+    }
+    &_color_orange {
+      transform: rotate(257deg);
+      animation-delay: 0.65s;
+    }
+    &_color_red {
+      transform: rotate(308deg);
+      animation-delay: 0.78s;
+    }
+  }
+  &__spot {
+    pointer-events: auto;
+    position: absolute;
+    border-radius: 50%;
+    width: 28%;
+    height: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    &_color_purple {
+      background: #826899;
+    }
+    &_color_blue {
+      background: #736af2;
+    }
+    &_color_cyan {
+      background: #73c3dd;
+    }
+    &_color_green {
+      background: #77d870;
+    }
+    &_color_yellow {
+      background: #fff55e;
+    }
+    &_color_orange {
+      background: #fcbe53;
+    }
+    &_color_red {
+      background: #ff4949;
+    }
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}:root {
+   --angle: 0;
+ }
+
+.palette {
+  width: 220px;
+  height: 220px;
+  background: #eacb9a;
+  border-radius: 130px;
+  position: relative;
+  border: 2px solid #d3b689;
+  &__container {
+    pointer-events: none;
+    position: absolute;
+    left: 11%;
+    top: 39%;
+    padding-left: 58%;
+    width: 21%;
+    height: 23%;
+    animation: appear 0.91s infinite;
+    &_color_purple {
+      transform: rotate(0deg);
+    }
+    &_color_blue {
+      transform: rotate(51deg);
+      animation-delay: 0.13s;
+    }
+    &_color_cyan {
+      transform: rotate(102deg);
+      animation-delay: 0.26s;
+    }
+    &_color_green {
+      transform: rotate(154deg);
+      animation-delay: 0.39s;
+    }
+    &_color_yellow {
+      transform: rotate(205deg);
+      animation-delay: 0.52s;
+    }
+    &_color_orange {
+      transform: rotate(257deg);
+      animation-delay: 0.65s;
+    }
+    &_color_red {
+      transform: rotate(308deg);
+      animation-delay: 0.78s;
+    }
+  }
+  &__spot {
+    pointer-events: auto;
+    position: absolute;
+    border-radius: 50%;
+    width: 28%;
+    height: 100%;
+    &_color_purple {
+      background: #826899;
+    }
+    &_color_blue {
+      background: #736af2;
+    }
+    &_color_cyan {
+      background: #73c3dd;
+    }
+    &_color_green {
+      background: #77d870;
+    }
+    &_color_yellow {
+      background: #fff55e;
+    }
+    &_color_orange {
+      background: #fcbe53;
+    }
+    &_color_red {
+      background: #ff4949;
+    }
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.preloader {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: #f1f1f1;
+}

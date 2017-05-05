@@ -13,6 +13,7 @@ export default class IndexView extends BaseView {
 	async update() {
 		const user = await this.currentUser();
 		this.userArea.update(user);
+		this.mediator.publish("VIEW_LOADED");
 	}
 
 	async render() {
@@ -35,6 +36,7 @@ export default class IndexView extends BaseView {
 				else {
 					indexLeftPage.el.appendChild(this.userArea.el);
 				}
+				this.mediator.publish("VIEW_LOADED");
 			});
 
 		this.image = new ImageCroc();
@@ -109,7 +111,7 @@ export default class IndexView extends BaseView {
 			]
 		});
 
-		this.windowMenuNotAuthorized = new WindowMenu({title: "Присоединяетесь, чтобы поиграть!", menu: this.notAuthorizedMenu});
+		this.windowMenuNotAuthorized = new WindowMenu({title: "Присоединяйтесь, чтобы поиграть!", menu: this.notAuthorizedMenu});
 		this.windowMenuNotAuthorized.render();
 
 		this.el.appendChild(this.windowMenuNotAuthorized.el);
@@ -121,7 +123,18 @@ export default class IndexView extends BaseView {
 				{
 					text: "Играть одному",
 					href: "/game",
-					wide: true
+					wide: true,
+					click: (() => {
+						this.mediator.publish("SET_GAME_MODE", "single");
+					}).bind(this)
+				},
+				{
+					text: "Играть",
+					href: "/game",
+					wide: true,
+					click: (() => {
+						this.mediator.publish("SET_GAME_MODE", "multi");
+					}).bind(this)
 				},
 				{
 					text: "Найти комнату",

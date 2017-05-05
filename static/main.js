@@ -1,5 +1,9 @@
 "use strict";
 
+import "whatwg-fetch";
+import "./css/style.scss";
+import "./css/fonts.scss";
+
 import IndexView from "./views/index.js";
 import GameView from "./views/game.js";
 import AboutView from "./views/about.js";
@@ -57,9 +61,23 @@ router.register("/logout", logoutView, false);
 router.start();
 
 document.addEventListener("redirect", event => {
-	router.go(event.detail, true);
+	if(event.detail === "/logout") {
+		router.go(event.detail, true);
+	}
+	else {
+		router.go(event.detail);
+	}
 });
 
 const [location] = [window.location];
 router.go(location.pathname, false, true);
+
+
+navigator.serviceWorker.register("/service_worker.js", { scope: "/" })
+	.then((registration) => {
+		//console.log('ServiceWorker registration', registration);
+	})
+	.catch((error) => {
+		throw new Error(`ServiceWorker error: ${error}`);
+	});
 

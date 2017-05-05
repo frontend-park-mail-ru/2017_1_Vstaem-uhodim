@@ -1,5 +1,5 @@
 "use strict";
-import "./text_paragraph.css";
+import "./text_paragraph.scss";
 
 export default class TextParagraph {
 	constructor({text, title = ""}) {

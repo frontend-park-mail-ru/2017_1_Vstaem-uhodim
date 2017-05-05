@@ -14,10 +14,7 @@
     border-radius: 3px;
     text-align: center;
     opacity: 0.8;
-}
-
-@media screen and (max-width: 500px) {
-    .user-area {
+    @media screen and (max-width: 500px) {
         width: 75%;
         padding-left: 0;
         padding-right: 0;
@@ -25,10 +22,7 @@
         box-shadow: none;
         border-radius: 10px;
     }
-}
-
-@media screen and (max-width: 300px) {
-    .user-area {
+    @media screen and (max-width: 300px) {
         width: 98%;
     }
 }

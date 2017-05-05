@@ -10,10 +10,22 @@ import Menu from "../blocks/menu/menu.js";
 import Timer from "../blocks/timer/timer.js";
 import Game from "../modules/game/game.js";
 import SinglePlayerStrategy from "../modules/game/singleplayer_strategy.js";
+import MultiPlayerStrategy from "../modules/game/multiplayer_strategy.js";
 
 const [CustomEvent] = [window.CustomEvent];
 
 export default class GameView extends BaseView {
+	constructor(el) {
+		super(el);
+		this.mediator.subscribe("SET_GAME_MODE", (mode) => {
+			if (mode === "single") {
+				this.strategy = SinglePlayerStrategy;
+			}
+			if (mode === "multi") {
+				this.strategy = MultiPlayerStrategy;
+			}
+		});
+	}
 
 	render() {
 		this.shadow = new Shadow();
@@ -27,13 +39,17 @@ export default class GameView extends BaseView {
 				{
 					text: "Новая игра!",
 					action: true,
-					id: "js-index-game",
-					href: "/game"
+					click: (()=> {
+						this.windowMenu.el.hidden = true;
+						this.shadow.el.hidden = true;
+						this.mediator.publish("NEW_SP_GAME");
+					}).bind(this)
 				},
 				{
 					text: "На главную",
 					action: false,
-					href: "/"
+					href: "/",
+					click: (() => { this.mediator.publish("EXIT"); }).bind(this)
 				}
 			]
 		});
@@ -49,7 +65,8 @@ export default class GameView extends BaseView {
 			controls: [
 				{
 					text: "&#8630",
-					href: ""
+					href: "",
+					click: (() => { this.mediator.publish("EXIT"); }).bind(this)
 				}
 			]
 		});
@@ -62,21 +79,23 @@ export default class GameView extends BaseView {
 		this.timer.render();
 		gameSinglePage.el.appendChild(this.timer.el);
 
-		this.canvas = new Canvas();
+		this.canvas = new Canvas({});
 		this.canvas.render();
 		gameSinglePage.el.appendChild(this.canvas.el);
 
 		this.chat = new Chat();
 		this.chat.render();
+
+		this.chat.input.hidden = true;
+		this.chat.submit.hidden = true;
+
 		gameSinglePage.el.appendChild(this.chat.el);
 		this.chat.el.addEventListener("submit", () => {
 			if (this.chat.getMessage() !== "") {
-				this.chat.addMessage("Вы", this.chat.getMessage(), "black");
+				this.chat.addMessage(this.game.username, this.chat.getMessage(), this.game.color || "black");
 				this.chat.resetMessage();
 			}
 		});
-
-		this.game = new Game(SinglePlayerStrategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu);
 	}
 
 	async show() {
@@ -85,13 +104,13 @@ export default class GameView extends BaseView {
 		this.windowMenu.el.hidden = true;
 
 		const user = await this.currentUser();
-		if (user.type === "authorized") {
-			this.game.start();
-		}
-		else {
+		if (this.strategy === undefined) {
 			document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
 		}
+		else {
+			this.game = new Game(this.strategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu);
+			this.game.username = user.nickname;
+		}
 	}
-
 
 }

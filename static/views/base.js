@@ -1,9 +1,16 @@
 import HTTP from "../modules/http.js";
+import Mediator from "../modules/mediator.js";
+import Preloader from "../blocks/preloader/preloader.js";
 
 export default class BaseView {
 	constructor(node) {
 		this.el = node;
 		this.rendered = false;
+		this.mediator = new Mediator();
+
+		this.preloader = new Preloader();
+
+		this.mediator.subscribe("VIEW_LOADED", this.hidePreloader.bind(this));
 	}
 
 	async currentUser() {
@@ -27,15 +34,26 @@ export default class BaseView {
 		}
 	}
 
+	showPreloader() {
+		this.preloader.el.hidden = false;
+	}
+
+	hidePreloader() {
+		this.preloader.stopAnimation();
+		this.preloader.el.hidden = true;
+	}
+
 	show() {
+		this.showPreloader();
 		if (!this.rendered) {
 			this.render();
 			this.rendered = true;
+			this.el.hidden = false;
 		}
 		else {
 			this.update();
+			this.el.hidden = false;
 		}
-		this.el.hidden = false;
 	}
 
 	hide() {
@@ -43,6 +61,6 @@ export default class BaseView {
 	}
 
 	update() {
-
+		this.mediator.publish("VIEW_LOADED");
 	}
 }

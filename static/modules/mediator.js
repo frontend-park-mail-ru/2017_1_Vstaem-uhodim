@@ -6,30 +6,35 @@ export default class Mediator {
 			return Mediator.__instance;
 		}
 
-		this.channels = [];
+		this.channels = new Map();
 
 
 		Mediator.__instance = this;
 	}
 
 	subscribe(name, func) {
-		if (!this.channels[name]) {
-			this.channels[name] = [];
+		if (!this.channels.get(name)) {
+			this.channels.set(name, []);
 		}
-		this.channels[name].push(func);
+		this.channels.get(name).push(func);
 		return this;
 	}
 
 	publish(name, payload = null) {
-		if (!this.channels[name]) {
+		if (!this.channels.get(name)) {
 			return;
 		}
-		this.channels[name].forEach(func => {
+		this.channels.get(name).forEach(func => {
 			func(payload);
 		});
 	}
 
-	//unsubscribe(name, func) {
-	//}
+	unsubscribe(name, f) {
+		if (!this.channels.get(name)) {
+			return;
+		}
+		this.channels.get(name).splice(this.channels.get(name).indexOf(f), 1);
+		return;
+	}
 
 }

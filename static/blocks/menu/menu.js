@@ -1,6 +1,6 @@
 "use strict";
 
-import "./menu.css";
+import "./menu.scss";
 import Button from "../button/button.js";
 
 export default class Menu {
@@ -11,12 +11,10 @@ export default class Menu {
 
 	setControls() {
 		this.controls.forEach(control => {
-			const htmlClass = null;
 
 			const controlEl = new Button({
 				text: control.text,
 				attrs: {
-					class: htmlClass,
 					id: control.id,
 					href: control.href
 				}

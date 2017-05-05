@@ -1,6 +1,6 @@
 "use strict";
 
-import "./window_menu.css";
+import "./window_menu.scss";
 
 export default class WindowMenu {
 	constructor({title, menu}) {

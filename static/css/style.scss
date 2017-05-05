@@ -1,9 +1,23 @@
-@import url('https://fonts.googleapis.com/css?family=Pangolin');
-@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+/*@import url('https://fonts.googleapis.com/css?family=Pangolin&subset=cyrillic');*/
 
 body {
     margin: 0;
     user-select: none;
+}
+
+html, body, .fix-height {
+    height: 100%;
+    width: 100%;
+}
+
+@media (max-width: 700px) {
+    body {
+        position:fixed;
+    }
+}
+
+@viewport {
+    user-zoom: fixed;
 }
 
 .background {
@@ -13,7 +27,10 @@ body {
     background: #f1f1f1;
     font-family: 'Pangolin', cursive;
     letter-spacing: 3px;
-    position: absolute
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    overflow-x: hidden;
 }
 
 .palette__color {

@@ -1,6 +1,6 @@
 "use strict";
 
-import "./form.css";
+import "./form.scss";
 import template from "./form.pug";
 import Button from "../button/button.js";
 
@@ -80,7 +80,7 @@ export default class Form {
 
 			this.resetError(input);
 			if (input.value === "") {
-				this.showFieldError(input, "Поле обязательно для заполнения");
+				this.showFieldError(input, "Заполните поле");
 				hasError = true;
 				return;
 			}
@@ -95,7 +95,7 @@ export default class Form {
 				case "password":
 					password = input;
 					if (input.value.length <= 5) {
-						this.showFieldError(input, "Пароль должен содержать более 5 символов");
+						this.showFieldError(input, "Пароль должен содержать 6 и более символов");
 						hasError = true;
 					}
 					else {

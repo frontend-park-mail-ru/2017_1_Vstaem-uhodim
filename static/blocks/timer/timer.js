@@ -1,5 +1,5 @@
 "use strict";
-import "./timer.css";
+import "./timer.scss";
 const [CustomEvent] = [window.CustomEvent];
 
 export default class Timer {
@@ -12,15 +12,15 @@ export default class Timer {
 		return this;
 	}
 
-	setStartValue(startValue) {
-		this.startValue = startValue;
+	setMessage(message) {
+		this.el.innerHTML = "Игра скоро начнется...";
 	}
 
 	updateTime() {
 		if (this.value === 0 ) {
 			this.el.dispatchEvent(new CustomEvent("stop"));
 		}
-		if (Number.isInteger(this.value)) {
+		if (Number.isInteger(this.value) && this.value > 0) {
 			const sec = `0${this.value % 60}`.slice(-2);
 			this.el.innerHTML = `${this.value / 60 | 0}:${sec}`;
 		}
@@ -29,26 +29,17 @@ export default class Timer {
 		}
 	}
 
-	start() {
-		this.value = this.startValue;
-		this.stopped = false;
+	start(time) {
+		this.value = time;
 
-		function dec() {
-			if (this.stopped) {
-				this.stopped = false;
-				return;
-			}
+		this.interval = setInterval(() => {
 			this.value -= 1;
 			this.updateTime();
-
-			setTimeout(dec.bind(this), 1000);
-		}
-
-		dec.bind(this)();
+		}, 1000);
 	}
 
 	stop() {
-		this.stopped = true;
-		this.el.innerHTML = "Игра скоро начнется...";
+		clearInterval(this.interval);
+		this.setMessage("Игра скоро начнется...")
 	}
 }

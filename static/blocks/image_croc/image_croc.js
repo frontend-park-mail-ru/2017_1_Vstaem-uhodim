@@ -1,6 +1,6 @@
 "use strict";
 
-import "./image_croc.css";
+import "./image_croc.scss";
 import template from "./image_croc.pug";
 
 export default class ImageCroc {
@@ -13,11 +13,13 @@ export default class ImageCroc {
 		const tail = this.el.querySelector("#tail");
 		const main = this.el;
 
-		main.style.height = `${main.offsetWidth}px`;
+		//let height = main.offsetWidth;
+		const height = 320;
 
-		tail.style.borderWidth = `${(main.offsetWidth * 110 / 360)}px`;
-		tail.style.borderBottomWidth = `${(main.offsetWidth * 60 / 360)}px`;
-		tail.style.borderRightWidth = `${(main.offsetWidth * 60 / 360)}px`;
+		main.style.height = `${height}px`;
+		tail.style.borderWidth = `${(height * 110 / 360)}px`;
+		tail.style.borderBottomWidth = `${(height * 60 / 360)}px`;
+		tail.style.borderRightWidth = `${(height * 60 / 360)}px`;
 	}
 
 	render() {

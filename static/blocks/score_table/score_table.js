@@ -1,6 +1,6 @@
 "use strict";
 
-import "./score_table.css";
+import "./score_table.scss";
 import template from "./score_table.pug";
 
 export default class ScoreTable {
