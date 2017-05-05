@@ -11,12 +11,10 @@ export default class Menu {
 
 	setControls() {
 		this.controls.forEach(control => {
-			const htmlClass = null;
 
 			const controlEl = new Button({
 				text: control.text,
 				attrs: {
-					class: htmlClass,
 					id: control.id,
 					href: control.href
 				}

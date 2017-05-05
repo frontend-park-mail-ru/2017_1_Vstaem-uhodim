@@ -61,7 +61,12 @@ router.register("/logout", logoutView, false);
 router.start();
 
 document.addEventListener("redirect", event => {
-	router.go(event.detail, true);
+	if(event.detail === "/logout") {
+		router.go(event.detail, true);
+	}
+	else {
+		router.go(event.detail);
+	}
 });
 
 const [location] = [window.location];

@@ -55,7 +55,7 @@ export default class Preloader {
 		}).bind(this))
 	}
 	stopAnimation() {
-		document.body.style.background = "#f1f1f1";
+		this.el.style.background = "#f1f1f1";
 		this.spots.forEach(((el) => {
 			el.addEventListener("click", (() => {
 				el.style.animationPlayState = "paused";

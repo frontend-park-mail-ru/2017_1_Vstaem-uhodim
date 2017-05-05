@@ -15,7 +15,9 @@ export default class Button {
 
 	setAttrs(attrs) {
 		Object.keys(attrs).forEach(name => {
-			this.el.setAttribute(name, this.attrs[name]);
+			if (this.attrs[name] !== undefined) {
+				this.el.setAttribute(name, this.attrs[name]);
+			}
 		});
 	}
 

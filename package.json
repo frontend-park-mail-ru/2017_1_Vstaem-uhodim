@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint static",
     "test": "npm run lint && npm run webpack",
-    "start": "npm run webpack && node server.js",
+    "start": "node server.js",
     "webpack": "webpack --config webpack.config.js"
   },
   "repository": {

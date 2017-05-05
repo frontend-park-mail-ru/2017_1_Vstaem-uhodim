@@ -59,13 +59,13 @@ export default class Canvas {
 
 		if (word !== null) {
 			this.context.font = "27px Pangolin";
-			this.context.fillText(`Изобразите: ${word}`, this.el.offsetWidth / 2 - 150, 30);
+			this.context.fillText(`Изобразите: ${word}`, this.el.width / 2 - 150, 30);
 		}
 		this.isPainting = false;
 
 		this.context.strokeStyle = "black";
 		this.context.lineJoin = "round";
-		this.context.lineWidth = 5;
+		this.context.lineWidth = 6;
 
 
 		this.el.addEventListener("touchstart", ((e) => {
@@ -77,6 +77,7 @@ export default class Canvas {
 		}).bind(this), false);
 
 		this.el.addEventListener("touchmove", ((e) => {
+			e.preventDefault();
 			const mouseEvent = new MouseEvent("mousemove", {
 				clientX: e.touches[0].clientX,
 				clientY: e.touches[0].clientY
@@ -141,13 +142,14 @@ export default class Canvas {
 	}
 
 	drawPictureByPoints(points) {
-		this.el.width = this.el.offsetWidth;
-		this.el.height = this.el.offsetHeight;
+		this.fixSize();
+		//this.el.width = this.el.offsetWidth;
+		//this.el.height = this.el.offsetHeight;
 		this.context = this.el.getContext("2d");
 
 		this.context.lineJoin = "round";
 		this.context.lineCap = "round";
-		this.context.lineWidth = 4;
+		this.context.lineWidth = 6;
 
 
 		let number = 0;
@@ -166,8 +168,8 @@ export default class Canvas {
 				this.context.moveTo(points[number].x * this.el.width, points[number].y * this.el.height);
 			}
 			if (!points[number + 1].down) {
-				//this.context.lineTo(points[number + 1].x * this.el.width, points[number + 1].y * this.el.height);
-				this.context.quadraticCurveTo(0, 0, points[number + 1].x * this.el.width, points[number + 1].y * this.el.height);
+				this.context.lineTo(points[number + 1].x * this.el.width, points[number + 1].y * this.el.height);
+				//this.context.quadraticCurveTo(0, 0, points[number + 1].x * this.el.width, points[number + 1].y * this.el.height);
 			}
 			this.context.stroke();
 			if (number + 3 > points.length) {
@@ -193,10 +195,16 @@ export default class Canvas {
 		this.x2 = null;
 	}
 
+	fixSize() {
+		this.el.width = 1.5 * this.el.offsetWidth;
+		this.el.height = 1.5 * this.el.offsetHeight;
+	}
+
 	addPoint(point) {
 		this.context = this.el.getContext("2d");
 		this.context.lineCap = "round";
 		this.context.lineJoin = "round";
+		this.context.lineWidth = 6;
 
 		if (this.x1 === null) {
 			this.x1 = point;

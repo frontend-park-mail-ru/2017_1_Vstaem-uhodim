@@ -17,10 +17,6 @@ export default class UserArea {
 			this.el.innerHTML = template({authorized: true, nickname: this.nickname, score: this.score});
 			this.el.id = "js-index-userareaLogin";
 
-			this.el.querySelector("#js-index-logout").addEventListener("click", function (event) {
-				event.preventDefault();
-				this.el.dispatchEvent(new Event("logout"));
-			});
 		}
 		if (this.type === "notAuthorized") {
 

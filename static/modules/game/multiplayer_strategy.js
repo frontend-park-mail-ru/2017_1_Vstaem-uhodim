@@ -54,18 +54,28 @@ export default class MultiPlayerStrategy extends GameStrategy {
 		this.mediator.publish("STOP_TIMER");
 		this.mediator.publish("DISABLE_PAINTING");
 		this.mediator.publish("SHOW_MP_RESULT", content);
-		setTimeout(() => {
+		this.timeout = setTimeout(() => {
 			this.transport.send("START_MP_GAME");
 			this.mediator.publish("LOADING");
 		}, 5000);
 	}
 
 	exit() {
+		clearTimeout(this.timeout);
 		this.transport.send("EXIT", {});
 		//this.transport.close();
 		this.mediator.publish("STOP_TIMER");
 		this.mediator.publish("DISABLE_PAINTING");
 		this.mediator.publish("HIDE_RESULT");
+		this.unsubscribe();
+	}
 
+	unsubscribe() {
+		this.mediator.unsubscribe("START_MP_GAME", this.startGame.bind(this));
+		this.mediator.unsubscribe("NEW_POINT", this.newPoint.bind(this));
+		this.mediator.unsubscribe("GET_ANSWER", this.newMessage.bind(this));
+		this.mediator.unsubscribe("STOP_GAME", this.stopGame.bind(this));
+		this.mediator.unsubscribe("EXIT", this.exit.bind(this));
+		this.mediator.publish("DELETE_GAME");
 	}
 }

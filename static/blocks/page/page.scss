@@ -104,13 +104,11 @@
             width: 96%;
             margin-left: 2%;
             padding: 5px;
-            min-height: 660px;
             height: 100%;
         }
         @media screen and (max-width: 700px) {
             width: 100%;
             margin: 0;
-            min-height: 550px;
             overflow: hidden;
         }
     }

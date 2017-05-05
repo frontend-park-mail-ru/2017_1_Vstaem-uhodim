@@ -35,6 +35,7 @@ export default class Game {
 		this.mediator.subscribe("HIDE_RESULT", this.hideResult.bind(this));
 		this.mediator.subscribe("RESET_CHAT", this.resetChat.bind(this));
 		this.mediator.subscribe("DRAW_ONE_POINT", this.drawPoint.bind(this));
+		this.mediator.subscribe("DELETE_GAME", this.del.bind(this));
 
 		this.chat.el.addEventListener("submit", async (event) => {
 			this.transport.send("GET_ANSWER", {answer: event.detail});
@@ -45,6 +46,8 @@ export default class Game {
 		});
 
 		this.colors = ["#736af2", "#73c3dd", "#77d870", "#fff55e", "#fcbe53", "#ff4949"];
+
+		this.canvas.fixSize();
 
 	}
 
@@ -143,5 +146,26 @@ export default class Game {
 
 	drawPoint(point) {
 		this.canvas.addPoint(point);
+	}
+
+	del() {
+		this.mediator.unsubscribe("START_TIMER", this.startTimer.bind(this));
+		this.mediator.unsubscribe("START_SINGLE_PAINTING", this.startSinglePainting.bind(this));
+		this.mediator.unsubscribe("STOP_TIMER", this.stopTimer.bind(this));
+		this.mediator.unsubscribe("STOP_SINGLE_PAINTING", this.stopSinglePainting.bind(this));
+		this.mediator.unsubscribe("SHOW_SP_RESULT", this.showSPResult.bind(this));
+		this.mediator.unsubscribe("SHOW_RULES", this.showRules.bind(this));
+
+		this.mediator.unsubscribe("DISABLE_CHAT", this.disableChat.bind(this));
+		this.mediator.unsubscribe("ENABLE_CHAT", this.enableChat.bind(this));
+		this.mediator.unsubscribe("ENABLE_PAINTING", this.enablePainting.bind(this));
+		this.mediator.unsubscribe("DISABLE_PAINTING", this.disablePainting.bind(this));
+		this.mediator.unsubscribe("ADD_PLAYER", this.addPlayer.bind(this));
+		this.mediator.unsubscribe("NEW_MESSAGE", this.newMessage.bind(this));
+		this.mediator.unsubscribe("SHOW_MP_RESULT", this.showMPResult.bind(this));
+		this.mediator.unsubscribe("HIDE_RESULT", this.hideResult.bind(this));
+		this.mediator.unsubscribe("RESET_CHAT", this.resetChat.bind(this));
+		this.mediator.unsubscribe("DRAW_ONE_POINT", this.drawPoint.bind(this));
+		this.mediator.unsubscribe("DELETE_GAME", this.del.bind(this));
 	}
 }

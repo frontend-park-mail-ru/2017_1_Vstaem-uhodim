@@ -11,7 +11,7 @@ module.exports = [{
 		filename: "build_[name].js",
 		path: path.resolve(__dirname, "static")
 	},
-	devtool: "cheap-eval-source-map",
+	//devtool: "cheap-eval-source-map",
 
 	//watch: true,
 

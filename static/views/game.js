@@ -48,7 +48,8 @@ export default class GameView extends BaseView {
 				{
 					text: "На главную",
 					action: false,
-					href: "/"
+					href: "/",
+					click: (() => { this.mediator.publish("EXIT"); }).bind(this)
 				}
 			]
 		});
@@ -103,12 +104,12 @@ export default class GameView extends BaseView {
 		this.windowMenu.el.hidden = true;
 
 		const user = await this.currentUser();
-		if (user.type === "authorized") {
-			this.game = new Game(this.strategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu);
-			this.game.username = user.nickname;
+		if (this.strategy === undefined) {
+			document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
 		}
 		else {
-			document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
+			this.game = new Game(this.strategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu);
+			this.game.username = user.nickname;
 		}
 	}
 

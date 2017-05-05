@@ -30,10 +30,12 @@ export default class Transport {
 
 	handleMessage(event) {
 		const message = JSON.parse(event.data);
+		//console.log({type1: message.type, content1: message.content });
 		this.mediator.publish(message.type, message.content);
 	}
 
 	async send(type, payload = {}) {
+		//console.log({type: type, content: payload});
 		if (!this.connected) {
 			setTimeout(() => {
 				if (this.count > 20) {

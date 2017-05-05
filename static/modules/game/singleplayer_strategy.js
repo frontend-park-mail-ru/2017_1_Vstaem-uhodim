@@ -10,6 +10,7 @@ export default class SinglePlayerStrategy extends GameStrategy {
 		this.mediator.subscribe("START_SP_GAME", this.startGame.bind(this));
 		this.mediator.subscribe("STOP_GAME", this.stopGame.bind(this));
 		this.mediator.subscribe("NEW_SP_GAME", this.newSPGame.bind(this));
+		this.mediator.subscribe("EXIT", this.exit.bind(this));
 
 		this.mediator.publish("NEW_SP_GAME");
 	}
@@ -35,6 +36,18 @@ export default class SinglePlayerStrategy extends GameStrategy {
 		this.mediator.publish("STOP_TIMER");
 		this.mediator.publish("STOP_SINGLE_PAINTING");
 		this.mediator.publish("SHOW_SP_RESULT", content.result);
+	}
+
+	exit() {
+		this.unsubscribe();
+		this.mediator.publish("DELETE_GAME");
+	}
+
+	unsubscribe() {
+		this.mediator.unsubscribe("START_SP_GAME", this.startGame.bind(this));
+		this.mediator.unsubscribe("STOP_GAME", this.stopGame.bind(this));
+		this.mediator.unsubscribe("NEW_SP_GAME", this.newSPGame.bind(this));
+		this.mediator.unsubscribe("EXIT", this.exit.bind(this));
 	}
 
 }
