@@ -23,7 +23,7 @@ self.addEventListener("install", (event) => {
 	);
 });
 
-self.addEventListener('fetch', (event) => {
+self.addEventListener("fetch", (event) => {
 	event.respondWith(
 		caches.match(event.request).then((cachedResponse) => {
 			if (cachedResponse) {
@@ -31,9 +31,9 @@ self.addEventListener('fetch', (event) => {
 			}
 			return fetch(event.request)
 				.catch(error => {
-					if (event.request.url.split("/")[event.request.url.split("/").length - 1] === "build_main.js") {
+					if (/\/build_main\.js/.test(event.request.url)) {
 						return caches.open(CACHE_NAME).then((cache) => {
-							return cache.match("http://localhost/build_offline.js").then((cachedResponse) => {
+							return cache.match("/build_offline.js").then((cachedResponse) => {
 								return cachedResponse;
 							})
 						});
