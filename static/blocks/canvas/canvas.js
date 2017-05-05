@@ -13,6 +13,7 @@ export default class Canvas {
 		[this.page] = [document.getElementsByClassName("page_type_game")[0]];
 		this.x1 = null;
 		this.x2 = null;
+		this.points = [];
 	}
 
 	render() {
@@ -106,9 +107,12 @@ export default class Canvas {
 		}
 
 		function painting(event) {
+
+
 			if (this.isPainting) {
-				const x = event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft);
-				const y = event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop);
+
+				const x = (event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft))*(this.el.width/this.el.offsetWidth);
+				const y = (event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop))*(this.el.height/this.el.offsetHeight);
 
 
 				this.context.lineTo(x, y);
@@ -124,7 +128,7 @@ export default class Canvas {
 					// remove color
 					this.transport.send("NEW_POINT", {x:(x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3), color: "black"});
 				}
-				//this.transport.send("NEW_POINT", {x:(x/this.el.width).toFixed(6), y: (y/this.el.height).toFixed(6), color: "black"});
+				//this.transport.send("NEW_POINT", {x:(x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3), color: "black"});
 			}
 		}
 
