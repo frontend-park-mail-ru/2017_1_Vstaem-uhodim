@@ -4,7 +4,6 @@ const CACHE_NAME = "cr_app";
 const cacheUrls = [
 	"",
 	"/",
-	"/build_offline.js",
 	"/fonts/pangolin-v1-latin_cyrillic-regular.woff",
 	"/fonts/pangolin-v1-latin_cyrillic-regular.woff2",
 	"/fonts/pangolin-v1-latin_cyrillic-regular.eot",
