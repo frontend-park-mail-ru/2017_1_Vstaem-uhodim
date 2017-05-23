@@ -3,6 +3,13 @@ sudo: required
 language: node_js
 node_js:
 - '7'
+services:
+  - docker
+install: true
+script:
+  - docker login --username=_ --password=$(echo $API_KEY) registry.heroku.com
+  - docker build -t registry.heroku.com/vstaem-dev/web .
+  - docker push registry.heroku.com/vstaem-dev/web
 branches:
   only:
   - master
