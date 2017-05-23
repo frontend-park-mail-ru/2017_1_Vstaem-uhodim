@@ -6,9 +6,6 @@ node_js:
 services:
   - docker
 install: true
-before_script:
-  - npm install
-  - npm run webpack
 script:
   - docker login --username=_ --password=$(echo $API_KEY) registry.heroku.com
   - docker build -t registry.heroku.com/vstaem-dev/web .
