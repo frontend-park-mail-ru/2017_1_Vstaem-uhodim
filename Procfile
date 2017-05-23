@@ -1,1 +1,1 @@
-web: nginx -g 'daemon off;'
+web: echo \"listen $PORT;\" > /etc/nginx/listen.conf && nginx -g 'daemon off;'
