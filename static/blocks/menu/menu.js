@@ -49,7 +49,7 @@ export default class Menu {
 	}
 
 	deleteButton() {
-		let deleted = document.getElementById("new_game");
+		const deleted = document.getElementById("new_game");
 		if (deleted !== null) {
 			this.el.removeChild(document.getElementById("new_game"));
 		}

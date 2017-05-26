@@ -44,8 +44,6 @@ router.start();
 const leaderboardView = new LeaderboardView(leaderboard);
 router.register("/leaderboard", leaderboardView);
 
-
-
 document.addEventListener("redirect", event => {
 	router.go(event.detail);
 });
