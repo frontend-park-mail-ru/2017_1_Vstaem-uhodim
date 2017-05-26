@@ -28,4 +28,8 @@ export default class WindowMenu {
 		this.title.innerHTML = title;
 	}
 
+	removeNewGameButton(id) {
+		this.menu.deleteButton(id);
+	}
+
 }

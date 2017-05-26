@@ -68,7 +68,6 @@ export default class Router {
 				window.history.pushState({id: view.id}, 'Page', path);
 			}
 		}
-
 		this.current = view;
 	}
 }

@@ -14,15 +14,15 @@ export default class UserArea {
 
 	setContent() {
 		if (this.type === "authorized") {
-			this.el.innerHTML = template({authorized: true, nickname: this.nickname, score: this.score});
+			this.el.innerHTML = template({offline: false, authorized: true, nickname: this.nickname, score: this.score});
 			this.el.id = "js-index-userareaLogin";
-
 		}
 		if (this.type === "notAuthorized") {
-
-			this.el.innerHTML = template({authorized: false});
+			this.el.innerHTML = template({offline: false, authorized: false});
 			this.el.id = "js-index-userareaLogout";
-
+		}
+		if (this.type === "offline") {
+			this.el.innerHTML = template({offline: true});
 		}
 	}
 

@@ -12,6 +12,7 @@ import SignupView from "./views/signup.js";
 import LogoutView from "./views/logout.js";
 import LoginView from "./views/login.js";
 import Router from "./modules/router.js";
+import HTTP from "./modules/http.js";
 
 const index = document.getElementById("js-index");
 const signup = document.getElementById("js-signup");
@@ -21,6 +22,7 @@ const game = document.getElementById("js-game");
 const about = document.getElementById("js-about");
 
 const router = new Router();
+const http = new HTTP();
 
 /*-----------------------Index----------------------------*/
 
@@ -80,4 +82,35 @@ navigator.serviceWorker.register("/service_worker.js", { scope: "/" })
 	.catch((error) => {
 		throw new Error(`ServiceWorker error: ${error}`);
 	});
+
+(async function savePictures() {
+	let pictureCacheSize = 5;
+	let picture;
+	let size;
+
+	if (localStorage.getItem("picturesCache") === null);
+
+	if (localStorage.getItem("picturesCache") === null || JSON.parse(localStorage.getItem("picturesCache")).length < pictureCacheSize) {
+		let pictures = [];
+		if (localStorage.getItem("picturesCache") === null) {
+			size = pictureCacheSize;
+			localStorage.setItem("picturesCache", JSON.stringify(pictures));
+		}
+		else {
+			size = pictureCacheSize - JSON.parse(localStorage.getItem("picturesCache")).length;
+		}
+		while (size > 0) {
+			picture = await http.get("rand-dashes/");
+			picture = await picture.json();
+			//debugger;
+			pictures = JSON.parse(localStorage.getItem("picturesCache"));
+			pictures.push(picture);
+			localStorage.setItem("picturesCache", JSON.stringify(pictures));
+			size--;
+		}
+	}
+}());
+
+
+
 
