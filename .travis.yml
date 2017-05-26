@@ -7,6 +7,7 @@ services:
   - docker
 script:
   - npm run webpack
+  - npm run imgo
 branches:
   only:
   - master
