@@ -12,5 +12,3 @@ else
     docker build -t registry.heroku.com/vstaem-dev/web .
     docker push registry.heroku.com/vstaem-dev/web
 fi
-
-
