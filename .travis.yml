@@ -8,8 +8,16 @@ services:
 script:
   - docker login --username=_ --password=$(echo $API_KEY) registry.heroku.com
   - docker build -t registry.heroku.com/vstaem-dev/web .
-  - docker push registry.heroku.com/vstaem-dev/web
 branches:
   only:
   - master
   - development
+deploy:
+  - provider: script
+    script: ./deploy.sh
+    on:
+      branch: development
+  - provider: script
+    script: ./deploy.sh prod
+    on:
+      branch: master
