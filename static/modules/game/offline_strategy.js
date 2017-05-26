@@ -39,7 +39,7 @@ export default class OfflineStrategy extends GameStrategy {
 	}
 
 	checkAnswer(content) {
-		if (this.picture.word == content.answer) {
+		if (this.picture.word === content.answer) {
 			this.mediator.publish("STOP_GAME", {result: 1});
 		}
 	}

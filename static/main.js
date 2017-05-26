@@ -83,8 +83,8 @@ navigator.serviceWorker.register("/service_worker.js", { scope: "/" })
 		throw new Error(`ServiceWorker error: ${error}`);
 	});
 
-(async function savePictures() {
-	let pictureCacheSize = 5;
+async function savePictures() {
+	const pictureCacheSize = 5;
 	let picture;
 	let size;
 
@@ -109,8 +109,6 @@ navigator.serviceWorker.register("/service_worker.js", { scope: "/" })
 			size--;
 		}
 	}
-}());
+}
 
-
-
-
+savePictures();
