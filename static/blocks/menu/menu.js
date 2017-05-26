@@ -47,4 +47,11 @@ export default class Menu {
 		this.el.classList.add("menu");
 		return this;
 	}
+
+	deleteButton() {
+		const deleted = document.getElementById("new_game");
+		if (deleted !== null) {
+			this.el.removeChild(document.getElementById("new_game"));
+		}
+	}
 }

@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint static",
-    "test": "npm run lint && npm run webpack",
-    "start": "npm run webpack && node server.js",
-    "webpack": "webpack --config webpack.config.js"
+    "test": "npm run lint && npm run webpack && npm run imgo",
+    "start": "npm run imgo && npm run webpack && node server.js",
+    "webpack": "webpack -p --config webpack.config.js",
+    "imgo": "imgo -m -b --png *.png"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
     "eslint": "^3.19.0",
     "file-loader": "^0.11.1",
     "glob": "^7.1.1",
+    "imgo": "^3.5.1",
     "postcss-loader": "^1.3.3",
     "precss": "^1.4.0",
     "pug": "^2.0.0-beta11",
