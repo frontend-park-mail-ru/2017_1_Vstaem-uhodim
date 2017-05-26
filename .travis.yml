@@ -13,11 +13,13 @@ branches:
   - development
 deploy:
   - provider: script
-    script: deploy.sh
+    script: "./deploy.sh"
+    skip_cleanup: true
     on:
       branch: development
   - provider: script
     script: deploy.sh prod
+    skip_cleanup: true
     on:
       branch: master
 
