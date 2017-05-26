@@ -1,4 +1,8 @@
-if authorized
+if offline
+    span Привет!
+    br
+    span Подключитесь к сети, чтобы играть с другими пользователями!
+else if authorized
     span Привет, #{nickname}
     br
     span Рейтинг: #{score}

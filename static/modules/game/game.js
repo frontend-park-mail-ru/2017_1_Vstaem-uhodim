@@ -3,8 +3,9 @@
 import Mediator from "../mediator.js";
 import Transport from "../transport.js";
 
+
 export default class Game {
-	constructor(Strategy, username, canvas, chat, timer, shadow, windowMenu) {
+	constructor(Strategy, username, canvas, chat, timer, shadow, windowMenu, mode) {
 
 		this.username = username;
 		this.canvas = canvas;
@@ -12,10 +13,7 @@ export default class Game {
 		this.timer = timer;
 		this.shadow = shadow;
 		this.windowMenu = windowMenu;
-		this.strategy = new Strategy();
 		this.mediator = new Mediator();
-		this.transport = new Transport();
-
 
 		this.mediator.subscribe("START_TIMER", this.startTimer.bind(this));
 		this.mediator.subscribe("START_SINGLE_PAINTING", this.startSinglePainting.bind(this));
@@ -36,8 +34,22 @@ export default class Game {
 		this.mediator.subscribe("DRAW_ONE_POINT", this.drawPoint.bind(this));
 		this.mediator.subscribe("DELETE_GAME", this.del.bind(this));
 
+		this.strategy = new Strategy();
+		if (mode !== "offline") {
+			this.transport = new Transport();
+		}
+		else {
+			this.mode = "offline";
+		}
+
+
 		this.chat.el.addEventListener("submit", async (event) => {
-			this.transport.send("GET_ANSWER", {answer: event.detail.toLowerCase()});
+			if (this.mode === "offline") {
+				this.mediator.publish("GET_ANSWER_OFFLINE", {answer: event.detail.toLowerCase()})
+			}
+			else {
+				this.transport.send("GET_ANSWER", {answer: event.detail.toLowerCase()});
+			}
 		});
 
 		this.timer.el.addEventListener("stop", () => {
@@ -86,8 +98,12 @@ export default class Game {
 		if (result === 0) {
 			title = "Неудача...";
 		}
-		else {
+		if (result === 1) {
 			title = "Вы угадали!";
+		}
+		if (result === 2) {
+			title = "Картинки закончились...";
+			this.windowMenu.removeNewGameButton("new_game");
 		}
 
 		this.windowMenu.setTitle(title);

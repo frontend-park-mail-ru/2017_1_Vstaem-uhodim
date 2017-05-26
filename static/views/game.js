@@ -11,20 +11,25 @@ import Timer from "../blocks/timer/timer.js";
 import Game from "../modules/game/game.js";
 import SinglePlayerStrategy from "../modules/game/singleplayer_strategy.js";
 import MultiPlayerStrategy from "../modules/game/multiplayer_strategy.js";
+import OfflineStrategy from "../modules/game/offline_strategy.js";
 
 const [CustomEvent] = [window.CustomEvent];
 
 export default class GameView extends BaseView {
 	constructor(el) {
 		super(el);
-		this.mediator.subscribe("SET_GAME_MODE", (mode) => {
+		this.mediator.subscribe("SET_GAME_MODE", ((mode) => {
 			if (mode === "single") {
 				this.strategy = SinglePlayerStrategy;
 			}
 			if (mode === "multi") {
 				this.strategy = MultiPlayerStrategy;
 			}
-		});
+			if (mode === "offline") {
+				this.strategy = OfflineStrategy;
+				this.mode = "offline";
+			}
+		}).bind(this));
 	}
 
 	render() {
@@ -37,6 +42,7 @@ export default class GameView extends BaseView {
 		this.menu = new Menu({
 			controls: [
 				{
+					id: "new_game",
 					text: "Новая игра!",
 					action: true,
 					click: (()=> {
@@ -103,12 +109,18 @@ export default class GameView extends BaseView {
 		this.shadow.el.hidden = true;
 		this.windowMenu.el.hidden = true;
 
-		const user = await this.currentUser();
+		if (this.mode === "offline") {
+			this.game = new Game(this.strategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu, "offline");
+			this.game.username = "Вы";
+			return;
+		}
+
 		if (this.strategy === undefined) {
 			document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
 		}
 		else {
 			this.game = new Game(this.strategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu);
+			const user = await this.currentUser();
 			this.game.username = user.nickname;
 		}
 	}
