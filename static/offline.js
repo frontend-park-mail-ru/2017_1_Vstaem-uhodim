@@ -2,6 +2,7 @@
 
 import "./css/style.scss";
 import "./css/fonts.scss";
+import "whatwg-fetch";
 
 import OfflineIndexView from "./views/offline_index.js";
 import AboutView from "./views/about.js";
