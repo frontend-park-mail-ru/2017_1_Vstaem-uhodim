@@ -16,10 +16,10 @@ branches:
   - development
 deploy:
   - provider: script
-    script: ./deploy.sh
+    script: deploy.sh
     on:
       branch: development
   - provider: script
-    script: ./deploy.sh prod
+    script: deploy.sh prod
     on:
       branch: master
