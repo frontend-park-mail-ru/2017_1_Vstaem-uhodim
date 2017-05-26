@@ -1,11 +1,16 @@
-#!/bin/bash
+#!/bin/sh
 
+echo "Start deploy.sh..."
 docker login --username=_ --password=$(echo $API_KEY) registry.heroku.com
 if [[ $1 = "prod" ]]
-    then docker build -t registry.heroku.com/vstaem/web .
+then
+    echo "ENV: production"
+    docker build -t registry.heroku.com/vstaem/web .
     docker push registry.heroku.com/vstaem/web
-  else
+else
+    echo "ENV: development"
     docker build -t registry.heroku.com/vstaem-dev/web .
     docker push registry.heroku.com/vstaem-dev/web
-  fi
+fi
+
 
