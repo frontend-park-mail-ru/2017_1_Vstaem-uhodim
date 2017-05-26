@@ -7,16 +7,19 @@ services:
   - docker
 script:
   - npm run webpack
+  - npm run imgo
 branches:
   only:
   - master
   - development
 deploy:
   - provider: script
-    script: deploy.sh
+    script: "./deploy.sh vstaem-dev"
+    skip_cleanup: true
     on:
       branch: development
   - provider: script
-    script: deploy.sh prod
+    script: "./deploy.sh vstaem"
+    skip_cleanup: true
     on:
       branch: master
