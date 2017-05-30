@@ -1,13 +1,14 @@
 "use strict";
 
 import "./chat.scss";
-
+import Mediator from "../../modules/mediator.js";
 
 const [CustomEvent] = [window.CustomEvent];
 
 export default class Chat {
 	constructor() {
 		this.el = document.createElement("div");
+		this.messages = new Map();
 	}
 
 	render() {
@@ -58,12 +59,76 @@ export default class Chat {
 		this.list.style.height = `${this.el.offsetHeight - this.players.offsetHeight - 60}px`;
 	}
 
-	addMessage(author, text, color) {
+	addMessage(author, text, color, main, id) {
 		const newMessage = document.createElement("div");
 		newMessage.classList.add("chat__message");
-		newMessage.style.color = color;
-		newMessage.textContent = `${author}: ${text}`;
+		newMessage.setAttribute("messId", id);
+		this.messages.set(id, newMessage);
 		this.list.appendChild(newMessage);
+		const plus = document.createElement("span");
+		plus.classList.add("chat__vote");
+		plus.classList.add("chat__plus");
+		plus.innerHTML = " + ";
+
+		const minus = document.createElement("span");
+		minus.classList.add("chat__vote");
+		minus.classList.add("chat__minus");
+		minus.innerHTML = " - ";
+
+		function selectPlus(e) {
+			if (!e.target.classList.contains("chat__plus_selected")) {
+				const mediator = new Mediator();
+				mediator.publish("VOTE_MESSAGE", {id: id, vote: true});
+				e.target.classList.add("chat__plus_selected");
+				e.target.nextSibling.classList.remove("chat__minus");
+				e.target.nextSibling.classList.remove("chat__minus_selected");
+			}
+		}
+
+		function selectMinus(e) {
+			if (!e.target.classList.contains("chat__plus_selected")) {
+				const mediator = new Mediator();
+				mediator.publish("VOTE_MESSAGE", {id: id, vote: false});
+				e.target.classList.add("chat__minus_selected");
+				e.target.previousSibling.classList.remove("chat__plus");
+				e.target.previousSibling.classList.remove("chat__plus_selected");
+			}
+		}
+
+		if (main) {
+			newMessage.appendChild(plus);
+			newMessage.appendChild(minus);
+
+			plus.addEventListener("click", selectPlus);
+			minus.addEventListener("click", selectMinus);
+		}
+		else {
+			plus.style.visibility = "hidden";
+			newMessage.appendChild(plus);
+		}
+
+		const message = document.createElement("span");
+		message.style.color = color;
+		message.textContent = `${author}: ${text}`;
+		newMessage.appendChild(message);
+	}
+
+	updateMessage(id, vote) {
+		const message = this.messages.get(id);
+		if (vote) {
+			message.firstChild.innerHTML = " + ";
+			message.firstChild.classList.remove("chat__minus");
+			message.firstChild.classList.remove("chat__minus_selected");
+			message.firstChild.classList.add("chat__plus_selected");
+			message.firstChild.style.visibility = "visible";
+		}
+		else {
+			message.firstChild.innerHTML = " - ";
+			message.firstChild.classList.remove("chat__plus");
+			message.firstChild.classList.remove("chat__plus_selected");
+			message.firstChild.classList.add("chat__minus_selected");
+			message.firstChild.style.visibility = "visible";
+		}
 	}
 
 	getMessage() {

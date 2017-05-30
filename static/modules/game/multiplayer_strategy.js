@@ -28,9 +28,11 @@ export default class MultiPlayerStrategy extends GameStrategy {
 			case "main":
 				this.mediator.publish("DISABLE_CHAT");
 				this.mediator.publish("ENABLE_PAINTING", content.word);
+				this.main = true;
 				break;
 			case "other":
 				this.mediator.publish("ENABLE_CHAT");
+				this.main = false;
 				break;
 			default:
 				return;

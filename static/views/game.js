@@ -96,12 +96,6 @@ export default class GameView extends BaseView {
 		this.chat.submit.hidden = true;
 
 		gameSinglePage.el.appendChild(this.chat.el);
-		this.chat.el.addEventListener("submit", () => {
-			if (this.chat.getMessage() !== "") {
-				this.chat.addMessage(this.game.username, this.chat.getMessage(), this.game.color || "black");
-				this.chat.resetMessage();
-			}
-		});
 	}
 
 	async show() {

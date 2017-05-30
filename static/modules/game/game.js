@@ -33,6 +33,9 @@ export default class Game {
 		this.mediator.subscribe("RESET_CHAT", this.resetChat.bind(this));
 		this.mediator.subscribe("DRAW_ONE_POINT", this.drawPoint.bind(this));
 		this.mediator.subscribe("DELETE_GAME", this.del.bind(this));
+		this.mediator.subscribe("VOTE_MESSAGE", this.vote.bind(this));
+		this.mediator.subscribe("NEW_VOTE", this.newVote.bind(this));
+		this.mediator.subscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
 
 		this.strategy = new Strategy();
 		if (mode !== "offline") {
@@ -156,13 +159,33 @@ export default class Game {
 	}
 
 	newMessage(message) {
-		if (this.username !== message.player) {
-			this.chat.addMessage(message.player, message.answer, this.colors[message.color]);
-		}
+		// default
+		const id = message.id || 1;
+		this.chat.addMessage(message.player, message.answer, this.colors[message.color], this.strategy.main, id);
+		this.chat.resetMessage();
 	}
 
 	drawPoint(point) {
 		this.canvas.addPoint(point);
+	}
+
+	vote(content) {
+		this.transport.send("VOTE_ANSWER", content);
+	}
+
+	newVote(vote) {
+		if (!this.strategy.main) {
+			this.chat.updateMessage(vote.id, vote.vote);
+		}
+	}
+
+	enableSingleChat() {
+		this.chat.el.addEventListener("submit", () => {
+			if (this.chat.getMessage() !== "") {
+				this.chat.addMessage(this.game.username, this.chat.getMessage(), this.game.color || "black");
+				this.chat.resetMessage();
+			}
+		});
 	}
 
 	del() {
@@ -184,5 +207,8 @@ export default class Game {
 		this.mediator.unsubscribe("RESET_CHAT", this.resetChat.bind(this));
 		this.mediator.unsubscribe("DRAW_ONE_POINT", this.drawPoint.bind(this));
 		this.mediator.unsubscribe("DELETE_GAME", this.del.bind(this));
+		this.mediator.unsubscribe("VOTE_MESSAGE", this.vote.bind(this));
+		this.mediator.unsubscribe("NEW_VOTE", this.newVote.bind(this));
+		this.mediator.unsubscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
 	}
 }

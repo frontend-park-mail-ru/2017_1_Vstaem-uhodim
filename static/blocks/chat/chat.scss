@@ -1,3 +1,6 @@
+$x-green: #77d870;
+$x-red: #ff7369;
+
 .chat {
     display: inline-block;
     float: left;
@@ -65,6 +68,32 @@
     }
     &__message {
         margin: 5%;
+    }
+    &__vote {
+        width: 18px;
+        padding-right: 0px;
+        display: inline-block;
+        color: #bdbdbd;
+        zoom: 1.2;
+        cursor: pointer;
+    }
+    &__plus {
+        &_selected {
+            cursor: default;
+            color: $x-green;
+        }
+        &:hover {
+            color: $x-green;
+        }
+    }
+    &__minus {
+        &_selected {
+            cursor: default;
+            color: $x-red;
+        }
+        &:hover {
+            color: $x-red;
+        }
     }
 }
 
