@@ -10,7 +10,7 @@ const cacheUrls = [
 	"/fonts/pangolin-v1-latin_cyrillic-regular.eot",
 	"/fonts/pangolin-v1-latin_cyrillic-regular.ttf",
 	"/fonts/pangolin-v1-latin_cyrillic-regular.svg",
-	"https://croco2017.herokuapp.com/best/",
+	//"https://croco2017.herokuapp.com/best/",
 	"/manifest.json"
 ];
 

@@ -27,6 +27,7 @@ export default class Game {
 		this.mediator.subscribe("ENABLE_PAINTING", this.enablePainting.bind(this));
 		this.mediator.subscribe("DISABLE_PAINTING", this.disablePainting.bind(this));
 		this.mediator.subscribe("ADD_PLAYER", this.addPlayer.bind(this));
+		this.mediator.subscribe("DELETE_PLAYER", this.deletePlayer.bind(this));
 		this.mediator.subscribe("NEW_MESSAGE", this.newMessage.bind(this));
 		this.mediator.subscribe("SHOW_MP_RESULT", this.showMPResult.bind(this));
 		this.mediator.subscribe("HIDE_RESULT", this.hideResult.bind(this));
@@ -36,6 +37,7 @@ export default class Game {
 		this.mediator.subscribe("VOTE_MESSAGE", this.vote.bind(this));
 		this.mediator.subscribe("NEW_VOTE", this.newVote.bind(this));
 		this.mediator.subscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
+		this.mediator.subscribe("DRAW_POINTS", this.drawPoints.bind(this));
 
 		this.strategy = new Strategy();
 		if (mode !== "offline") {
@@ -145,6 +147,10 @@ export default class Game {
 		}
 	}
 
+	deletePlayer(nickname) {
+		this.chat.deleteUser(nickname);
+	}
+
 	showMPResult(content) {
 		this.canvas.showMPResult(content);
 	}
@@ -159,8 +165,7 @@ export default class Game {
 	}
 
 	newMessage(message) {
-		// default
-		const id = message.id || 1;
+		const id = message.id;
 		this.chat.addMessage(message.player, message.answer, this.colors[message.color], this.strategy.main, id);
 		this.chat.resetMessage();
 	}
@@ -182,10 +187,14 @@ export default class Game {
 	enableSingleChat() {
 		this.chat.el.addEventListener("submit", () => {
 			if (this.chat.getMessage() !== "") {
-				this.chat.addMessage(this.game.username, this.chat.getMessage(), this.game.color || "black");
+				this.chat.addMessage(this.username, this.chat.getMessage(), this.color || "black");
 				this.chat.resetMessage();
 			}
 		});
+	}
+
+	drawPoints(points) {
+		this.canvas.drawPictureByPoints(points, true);
 	}
 
 	del() {
@@ -201,6 +210,7 @@ export default class Game {
 		this.mediator.unsubscribe("ENABLE_PAINTING", this.enablePainting.bind(this));
 		this.mediator.unsubscribe("DISABLE_PAINTING", this.disablePainting.bind(this));
 		this.mediator.unsubscribe("ADD_PLAYER", this.addPlayer.bind(this));
+		this.mediator.unsubscribe("DELETE_PLAYER", this.deletePlayer.bind(this));
 		this.mediator.unsubscribe("NEW_MESSAGE", this.newMessage.bind(this));
 		this.mediator.unsubscribe("SHOW_MP_RESULT", this.showMPResult.bind(this));
 		this.mediator.unsubscribe("HIDE_RESULT", this.hideResult.bind(this));

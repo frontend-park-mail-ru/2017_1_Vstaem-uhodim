@@ -14,46 +14,50 @@ export default class IndexView extends BaseView {
 		const user = await this.currentUser();
 		this.userArea.update(user);
 		this.mediator.publish("VIEW_LOADED");
+		this.indexLeftPage.fixHeight(this.indexRightPage);
+		this.indexRightPage.fixHeight(this.indexLeftPage);
 	}
 
 	async render() {
 		this.el.innerHTML = "";
-		const indexLeftPage = new Page({
+		this.indexLeftPage = new Page({
 			type: "left"
 		});
 
-		indexLeftPage.render();
+		this.indexLeftPage.render();
 
-		this.el.appendChild(indexLeftPage.el);
+		this.el.appendChild(this.indexLeftPage.el);
 
 		this.currentUser()
 			.then(user => {
 				this.userArea = new UserArea(user);
 				this.userArea.render();
 				if (document.querySelector("#main")) {
-					indexLeftPage.el.insertBefore(this.userArea.el, document.querySelector("#main"));
+					this.indexLeftPage.el.insertBefore(this.userArea.el, document.querySelector("#main"));
 				}
 				else {
-					indexLeftPage.el.appendChild(this.userArea.el);
+					this.indexLeftPage.el.appendChild(this.userArea.el);
 				}
 				this.mediator.publish("VIEW_LOADED");
+				this.indexLeftPage.fixHeight(this.indexRightPage);
+				this.indexRightPage.fixHeight(this.indexLeftPage);
 			});
 
 		this.image = new ImageCroc();
 		this.image.render();
 
-		indexLeftPage.el.appendChild(this.image.el);
+		this.indexLeftPage.el.appendChild(this.image.el);
 		this.image.fixTail();
 
-		const indexRightPage = new Page({
+		this.indexRightPage = new Page({
 			type: "right"
 		});
 
-		indexRightPage.render();
+		this.indexRightPage.render();
 
-		this.el.appendChild(indexRightPage.el);
+		this.el.appendChild(this.indexRightPage.el);
 
-		indexRightPage.el.innerHTML += "<h1 class=\"page__title_main\">Крокодил</h1>";
+		this.indexRightPage.el.innerHTML += "<h1 class=\"page__title_main\">Крокодил</h1>";
 
 		const menu = new Menu({
 			controls: [
@@ -81,11 +85,12 @@ export default class IndexView extends BaseView {
 
 		menu.render();
 
-		indexRightPage.el.appendChild(menu.el);
-
+		this.indexRightPage.el.appendChild(menu.el);
 
 		window.addEventListener("resize", () => {
 			this.image.fixTail();
+			this.indexLeftPage.fixHeight(this.indexRightPage);
+			this.indexRightPage.fixHeight(this.indexLeftPage);
 		});
 
 
@@ -178,5 +183,7 @@ export default class IndexView extends BaseView {
 		this.windowMenuGameMode.el.hidden = true;
 		this.windowMenuNotAuthorized.el.hidden = true;
 		this.image.fixTail();
+		this.indexLeftPage.fixHeight(this.indexRightPage);
+		this.indexRightPage.fixHeight(this.indexLeftPage);
 	}
 }

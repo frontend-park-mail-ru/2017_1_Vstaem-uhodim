@@ -145,7 +145,7 @@ export default class Canvas {
 		this.el.onmousemove = null;
 	}
 
-	drawPictureByPoints(points) {
+	drawPictureByPoints(points, quick = false) {
 		this.fixSize();
 		//this.el.width = this.el.offsetWidth;
 		//this.el.height = this.el.offsetHeight;
@@ -181,7 +181,8 @@ export default class Canvas {
 			}
 			number++;
 
-			setTimeout(draw.bind(this), points[number+1].time - points[number].time);
+			const timeout = (quick) ? 0 : points[number+1].time - points[number].time;
+			setTimeout(draw.bind(this), timeout);
 		}
 
 		draw.call(this);

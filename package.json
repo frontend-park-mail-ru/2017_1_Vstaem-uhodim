@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint static",
     "test": "npm run lint && npm run webpack && npm run imgo",
-    "start": "npm run imgo && npm run webpack && node server.js",
-    "webpack": "webpack -p --config webpack.config.js",
+    "start": "node server.js",
+    "webpack": "webpack --config webpack.config.js",
     "imgo": "imgo -m -b --png *.png"
   },
   "repository": {
