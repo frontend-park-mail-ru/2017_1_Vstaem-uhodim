@@ -63,7 +63,7 @@ export default class Game {
 
 		this.resetChat();
 
-		this.colors = ["#736af2", "#73c3dd", "#77d870", "#fff55e", "#fcbe53", "#ff4949"];
+		this.colors = ["#736af2", "#73c3dd", "#77d870", "#8c5887", "#fcbe53", "#ff4949"];
 
 		this.canvas.fixSize();
 
@@ -116,7 +116,7 @@ export default class Game {
 	}
 
 	showRules() {
-		this.chat.addMessage("Задача", "угадать, что будет нарисовано на картинке и написать ответ в чат");
+		this.chat.addServiceMessage("Задача: угадать, что будет нарисовано на картинке и написать ответ в чат");
 	}
 
 	disableChat() {
@@ -148,7 +148,7 @@ export default class Game {
 	}
 
 	deletePlayer(nickname) {
-		this.chat.deleteUser(nickname);
+		this.chat.deleteUser(nickname)
 	}
 
 	showMPResult(content) {
@@ -165,8 +165,7 @@ export default class Game {
 	}
 
 	newMessage(message) {
-		const id = message.id;
-		this.chat.addMessage(message.player, message.answer, this.colors[message.color], this.strategy.main, id);
+		this.chat.addMessage({author: message.player, answer: message.answer, color: this.colors[message.color], main: this.strategy.main, id: message.id});
 		this.chat.resetMessage();
 	}
 
@@ -220,5 +219,6 @@ export default class Game {
 		this.mediator.unsubscribe("VOTE_MESSAGE", this.vote.bind(this));
 		this.mediator.unsubscribe("NEW_VOTE", this.newVote.bind(this));
 		this.mediator.unsubscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
+		this.mediator.unsubscribe("DRAW_POINTS", this.drawPoints.bind(this));
 	}
 }

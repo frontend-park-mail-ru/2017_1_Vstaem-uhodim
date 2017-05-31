@@ -34,7 +34,7 @@ export default class Transport {
 
 	handleMessage(event) {
 		const message = JSON.parse(event.data);
-		console.log({type1: message.type, content1: message.content });
+		//console.log({type1: message.type, content1: message.content });
 		this.mediator.publish(message.type, message.content);
 	}
 
@@ -49,7 +49,7 @@ export default class Transport {
 			}, 1000)
 		}
 		else {
-			console.log({type: type, content: payload});
+			//console.log({type: type, content: payload});
 			this.ws.send(JSON.stringify({type: type, content: payload}));
 		}
 	}

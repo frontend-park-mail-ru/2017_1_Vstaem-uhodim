@@ -52,13 +52,16 @@ export default class Chat {
 	addUser(name, color) {
 		const newUser = document.createElement("div");
 		newUser.classList.add("chat__player");
+		if (name.length > 11) {
+			name = `${name.slice(0, 11)}...`;
+		}
 		newUser.textContent = name;
 		newUser.style.backgroundColor = color;
 		this.players.appendChild(newUser);
 
 		this.list.style.height = `${this.el.offsetHeight - this.players.offsetHeight - 60}px`;
 
-		this.addServiceMessage(`${name} присоединился к игре`);
+		this.addServiceMessage(`${name} зашел в игру`);
 	}
 
 	deleteUser(nickname) {
@@ -71,7 +74,7 @@ export default class Chat {
 		}
 	}
 
-	addMessage(author, text, color, main, id) {
+	addMessage({author, answer, color, main, id}) {
 		const newMessage = document.createElement("div");
 		newMessage.classList.add("chat__message");
 		newMessage.setAttribute("messId", id);
@@ -123,12 +126,21 @@ export default class Chat {
 		message.style.color = color;
 		message.textContent = `${author}: ${text}`;
 		newMessage.appendChild(message);
+
+		this.list.scrollTop = this.list.scrollHeight;
 	}
 
 	addServiceMessage(text) {
 		const newMessage = document.createElement("div");
 		newMessage.classList.add("chat__message");
 		this.list.appendChild(newMessage);
+
+		const info = document.createElement("span");
+		info.classList.add("chat__vote");
+		info.classList.add("chat__info");
+		info.innerHTML = " &#8505; ";
+		newMessage.appendChild(info);
+
 		const message = document.createElement("span");
 		message.textContent = text;
 		newMessage.appendChild(message);
