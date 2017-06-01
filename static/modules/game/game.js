@@ -228,7 +228,7 @@ export default class Game {
 		this.mediator.unsubscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
 		this.mediator.unsubscribe("DRAW_POINTS", this.drawPoints.bind(this));
 
-		let clone = this.chat.el.cloneNode();
+		const clone = this.chat.el.cloneNode();
 		while (this.chat.el.firstChild) {
 			clone.appendChild(this.chat.el.firstChild);
 		}
