@@ -29,6 +29,7 @@ export default class Chat {
 
 		this.submit = document.createElement("button");
 		this.submit.classList.add("chat__submit");
+		this.submit.classList.add("button");
 		this.submit.textContent = "￫";
 		this.el.appendChild(this.submit);
 

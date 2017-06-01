@@ -5,7 +5,7 @@ import Transport from "../transport.js";
 
 
 export default class Game {
-	constructor(Strategy, username, canvas, chat, timer, shadow, windowMenu, mode, game_content = null) {
+	constructor(Strategy, username, canvas, chat, timer, shadow, windowMenu, mode) {
 
 		this.username = username;
 		this.canvas = canvas;
@@ -40,7 +40,7 @@ export default class Game {
 		this.mediator.subscribe("DRAW_POINTS", this.drawPoints.bind(this));
 		this.mediator.subscribe("CHECK_GAME", this.checkGame.bind(this));
 
-		this.strategy = new Strategy(game_content);
+		this.strategy = new Strategy();
 		if (mode !== "offline") {
 			this.transport = new Transport();
 			this.transport.open();
@@ -62,7 +62,7 @@ export default class Game {
 			this.mediator.publish("FAILURE");
 		});
 
-		this.resetChat();
+		this.chat.fixListSize();
 
 		this.colors = ["#736af2", "#73c3dd", "#77d870", "#8c5887", "#fcbe53", "#ff4949"];
 
@@ -129,7 +129,6 @@ export default class Game {
 		this.chat.reset();
 		this.chat.input.hidden = false;
 		this.chat.submit.hidden = false;
-		this.chat.fixListSize();
 	}
 
 	enablePainting(word) {

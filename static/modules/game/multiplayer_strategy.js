@@ -4,7 +4,7 @@ import GameStrategy from "./game_strategy.js";
 import Transport from "../transport.js";
 
 export default class MultiPlayerStrategy extends GameStrategy {
-	constructor(game_content) {
+	constructor() {
 		super();
 		this.transport = new Transport();
 		this.mediator.subscribe("START_MP_GAME", this.startGame.bind(this));
@@ -15,12 +15,8 @@ export default class MultiPlayerStrategy extends GameStrategy {
 		this.mediator.subscribe("PLAYERS_CONNECT", this.newUser.bind(this));
 		this.mediator.subscribe("PLAYER_DISCONNECT", this.deleteUser.bind(this));
 
-		if (game_content === null) {
-			this.transport.send("START_MP_GAME");
-		}
-		else {
-			this.startGame(game_content);
-		}
+		this.transport.send("START_MP_GAME");
+
 		this.mediator.publish("LOADING");
 	}
 
@@ -51,7 +47,7 @@ export default class MultiPlayerStrategy extends GameStrategy {
 			this.mediator.publish("ADD_PLAYER", player);
 		});
 
-		const time = content.current_time !== "Infinity" ? Math.round(content.current_time) : content.timer;
+		const time = content.current_time !== "Infinity" ? content.current_time === 0 ? content.timer : Math.round(content.current_time) : content.timer;
 		this.mediator.publish("START_TIMER", time);
 	}
 
