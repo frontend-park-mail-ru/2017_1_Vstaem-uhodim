@@ -12,6 +12,8 @@ import Game from "../modules/game/game.js";
 import SinglePlayerStrategy from "../modules/game/singleplayer_strategy.js";
 import MultiPlayerStrategy from "../modules/game/multiplayer_strategy.js";
 import OfflineStrategy from "../modules/game/offline_strategy.js";
+import Transport from "../modules/transport.js";
+import Mediator from "../modules/mediator.js";
 
 const [CustomEvent] = [window.CustomEvent];
 
@@ -110,11 +112,24 @@ export default class GameView extends BaseView {
 		}
 
 		if (this.strategy === undefined) {
-			document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
+			const transport = new Transport();
+			const mediator = new Mediator();
+			transport.send("GET_STATE");
+			mediator.subscribe("STATE", async (content) => {
+				if (content.game_type === 0) {
+					document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
+				}
+				else {
+					const user = await this.currentUser();
+					this.game = new Game(content.game_type === "sp" ? SinglePlayerStrategy : MultiPlayerStrategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu, content);
+					this.game.username = user.nickname;
+				}
+			});
+
 		}
 		else {
-			this.game = new Game(this.strategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu);
 			const user = await this.currentUser();
+			this.game = new Game(this.strategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu);
 			this.game.username = user.nickname;
 		}
 	}

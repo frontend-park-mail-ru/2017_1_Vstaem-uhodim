@@ -5,7 +5,7 @@ import Transport from "../transport.js";
 
 
 export default class Game {
-	constructor(Strategy, username, canvas, chat, timer, shadow, windowMenu, mode) {
+	constructor(Strategy, username, canvas, chat, timer, shadow, windowMenu, mode, game_content = null) {
 
 		this.username = username;
 		this.canvas = canvas;
@@ -39,7 +39,7 @@ export default class Game {
 		this.mediator.subscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
 		this.mediator.subscribe("DRAW_POINTS", this.drawPoints.bind(this));
 
-		this.strategy = new Strategy();
+		this.strategy = new Strategy(game_content);
 		if (mode !== "offline") {
 			this.transport = new Transport();
 		}
@@ -47,8 +47,7 @@ export default class Game {
 			this.mode = "offline";
 		}
 
-
-		this.chat.el.addEventListener("submit", async (event) => {
+		this.chat.el.addEventListener("submit", (event) => {
 			if (this.mode === "offline") {
 				this.mediator.publish("GET_ANSWER_OFFLINE", {answer: event.detail.toLowerCase()})
 			}
@@ -141,7 +140,7 @@ export default class Game {
 	}
 
 	addPlayer(player) {
-		this.chat.addUser(player.login, this.colors[player.color]);
+		this.chat.addUser(player.login, this.colors[player.color], player.new);
 		if (player.login === this.username) {
 			this.color = this.colors[player.color];
 		}
@@ -186,7 +185,7 @@ export default class Game {
 	enableSingleChat() {
 		this.chat.el.addEventListener("submit", () => {
 			if (this.chat.getMessage() !== "") {
-				this.chat.addMessage(this.username, this.chat.getMessage(), this.color || "black");
+				this.chat.addMessage({author: this.username, answer: this.chat.getMessage(), color: this.color || "black"});
 				this.chat.resetMessage();
 			}
 		});
@@ -220,5 +219,12 @@ export default class Game {
 		this.mediator.unsubscribe("NEW_VOTE", this.newVote.bind(this));
 		this.mediator.unsubscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
 		this.mediator.unsubscribe("DRAW_POINTS", this.drawPoints.bind(this));
+
+		let clone = this.chat.el.cloneNode();
+		while (this.chat.el.firstChild) {
+			clone.appendChild(this.chat.el.firstChild);
+		}
+		this.chat.el.parentNode.replaceChild(clone, this.chat.el);
+		this.chat.el = clone;
 	}
 }

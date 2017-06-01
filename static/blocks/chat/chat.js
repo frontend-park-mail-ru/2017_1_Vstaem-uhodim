@@ -49,7 +49,7 @@ export default class Chat {
 		return this;
 	}
 
-	addUser(name, color) {
+	addUser(name, color, newPlayer) {
 		const newUser = document.createElement("div");
 		newUser.classList.add("chat__player");
 		if (name.length > 11) {
@@ -61,7 +61,10 @@ export default class Chat {
 
 		this.list.style.height = `${this.el.offsetHeight - this.players.offsetHeight - 60}px`;
 
-		this.addServiceMessage(`${name} зашел в игру`);
+		debugger;
+		if (newPlayer) {
+			this.addServiceMessage(`${name} зашел в игру`);
+		}
 	}
 
 	deleteUser(nickname) {
@@ -124,7 +127,7 @@ export default class Chat {
 
 		const message = document.createElement("span");
 		message.style.color = color;
-		message.textContent = `${author}: ${text}`;
+		message.textContent = `${author}: ${answer}`;
 		newMessage.appendChild(message);
 
 		this.list.scrollTop = this.list.scrollHeight;

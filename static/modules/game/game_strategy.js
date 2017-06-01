@@ -3,7 +3,7 @@
 import Mediator from "../mediator.js";
 
 export default class GameStrategy {
-	constructor() {
+	constructor(game_content) {
 		this.mediator = new Mediator();
 	}
 
