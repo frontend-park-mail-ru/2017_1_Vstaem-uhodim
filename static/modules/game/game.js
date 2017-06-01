@@ -38,10 +38,12 @@ export default class Game {
 		this.mediator.subscribe("NEW_VOTE", this.newVote.bind(this));
 		this.mediator.subscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
 		this.mediator.subscribe("DRAW_POINTS", this.drawPoints.bind(this));
+		this.mediator.subscribe("CHECK_GAME", this.checkGame.bind(this));
 
 		this.strategy = new Strategy(game_content);
 		if (mode !== "offline") {
 			this.transport = new Transport();
+			this.transport.open();
 		}
 		else {
 			this.mode = "offline";
@@ -127,6 +129,7 @@ export default class Game {
 		this.chat.reset();
 		this.chat.input.hidden = false;
 		this.chat.submit.hidden = false;
+		this.chat.fixListSize();
 	}
 
 	enablePainting(word) {
@@ -195,7 +198,12 @@ export default class Game {
 		this.canvas.drawPictureByPoints(points, true);
 	}
 
+	checkGame() {
+		this.ws.open();
+	}
+
 	del() {
+		this.mediator.unsubscribe("CHECK_GAME", this.checkGame.bind(this));
 		this.mediator.unsubscribe("START_TIMER", this.startTimer.bind(this));
 		this.mediator.unsubscribe("START_SINGLE_PAINTING", this.startSinglePainting.bind(this));
 		this.mediator.unsubscribe("STOP_TIMER", this.stopTimer.bind(this));
@@ -220,11 +228,12 @@ export default class Game {
 		this.mediator.unsubscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
 		this.mediator.unsubscribe("DRAW_POINTS", this.drawPoints.bind(this));
 
-		let clone = this.chat.el.cloneNode();
+		const clone = this.chat.el.cloneNode();
 		while (this.chat.el.firstChild) {
 			clone.appendChild(this.chat.el.firstChild);
 		}
 		this.chat.el.parentNode.replaceChild(clone, this.chat.el);
 		this.chat.el = clone;
+		this.transport.close();
 	}
 }

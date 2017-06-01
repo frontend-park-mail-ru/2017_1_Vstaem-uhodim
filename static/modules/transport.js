@@ -12,14 +12,15 @@ export default class Transport {
 
 		this.mediator = new Mediator;
 
-		//const url = "wss://localhost:8082/sp-games/";
-		const url = "wss://croco2017.herokuapp.com/sp-games/";
+		//this.url = "wss://localhost:8082/sp-games/";
+		this.url = "wss://croco2017.herokuapp.com/sp-games/";
+	}
 
-		this.ws = new WebSocket(url);
+	open() {
+		this.ws = new WebSocket(this.url);
 		this.ws.onopen = (event) => {
 			this.connected = true;
 			this.ws.onmessage = this.handleMessage.bind(this);
-
 
 			this.interval = setInterval(
 				(() => {
@@ -27,14 +28,20 @@ export default class Transport {
 				}).bind(this), 5000);
 
 			this.ws.onclose = function () {
+				this.connected = false;
 				clearInterval(this.interval);
-			};
+				this.handleClosing();
+			}.bind(this);
 		}
+	}
+
+	handleClosing(event) {
+		this.mediator.publish("CHECK_GAME");
 	}
 
 	handleMessage(event) {
 		const message = JSON.parse(event.data);
-		console.log({type1: message.type, content1: message.content });
+		//console.log({type1: message.type, content1: message.content });
 		this.mediator.publish(message.type, message.content);
 	}
 
@@ -49,7 +56,7 @@ export default class Transport {
 			}, 1000)
 		}
 		else {
-			console.log({type: type, content: payload});
+			//console.log({type: type, content: payload});
 			this.ws.send(JSON.stringify({type: type, content: payload}));
 		}
 	}
