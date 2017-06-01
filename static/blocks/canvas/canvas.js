@@ -35,13 +35,17 @@ export default class Canvas {
 			this.resultTable.classList.add("canvas__result");
 			this.el.parentNode.appendChild(this.resultTable);
 		}
-		// remove default values
-		if (content.winner === undefined) {
-			this.resultTable.innerHTML = `Время вышло!<br>Слово: ${content.word || "-"}`;
+
+		if (content.result === 0) {
+			this.resultTable.innerHTML = `Время вышло!<br>Слово: ${content.word}`;
 		}
-		else {
-			this.resultTable.innerHTML = `Угадал: ${content.winner}<br>Слово: ${content.word || "-"}`;
+		if (content.result === 1) {
+			this.resultTable.innerHTML = `Угадал: ${content.winner}<br>Слово: ${content.word}`;
 		}
+		if (content.result === 2) {
+			this.resultTable.innerHTML = `Ведущий вышел...<br>Слово: ${content.word}`;
+		}
+
 		this.resultTable.hidden = false;
 	}
 

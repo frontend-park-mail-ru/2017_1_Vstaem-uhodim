@@ -1,21 +1,23 @@
 $x-green: #77d870;
 $x-red: #ff7369;
+$x-orange-light: #ff841d;
+$x-orange: rgb(255, 80, 1);
 
 .chat {
     display: inline-block;
     float: left;
-    margin: 1% 0% 0% 1%;
+    margin: 1% 1% 0% 1%;
     position: relative;
     max-height: 1000px;
     @media screen and (min-width: 700px) {
-        width: 29%;
+        width: 28%;
         height: 90%;
     }
     @media screen and (max-width: 700px) {
         width: 100%;
     }
     &__list {
-        background-color: #fafbf2;
+        background-color: #fefff6;
         overflow-y: scroll;
         overflow-x: hidden;
         word-wrap: break-word;
@@ -23,6 +25,8 @@ $x-red: #ff7369;
         display: block;
         height: 100%;
         position: relative;
+        border-radius: 5px;
+        border: 1px solid black;
         @media screen and (min-width: 1000px) {
             min-height: 480px;
         }
@@ -55,9 +59,10 @@ $x-red: #ff7369;
         float: right;
         margin-top: 7%;
         height: 28px;
-        border: 1px solid black;
         border-radius: 5px;
         width: 15%;
+        background-color: $x-orange-light;
+        box-shadow: 0 0 0 2px $x-orange-light;
         @media screen and (max-width: 700px) {
             position: absolute;
             left: 75%;

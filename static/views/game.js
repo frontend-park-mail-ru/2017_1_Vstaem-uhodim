@@ -94,8 +94,8 @@ export default class GameView extends BaseView {
 		this.chat = new Chat();
 		this.chat.render();
 
-		this.chat.input.hidden = true;
-		this.chat.submit.hidden = true;
+		//this.chat.input.hidden = true;
+		//this.chat.submit.hidden = true;
 
 		gameSinglePage.el.appendChild(this.chat.el);
 	}
@@ -112,20 +112,7 @@ export default class GameView extends BaseView {
 		}
 
 		if (this.strategy === undefined) {
-			const transport = new Transport();
-			const mediator = new Mediator();
-			transport.send("GET_STATE");
-			mediator.subscribe("STATE", async (content) => {
-				if (content.game_type === 0) {
-					document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
-				}
-				else {
-					const user = await this.currentUser();
-					this.game = new Game(content.game_type === "sp" ? SinglePlayerStrategy : MultiPlayerStrategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu, content);
-					this.game.username = user.nickname;
-				}
-			});
-
+			document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
 		}
 		else {
 			const user = await this.currentUser();
