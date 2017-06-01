@@ -5,7 +5,7 @@ import Transport from "../transport.js";
 
 
 export default class Game {
-	constructor(Strategy, username, canvas, chat, timer, shadow, windowMenu, mode) {
+	constructor(Strategy, username, canvas, chat, timer, shadow, windowMenu, mode, game_content = null) {
 
 		this.username = username;
 		this.canvas = canvas;
@@ -27,14 +27,19 @@ export default class Game {
 		this.mediator.subscribe("ENABLE_PAINTING", this.enablePainting.bind(this));
 		this.mediator.subscribe("DISABLE_PAINTING", this.disablePainting.bind(this));
 		this.mediator.subscribe("ADD_PLAYER", this.addPlayer.bind(this));
+		this.mediator.subscribe("DELETE_PLAYER", this.deletePlayer.bind(this));
 		this.mediator.subscribe("NEW_MESSAGE", this.newMessage.bind(this));
 		this.mediator.subscribe("SHOW_MP_RESULT", this.showMPResult.bind(this));
 		this.mediator.subscribe("HIDE_RESULT", this.hideResult.bind(this));
 		this.mediator.subscribe("RESET_CHAT", this.resetChat.bind(this));
 		this.mediator.subscribe("DRAW_ONE_POINT", this.drawPoint.bind(this));
 		this.mediator.subscribe("DELETE_GAME", this.del.bind(this));
+		this.mediator.subscribe("VOTE_MESSAGE", this.vote.bind(this));
+		this.mediator.subscribe("NEW_VOTE", this.newVote.bind(this));
+		this.mediator.subscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
+		this.mediator.subscribe("DRAW_POINTS", this.drawPoints.bind(this));
 
-		this.strategy = new Strategy();
+		this.strategy = new Strategy(game_content);
 		if (mode !== "offline") {
 			this.transport = new Transport();
 		}
@@ -42,8 +47,7 @@ export default class Game {
 			this.mode = "offline";
 		}
 
-
-		this.chat.el.addEventListener("submit", async (event) => {
+		this.chat.el.addEventListener("submit", (event) => {
 			if (this.mode === "offline") {
 				this.mediator.publish("GET_ANSWER_OFFLINE", {answer: event.detail.toLowerCase()})
 			}
@@ -58,7 +62,7 @@ export default class Game {
 
 		this.resetChat();
 
-		this.colors = ["#736af2", "#73c3dd", "#77d870", "#fff55e", "#fcbe53", "#ff4949"];
+		this.colors = ["#736af2", "#73c3dd", "#77d870", "#8c5887", "#fcbe53", "#ff4949"];
 
 		this.canvas.fixSize();
 
@@ -111,7 +115,7 @@ export default class Game {
 	}
 
 	showRules() {
-		this.chat.addMessage("Задача", "угадать, что будет нарисовано на картинке и написать ответ в чат");
+		this.chat.addServiceMessage("Задача: угадать, что будет нарисовано на картинке и написать ответ в чат");
 	}
 
 	disableChat() {
@@ -136,10 +140,14 @@ export default class Game {
 	}
 
 	addPlayer(player) {
-		this.chat.addUser(player.login, this.colors[player.color]);
+		this.chat.addUser(player.login, this.colors[player.color], player.new);
 		if (player.login === this.username) {
 			this.color = this.colors[player.color];
 		}
+	}
+
+	deletePlayer(nickname) {
+		this.chat.deleteUser(nickname)
 	}
 
 	showMPResult(content) {
@@ -156,13 +164,35 @@ export default class Game {
 	}
 
 	newMessage(message) {
-		if (this.username !== message.player) {
-			this.chat.addMessage(message.player, message.answer, this.colors[message.color]);
-		}
+		this.chat.addMessage({author: message.player, answer: message.answer, color: this.colors[message.color], main: this.strategy.main, id: message.id});
+		this.chat.resetMessage();
 	}
 
 	drawPoint(point) {
 		this.canvas.addPoint(point);
+	}
+
+	vote(content) {
+		this.transport.send("VOTE_ANSWER", content);
+	}
+
+	newVote(vote) {
+		if (!this.strategy.main) {
+			this.chat.updateMessage(vote.id, vote.vote);
+		}
+	}
+
+	enableSingleChat() {
+		this.chat.el.addEventListener("submit", () => {
+			if (this.chat.getMessage() !== "") {
+				this.chat.addMessage({author: this.username, answer: this.chat.getMessage(), color: this.color || "black"});
+				this.chat.resetMessage();
+			}
+		});
+	}
+
+	drawPoints(points) {
+		this.canvas.drawPictureByPoints(points, true);
 	}
 
 	del() {
@@ -178,11 +208,23 @@ export default class Game {
 		this.mediator.unsubscribe("ENABLE_PAINTING", this.enablePainting.bind(this));
 		this.mediator.unsubscribe("DISABLE_PAINTING", this.disablePainting.bind(this));
 		this.mediator.unsubscribe("ADD_PLAYER", this.addPlayer.bind(this));
+		this.mediator.unsubscribe("DELETE_PLAYER", this.deletePlayer.bind(this));
 		this.mediator.unsubscribe("NEW_MESSAGE", this.newMessage.bind(this));
 		this.mediator.unsubscribe("SHOW_MP_RESULT", this.showMPResult.bind(this));
 		this.mediator.unsubscribe("HIDE_RESULT", this.hideResult.bind(this));
 		this.mediator.unsubscribe("RESET_CHAT", this.resetChat.bind(this));
 		this.mediator.unsubscribe("DRAW_ONE_POINT", this.drawPoint.bind(this));
 		this.mediator.unsubscribe("DELETE_GAME", this.del.bind(this));
+		this.mediator.unsubscribe("VOTE_MESSAGE", this.vote.bind(this));
+		this.mediator.unsubscribe("NEW_VOTE", this.newVote.bind(this));
+		this.mediator.unsubscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
+		this.mediator.unsubscribe("DRAW_POINTS", this.drawPoints.bind(this));
+
+		let clone = this.chat.el.cloneNode();
+		while (this.chat.el.firstChild) {
+			clone.appendChild(this.chat.el.firstChild);
+		}
+		this.chat.el.parentNode.replaceChild(clone, this.chat.el);
+		this.chat.el = clone;
 	}
 }

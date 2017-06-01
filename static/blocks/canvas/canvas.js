@@ -14,6 +14,10 @@ export default class Canvas {
 		this.x1 = null;
 		this.x2 = null;
 		this.points = [];
+
+		window.addEventListener("resize", () => {
+			this.fixRatio();
+		});
 	}
 
 	render() {
@@ -56,6 +60,7 @@ export default class Canvas {
 		this.el.height = this.el.offsetHeight;
 
 		//[this.page] = [document.getElementsByClassName("page_type_game")[0]];
+		[this.background] = [document.getElementsByClassName("background")[0]];
 		this.context = this.el.getContext("2d");
 
 		if (word !== null) {
@@ -98,7 +103,7 @@ export default class Canvas {
 		function startPainting(event) {
 			this.isPainting = true;
 			const x = event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft);
-			const y = event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop);
+			const y = event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop) + this.background.scrollTop;
 			this.context.beginPath();
 			this.context.moveTo(x, y);
 			this.picture.points.push({time: new Date() - this.time, x: (x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3), down:true, color:this.context.strokeStyle});
@@ -107,13 +112,9 @@ export default class Canvas {
 		}
 
 		function painting(event) {
-
-
 			if (this.isPainting) {
-
 				const x = (event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft))*(this.el.width/this.el.offsetWidth);
-				const y = (event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop))*(this.el.height/this.el.offsetHeight);
-
+				const y = (event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop))*(this.el.height/this.el.offsetHeight) + this.background.scrollTop;
 
 				this.context.lineTo(x, y);
 				//this.context.quadraticCurveTo(0, 0, x, y);
@@ -145,10 +146,8 @@ export default class Canvas {
 		this.el.onmousemove = null;
 	}
 
-	drawPictureByPoints(points) {
+	drawPictureByPoints(points, quick = false) {
 		this.fixSize();
-		//this.el.width = this.el.offsetWidth;
-		//this.el.height = this.el.offsetHeight;
 		this.context = this.el.getContext("2d");
 
 		this.context.lineJoin = "round";
@@ -181,7 +180,8 @@ export default class Canvas {
 			}
 			number++;
 
-			setTimeout(draw.bind(this), points[number+1].time - points[number].time);
+			const timeout = quick ? 0 : points[number+1].time - points[number].time;
+			setTimeout(draw.bind(this), timeout);
 		}
 
 		draw.call(this);
@@ -199,9 +199,17 @@ export default class Canvas {
 		this.x2 = null;
 	}
 
+	fixRatio() {
+		if (this.el.offsetWidth < 0.9 * this.el.offsetHeight) {
+			this.el.style.height = `${this.el.offsetWidth}px`;
+		}
+	}
+
 	fixSize() {
+		this.fixRatio();
 		this.el.width = 1.5 * this.el.offsetWidth;
 		this.el.height = 1.5 * this.el.offsetHeight;
+
 	}
 
 	addPoint(point) {

@@ -9,11 +9,12 @@ export default class Timer {
 
 	render() {
 		this.el.classList.add("timer");
+		this.setMessage("Игра скоро начнется...");
 		return this;
 	}
 
 	setMessage(message) {
-		this.el.innerHTML = "Игра скоро начнется...";
+		this.el.innerHTML = message;
 	}
 
 	updateTime() {
@@ -31,6 +32,7 @@ export default class Timer {
 
 	start(time) {
 		this.value = time;
+		this.updateTime();
 
 		this.interval = setInterval(() => {
 			this.value -= 1;
@@ -40,6 +42,6 @@ export default class Timer {
 
 	stop() {
 		clearInterval(this.interval);
-		this.setMessage("Игра скоро начнется...")
+		this.setMessage("Игра скоро начнется...");
 	}
 }

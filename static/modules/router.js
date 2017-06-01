@@ -55,7 +55,6 @@ export default class Router {
 			this.current.source.hide();
 		}
 
-		view.source.show();
 		if (path === "") {
 			path = "/";
 		}
@@ -68,6 +67,9 @@ export default class Router {
 				window.history.pushState({id: view.id}, 'Page', path);
 			}
 		}
+
+		view.source.show();
+
 		this.current = view;
 	}
 }
