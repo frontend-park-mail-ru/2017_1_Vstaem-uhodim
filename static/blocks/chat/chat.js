@@ -46,6 +46,7 @@ export default class Chat {
 			this.input.classList.remove("chat__input_incorrect");
 		});
 
+		window.addEventListener("resize", this.fixListSize.bind(this));
 		return this;
 	}
 
@@ -58,10 +59,10 @@ export default class Chat {
 		newUser.textContent = name;
 		newUser.style.backgroundColor = color;
 		this.players.appendChild(newUser);
+		this.fixListSize();
 
 		this.list.style.height = `${this.el.offsetHeight - this.players.offsetHeight - 60}px`;
 
-		debugger;
 		if (newPlayer) {
 			this.addServiceMessage(`${name} зашел в игру`);
 		}
@@ -177,6 +178,11 @@ export default class Chat {
 
 	reset() {
 		this.list.innerHTML = "";
+	}
+
+	fixListSize() {
+		this.list.style.height = `${this.el.clientHeight - this.players.clientHeight - 55}px`;
+		this.list.style.minHeight = "0px";
 	}
 
 	fail() {

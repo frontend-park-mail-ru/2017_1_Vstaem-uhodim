@@ -12,24 +12,31 @@ export default class Transport {
 
 		this.mediator = new Mediator;
 
-		//const url = "wss://localhost:8082/sp-games/";
-		const url = "wss://croco2017.herokuapp.com/sp-games/";
+		//this.url = "wss://localhost:8082/sp-games/";
+		this.url = "wss://croco2017.herokuapp.com/sp-games/";
+	}
 
-		this.ws = new WebSocket(url);
+	open() {
+		this.ws = new WebSocket(this.url);
 		this.ws.onopen = (event) => {
 			this.connected = true;
 			this.ws.onmessage = this.handleMessage.bind(this);
-
 
 			this.interval = setInterval(
 				(() => {
 					this.send("UPDATE");
 				}).bind(this), 5000);
 
-			this.ws.onclose = function () {
+			this.ws.onclose = (function () {
+				this.connected = false;
 				clearInterval(this.interval);
-			};
+				this.handleClosing();
+			}).bind(this);
 		}
+	}
+
+	handleClosing(event) {
+		this.mediator.publish("CHECK_GAME");
 	}
 
 	handleMessage(event) {
