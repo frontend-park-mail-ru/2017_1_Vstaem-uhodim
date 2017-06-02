@@ -10,7 +10,8 @@ export default class Canvas {
 		this.wide = wide;
 		this.el = document.createElement("canvas");
 		this.transport = new Transport();
-		[this.page] = [document.getElementsByClassName("page_type_game")[0]];
+
+		[this.page, this.clear] = [document.getElementsByClassName("page_type_game")[0], document.getElementsByClassName("button_type_clear")[0]];
 		this.x1 = null;
 		this.x2 = null;
 		this.points = [];
@@ -72,7 +73,8 @@ export default class Canvas {
 
 		if (word !== null) {
 			this.context.font = "27px Pangolin";
-			this.context.fillText(`Изобразите: ${word}`, this.el.width / 2 - 150, 30);
+			const offset = word.length > 12 ? 15 : this.el.width / 2 - 150;
+			this.context.fillText(`Изобразите: ${word}`, offset, 30);
 		}
 		this.isPainting = false;
 
@@ -214,16 +216,21 @@ export default class Canvas {
 	}
 
 	fixRatio() {
-		if (this.el.offsetWidth < 0.9 * this.el.offsetHeight) {
+		if (this.el.offsetHeight < 0.9 * this.el.offsetWidth) {
 			this.el.style.height = `${this.el.offsetWidth}px`;
 		}
+
+		if (this.el.offsetHeight > this.page.offsetHeight - 150) {
+			this.el.style.height = `${this.page.offsetHeight - 150}px`;
+		}
+		this.clear.style.top = `${this.el.clientHeight + 100}px`;
+		this.clear.style.left = `${this.el.clientWidth/2 - 30}px`;
 	}
 
 	fixSize() {
 		this.fixRatio();
 		this.el.width = 1.5 * this.el.offsetWidth;
 		this.el.height = 1.5 * this.el.offsetHeight;
-
 	}
 
 	addPoint(point) {
