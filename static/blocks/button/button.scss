@@ -1,5 +1,6 @@
 $x-orange: rgb(255, 80, 1);
 $x-yellow: rgb(255, 209, 1);
+$x-orange-light: #ff841d;
 $size_m: 35px;
 $count: 5/7;
 
@@ -49,6 +50,16 @@ $count: 5/7;
         font-size: 15pt;
         @media screen and (max-height: 700px){
             margin-top: 5px;
+        }
+    }
+    &_type_clear {
+        background: $x-orange-light;
+        box-shadow: 0 0 0 3px $x-orange-light;
+        border-radius: 5px;
+        margin: auto;
+        position: absolute;
+        @media screen and (max-width: 500px) {
+            font-size: 175%;
         }
     }
 

@@ -21,11 +21,12 @@ export default class SinglePlayerStrategy extends GameStrategy {
 	}
 
 	startGame(content) {
+		this.mediator.publish("ENABLE_SINGLE_CHAT");
 		this.mediator.publish("VIEW_LOADED");
 		this.mediator.publish("SHOW_RULES");
 		function starting() {
 			this.mediator.publish("START_SINGLE_PAINTING", content);
-			this.mediator.publish("START_TIMER", content.timer);
+			this.mediator.publish("START_TIMER", Math.abs(Math.round(content.current_time)));
 			this.mediator.publish("ENABLE_CHAT");
 		}
 
@@ -39,6 +40,8 @@ export default class SinglePlayerStrategy extends GameStrategy {
 	}
 
 	exit() {
+		this.mediator.publish("CLEAR");
+		this.mediator.publish("STOP_SINGLE_PAINTING");
 		this.unsubscribe();
 		this.mediator.publish("DELETE_GAME");
 	}

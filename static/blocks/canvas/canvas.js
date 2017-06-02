@@ -10,10 +10,15 @@ export default class Canvas {
 		this.wide = wide;
 		this.el = document.createElement("canvas");
 		this.transport = new Transport();
-		[this.page] = [document.getElementsByClassName("page_type_game")[0]];
+
+		[this.page, this.clear] = [document.getElementsByClassName("page_type_game")[0], document.getElementsByClassName("button_type_clear")[0]];
 		this.x1 = null;
 		this.x2 = null;
 		this.points = [];
+
+		window.addEventListener("resize", () => {
+			this.fixRatio();
+		});
 	}
 
 	render() {
@@ -31,13 +36,20 @@ export default class Canvas {
 			this.resultTable.classList.add("canvas__result");
 			this.el.parentNode.appendChild(this.resultTable);
 		}
-		// remove default values
-		if (content.winner === undefined) {
-			this.resultTable.innerHTML = `Время вышло!<br>Слово: ${content.word || "-"}`;
+
+		if (content.result === 0 && content.winner === undefined) {
+			this.resultTable.innerHTML = `Время вышло!<br>Слово: ${content.word}`;
 		}
-		else {
-			this.resultTable.innerHTML = `Угадал: ${content.winner}<br>Слово: ${content.word || "-"}`;
+		if (content.result === 0 && content.winner !== undefined) {
+			this.resultTable.innerHTML = `Угадал: ${content.winner}<br>Слово: ${content.word}`;
 		}
+		if (content.result === 1) {
+			this.resultTable.innerHTML = `Вы угадали!<br>Слово: ${content.word}`;
+		}
+		if (content.result === 2) {
+			this.resultTable.innerHTML = `Ведущий вышел...<br>Слово: ${content.word}`;
+		}
+
 		this.resultTable.hidden = false;
 	}
 
@@ -56,12 +68,11 @@ export default class Canvas {
 		this.el.height = this.el.offsetHeight;
 
 		//[this.page] = [document.getElementsByClassName("page_type_game")[0]];
+		[this.background] = [document.getElementsByClassName("background")[0]];
 		this.context = this.el.getContext("2d");
 
-		if (word !== null) {
-			this.context.font = "27px Pangolin";
-			this.context.fillText(`Изобразите: ${word}`, this.el.width / 2 - 150, 30);
-		}
+
+		this.writeWord(word);
 		this.isPainting = false;
 
 		this.context.strokeStyle = "black";
@@ -98,7 +109,7 @@ export default class Canvas {
 		function startPainting(event) {
 			this.isPainting = true;
 			const x = event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft);
-			const y = event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop);
+			const y = event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop) + this.background.scrollTop;
 			this.context.beginPath();
 			this.context.moveTo(x, y);
 			this.picture.points.push({time: new Date() - this.time, x: (x/this.el.width).toFixed(3), y: (y/this.el.height).toFixed(3), down:true, color:this.context.strokeStyle});
@@ -107,13 +118,9 @@ export default class Canvas {
 		}
 
 		function painting(event) {
-
-
 			if (this.isPainting) {
-
 				const x = (event.pageX - this.el.offsetLeft - parseInt(getComputedStyle(this.page).marginLeft))*(this.el.width/this.el.offsetWidth);
-				const y = (event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop))*(this.el.height/this.el.offsetHeight);
-
+				const y = (event.pageY - this.el.offsetTop - parseInt(getComputedStyle(this.page).marginTop))*(this.el.height/this.el.offsetHeight) + this.background.scrollTop;
 
 				this.context.lineTo(x, y);
 				//this.context.quadraticCurveTo(0, 0, x, y);
@@ -138,6 +145,21 @@ export default class Canvas {
 
 	}
 
+	writeWord(word) {
+		if (word !== null) {
+			this.context.font = "27px Pangolin";
+			if (this.page.offsetWidth < 500) {
+				const offset = word.length > 10 ? 30 : 60;
+				this.context.fillText(`Изобразите:`, 60, 30);
+				this.context.fillText(word, offset, 70);
+			}
+			else {
+				const offset = word.length > 10 ? 20 : this.el.width / 2 - 150;
+				this.context.fillText(`Изобразите: ${word}`, offset, 30);
+			}
+		}
+	}
+
 	disablePaint() {
 		this.el.onmousedown = null;
 		this.el.onmouseup = null;
@@ -145,10 +167,8 @@ export default class Canvas {
 		this.el.onmousemove = null;
 	}
 
-	drawPictureByPoints(points) {
+	drawPictureByPoints(points, quick = false) {
 		this.fixSize();
-		//this.el.width = this.el.offsetWidth;
-		//this.el.height = this.el.offsetHeight;
 		this.context = this.el.getContext("2d");
 
 		this.context.lineJoin = "round";
@@ -181,10 +201,18 @@ export default class Canvas {
 			}
 			number++;
 
-			setTimeout(draw.bind(this), points[number+1].time - points[number].time);
+			//const timeout = quick ? 0 : points[number+1].time - points[number].time;
+			if (quick) {
+				draw.call(this);
+			}
+			else {
+				setTimeout(draw.bind(this), points[number+1].time - points[number].time);
+			}
 		}
 
 		draw.call(this);
+
+		this.context.closePath();
 
 	}
 
@@ -192,14 +220,28 @@ export default class Canvas {
 		return JSON.stringify(this.picture);
 	}
 
-	reset() {
+	reset(word = null) {
 		this.el.getContext("2d").clearRect(0, 0, this.el.width, this.el.height);
 		this.stopSinglePainting = true;
 		this.x1 = null;
 		this.x2 = null;
+		this.writeWord(word);
+	}
+
+	fixRatio() {
+		if (this.el.offsetHeight < 0.9 * this.el.offsetWidth) {
+			this.el.style.height = `${this.el.offsetWidth}px`;
+		}
+
+		if (this.el.offsetHeight > this.page.offsetHeight - 150) {
+			this.el.style.height = `${this.page.offsetHeight - 150}px`;
+		}
+		this.clear.style.top = `${this.el.clientHeight + 100}px`;
+		this.clear.style.left = `${this.el.clientWidth/2 - 30}px`;
 	}
 
 	fixSize() {
+		this.fixRatio();
 		this.el.width = 1.5 * this.el.offsetWidth;
 		this.el.height = 1.5 * this.el.offsetHeight;
 	}

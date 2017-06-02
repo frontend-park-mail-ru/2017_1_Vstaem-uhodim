@@ -1,13 +1,15 @@
-/*@import url('https://fonts.googleapis.com/css?family=Pangolin&subset=cyrillic');*/
-
 body {
     margin: 0;
     user-select: none;
+    cursor: default;
 }
 
 html, body, .fix-height {
-    height: 100%;
+    height: 97%;
     width: 100%;
+    @media screen and (max-width: 500px) {
+        height: 100%;
+    }
 }
 
 @media (max-width: 700px) {

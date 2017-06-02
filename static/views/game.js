@@ -12,6 +12,7 @@ import Game from "../modules/game/game.js";
 import SinglePlayerStrategy from "../modules/game/singleplayer_strategy.js";
 import MultiPlayerStrategy from "../modules/game/multiplayer_strategy.js";
 import OfflineStrategy from "../modules/game/offline_strategy.js";
+import Button from "../blocks/button/button.js";
 
 const [CustomEvent] = [window.CustomEvent];
 
@@ -85,6 +86,12 @@ export default class GameView extends BaseView {
 		this.timer.render();
 		gameSinglePage.el.appendChild(this.timer.el);
 
+		this.clear = new Button({text: "Очистить"});
+		this.clear.render();
+		this.clear.el.classList.add("button_type_clear");
+		this.clear.el.style.visibility = "hidden";
+		gameSinglePage.el.appendChild(this.clear.el);
+
 		this.canvas = new Canvas({});
 		this.canvas.render();
 		gameSinglePage.el.appendChild(this.canvas.el);
@@ -93,15 +100,9 @@ export default class GameView extends BaseView {
 		this.chat.render();
 
 		this.chat.input.hidden = true;
-		this.chat.submit.hidden = true;
+		this.chat.submit.style.visibility = "hidden";
 
 		gameSinglePage.el.appendChild(this.chat.el);
-		this.chat.el.addEventListener("submit", () => {
-			if (this.chat.getMessage() !== "") {
-				this.chat.addMessage(this.game.username, this.chat.getMessage(), this.game.color || "black");
-				this.chat.resetMessage();
-			}
-		});
 	}
 
 	async show() {
@@ -110,7 +111,7 @@ export default class GameView extends BaseView {
 		this.windowMenu.el.hidden = true;
 
 		if (this.mode === "offline") {
-			this.game = new Game(this.strategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu, "offline");
+			this.game = new Game(this.strategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu, this.clear, "offline");
 			this.game.username = "Вы";
 			return;
 		}
@@ -119,8 +120,8 @@ export default class GameView extends BaseView {
 			document.dispatchEvent(new CustomEvent("redirect", {detail: "/"}));
 		}
 		else {
-			this.game = new Game(this.strategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu);
 			const user = await this.currentUser();
+			this.game = new Game(this.strategy, "", this.canvas, this.chat, this.timer, this.shadow, this.windowMenu, this.clear);
 			this.game.username = user.nickname;
 		}
 	}

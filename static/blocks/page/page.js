@@ -64,6 +64,12 @@ export default class Page {
 		});
 	}
 
+	fixHeight(other) {
+		if (this.el.clientHeight < other.el.clientHeight && window.innerWidth > 1000) {
+			this.el.style.height = `${other.el.clientHeight}px`;
+		}
+	}
+
 	render() {
 		this.setControls(this.controls);
 		this.setNotification();

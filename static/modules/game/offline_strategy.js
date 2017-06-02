@@ -15,6 +15,7 @@ export default class OfflineStrategy extends GameStrategy {
 	}
 
 	startGame() {
+		this.mediator.publish("ENABLE_SINGLE_CHAT");
 		let pictures;
 		if (localStorage.getItem("picturesCache") === null || JSON.parse(localStorage.getItem("picturesCache")).length < 1) {
 			this.mediator.publish("VIEW_LOADED");

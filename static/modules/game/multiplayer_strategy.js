@@ -12,8 +12,11 @@ export default class MultiPlayerStrategy extends GameStrategy {
 		this.mediator.subscribe("GET_ANSWER", this.newMessage.bind(this));
 		this.mediator.subscribe("STOP_GAME", this.stopGame.bind(this));
 		this.mediator.subscribe("EXIT", this.exit.bind(this));
+		this.mediator.subscribe("PLAYERS_CONNECT", this.newUser.bind(this));
+		this.mediator.subscribe("PLAYER_DISCONNECT", this.deleteUser.bind(this));
 
 		this.transport.send("START_MP_GAME");
+
 		this.mediator.publish("LOADING");
 	}
 
@@ -28,9 +31,14 @@ export default class MultiPlayerStrategy extends GameStrategy {
 			case "main":
 				this.mediator.publish("DISABLE_CHAT");
 				this.mediator.publish("ENABLE_PAINTING", content.word);
+				this.main = true;
 				break;
 			case "other":
 				this.mediator.publish("ENABLE_CHAT");
+				if (content.points.length > 2) {
+					this.mediator.publish("DRAW_POINTS", content.points);
+				}
+				this.main = false;
 				break;
 			default:
 				return;
@@ -39,7 +47,9 @@ export default class MultiPlayerStrategy extends GameStrategy {
 			this.mediator.publish("ADD_PLAYER", player);
 		});
 
-		this.mediator.publish("START_TIMER", content.timer);
+
+		const time = Math.abs(Math.round(content.current_time));
+		this.mediator.publish("START_TIMER", time);
 	}
 
 	newPoint(content) {
@@ -47,7 +57,7 @@ export default class MultiPlayerStrategy extends GameStrategy {
 	}
 
 	newMessage(content) {
-		this.mediator.publish("NEW_MESSAGE", {player: content.player, color: content.color, answer: content.answer});
+		this.mediator.publish("NEW_MESSAGE", {player: content.player, color: content.color, answer: content.answer, id: content.id});
 	}
 
 	stopGame(content) {
@@ -70,12 +80,25 @@ export default class MultiPlayerStrategy extends GameStrategy {
 		this.unsubscribe();
 	}
 
+	newUser(content) {
+		content.players.forEach(player => {
+			player.new = true;
+			this.mediator.publish("ADD_PLAYER", player);
+		});
+	}
+
+	deleteUser(content) {
+		this.mediator.publish("DELETE_PLAYER", content.player);
+	}
+
 	unsubscribe() {
 		this.mediator.unsubscribe("START_MP_GAME", this.startGame.bind(this));
 		this.mediator.unsubscribe("NEW_POINT", this.newPoint.bind(this));
 		this.mediator.unsubscribe("GET_ANSWER", this.newMessage.bind(this));
 		this.mediator.unsubscribe("STOP_GAME", this.stopGame.bind(this));
 		this.mediator.unsubscribe("EXIT", this.exit.bind(this));
+		this.mediator.unsubscribe("PLAYERS_CONNECT", this.newUser.bind(this));
+		this.mediator.unsubscribe("PLAYER_DISCONNECT", this.deleteUser.bind(this));
 		this.mediator.publish("DELETE_GAME");
 	}
 }

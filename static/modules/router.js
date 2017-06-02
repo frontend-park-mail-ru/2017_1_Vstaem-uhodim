@@ -40,8 +40,7 @@ export default class Router {
 			this.go(event.target.getAttribute("href"));
 		});
 
-
-		this.current = this.getViewByRoute(location.pathname);
+		//this.current = this.getViewByRoute(location.pathname);
 	}
 
 	go(path, popState = false, start = false) {
@@ -55,7 +54,6 @@ export default class Router {
 			this.current.source.hide();
 		}
 
-		view.source.show();
 		if (path === "") {
 			path = "/";
 		}
@@ -68,6 +66,10 @@ export default class Router {
 				window.history.pushState({id: view.id}, 'Page', path);
 			}
 		}
+
 		this.current = view;
+		view.source.show();
+
+
 	}
 }
