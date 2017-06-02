@@ -1,3 +1,4 @@
+$x-yellow: #ffbe01;
 .user-area {
     display: table;
     width: 340px;
@@ -5,11 +6,11 @@
     padding: 15px 5px;
     letter-spacing: 3px;
 
-    background: rgb(255, 209, 1);
+    background: $x-yellow;
     border: 2px dashed white;
     color: white;
 
-    box-shadow: 0 0 0 4px rgb(255, 209, 1);
+    box-shadow: 0 0 0 4px $x-yellow;
     font-size: 150%;
     border-radius: 3px;
     text-align: center;
