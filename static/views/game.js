@@ -94,8 +94,8 @@ export default class GameView extends BaseView {
 		this.chat = new Chat();
 		this.chat.render();
 
-		//this.chat.input.hidden = true;
-		//this.chat.submit.hidden = true;
+		this.chat.input.hidden = true;
+		this.chat.submit.style.visibility = "hidden";
 
 		gameSinglePage.el.appendChild(this.chat.el);
 	}

@@ -38,7 +38,6 @@ export default class Game {
 		this.mediator.subscribe("NEW_VOTE", this.newVote.bind(this));
 		this.mediator.subscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
 		this.mediator.subscribe("DRAW_POINTS", this.drawPoints.bind(this));
-		this.mediator.subscribe("CHECK_GAME", this.checkGame.bind(this));
 
 		this.strategy = new Strategy();
 		if (mode !== "offline") {
@@ -50,11 +49,14 @@ export default class Game {
 		}
 
 		this.chat.el.addEventListener("submit", (event) => {
-			if (this.mode === "offline") {
-				this.mediator.publish("GET_ANSWER_OFFLINE", {answer: event.detail.toLowerCase()})
-			}
-			else {
-				this.transport.send("GET_ANSWER", {answer: event.detail.toLowerCase()});
+			if (event.detail.toLowerCase() !== "") {
+				if (this.mode === "offline") {
+					this.mediator.publish("GET_ANSWER_OFFLINE", {answer: event.detail.toLowerCase()})
+				}
+				else {
+					this.transport.send("GET_ANSWER", {answer: event.detail.toLowerCase()});
+				}
+				this.chat.setFocus();
 			}
 		});
 
@@ -122,13 +124,14 @@ export default class Game {
 
 	disableChat() {
 		this.chat.input.hidden = true;
-		this.chat.submit.hidden = true;
+		this.chat.submit.style.visibility = "hidden";
 	}
 
 	enableChat() {
 		this.chat.reset();
 		this.chat.input.hidden = false;
-		this.chat.submit.hidden = false;
+		this.chat.submit.style.visibility = "visible";
+		this.chat.setFocus();
 	}
 
 	enablePainting(word) {
@@ -189,6 +192,7 @@ export default class Game {
 			if (this.chat.getMessage() !== "") {
 				this.chat.addMessage({author: this.username, answer: this.chat.getMessage(), color: this.color || "black"});
 				this.chat.resetMessage();
+				this.chat.setFocus();
 			}
 		});
 	}
@@ -197,12 +201,7 @@ export default class Game {
 		this.canvas.drawPictureByPoints(points, true);
 	}
 
-	checkGame() {
-		this.ws.open();
-	}
-
 	del() {
-		this.mediator.unsubscribe("CHECK_GAME", this.checkGame.bind(this));
 		this.mediator.unsubscribe("START_TIMER", this.startTimer.bind(this));
 		this.mediator.unsubscribe("START_SINGLE_PAINTING", this.startSinglePainting.bind(this));
 		this.mediator.unsubscribe("STOP_TIMER", this.stopTimer.bind(this));
@@ -234,5 +233,6 @@ export default class Game {
 		this.chat.el.parentNode.replaceChild(clone, this.chat.el);
 		this.chat.el = clone;
 		this.transport.close();
+		this.resetChat();
 	}
 }

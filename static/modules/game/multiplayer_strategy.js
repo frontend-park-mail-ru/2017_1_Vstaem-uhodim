@@ -47,7 +47,7 @@ export default class MultiPlayerStrategy extends GameStrategy {
 			this.mediator.publish("ADD_PLAYER", player);
 		});
 
-		const time = content.current_time !== "Infinity" ? content.current_time === 0 ? content.timer : Math.round(content.current_time) : content.timer;
+		const time = content.current_time !== "Infinity" ? Math.round(content.current_time) === 0 ? content.timer : Math.round(content.current_time) : content.timer;
 		this.mediator.publish("START_TIMER", time);
 	}
 
