@@ -134,7 +134,7 @@ export default class IndexView extends BaseView {
 					}).bind(this)
 				},
 				{
-					text: "Играть",
+					text: "Найти игру",
 					href: "/game",
 					wide: true,
 					click: (() => {
