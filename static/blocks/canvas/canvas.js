@@ -36,10 +36,10 @@ export default class Canvas {
 			this.el.parentNode.appendChild(this.resultTable);
 		}
 
-		if (content.result === 0 || content.winner === undefined) {
+		if (content.result === 0 && content.winner === undefined) {
 			this.resultTable.innerHTML = `Время вышло!<br>Слово: ${content.word}`;
 		}
-		if (content.winner !== undefined) {
+		if (content.result === 0 && content.winner !== undefined) {
 			this.resultTable.innerHTML = `Угадал: ${content.winner}<br>Слово: ${content.word}`;
 		}
 		if (content.result === 1) {
@@ -187,11 +187,18 @@ export default class Canvas {
 			}
 			number++;
 
-			const timeout = quick ? 0 : points[number+1].time - points[number].time;
-			setTimeout(draw.bind(this), timeout);
+			//const timeout = quick ? 0 : points[number+1].time - points[number].time;
+			if (quick) {
+				draw.call(this);
+			}
+			else {
+				setTimeout(draw.bind(this), points[number+1].time - points[number].time);
+			}
 		}
 
 		draw.call(this);
+
+		this.context.closePath();
 
 	}
 

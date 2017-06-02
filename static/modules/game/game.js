@@ -170,7 +170,9 @@ export default class Game {
 
 	newMessage(message) {
 		this.chat.addMessage({author: message.player, answer: message.answer, color: this.colors[message.color], main: this.strategy.main, id: message.id});
-		this.chat.resetMessage();
+		if (this.username === message.player) {
+			this.chat.resetMessage();
+		}
 	}
 
 	drawPoint(point) {
