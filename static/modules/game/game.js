@@ -5,7 +5,7 @@ import Transport from "../transport.js";
 
 
 export default class Game {
-	constructor(Strategy, username, canvas, chat, timer, shadow, windowMenu, mode) {
+	constructor(Strategy, username, canvas, chat, timer, shadow, windowMenu, clear, mode) {
 
 		this.username = username;
 		this.canvas = canvas;
@@ -13,6 +13,7 @@ export default class Game {
 		this.timer = timer;
 		this.shadow = shadow;
 		this.windowMenu = windowMenu;
+		this.clear = clear;
 		this.mediator = new Mediator();
 
 		this.mediator.subscribe("START_TIMER", this.startTimer.bind(this));
@@ -38,6 +39,7 @@ export default class Game {
 		this.mediator.subscribe("NEW_VOTE", this.newVote.bind(this));
 		this.mediator.subscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
 		this.mediator.subscribe("DRAW_POINTS", this.drawPoints.bind(this));
+		this.mediator.subscribe("CLEAR", this.clearCanvas.bind(this));
 
 		this.strategy = new Strategy();
 		if (mode !== "offline") {
@@ -69,6 +71,10 @@ export default class Game {
 		this.colors = ["#736af2", "#73c3dd", "#77d870", "#8c5887", "#fcbe53", "#ff4949"];
 
 		this.canvas.fixSize();
+
+		this.clear.el.addEventListener("click", () => {
+			this.transport.send("CLEAR");
+		})
 
 	}
 
@@ -137,11 +143,13 @@ export default class Game {
 	enablePainting(word) {
 		this.canvas.hideResult();
 		this.canvas.paint(word);
+		this.clear.el.style.visibility = "visible";
 	}
 
 	disablePainting() {
 		this.canvas.reset();
 		this.canvas.disablePaint();
+		this.clear.el.style.visibility = "hidden";
 	}
 
 	addPlayer(player) {
@@ -203,6 +211,10 @@ export default class Game {
 		this.canvas.drawPictureByPoints(points, true);
 	}
 
+	clearCanvas() {
+		this.canvas.reset();
+	}
+
 	del() {
 		this.mediator.unsubscribe("START_TIMER", this.startTimer.bind(this));
 		this.mediator.unsubscribe("START_SINGLE_PAINTING", this.startSinglePainting.bind(this));
@@ -227,6 +239,7 @@ export default class Game {
 		this.mediator.unsubscribe("NEW_VOTE", this.newVote.bind(this));
 		this.mediator.unsubscribe("ENABLE_SINGLE_CHAT", this.enableSingleChat.bind(this));
 		this.mediator.unsubscribe("DRAW_POINTS", this.drawPoints.bind(this));
+		this.mediator.unsubscribe("CLEAR", this.clearCanvas.bind(this));
 
 		const clone = this.chat.el.cloneNode();
 		while (this.chat.el.firstChild) {
