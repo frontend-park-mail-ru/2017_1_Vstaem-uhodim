@@ -7,6 +7,9 @@ body {
 html, body, .fix-height {
     height: 97%;
     width: 100%;
+    @media screen and (max-width: 500px) {
+        height: 100%;
+    }
 }
 
 @media (max-width: 700px) {

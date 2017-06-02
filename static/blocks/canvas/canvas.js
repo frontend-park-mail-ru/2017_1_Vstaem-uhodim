@@ -71,11 +71,8 @@ export default class Canvas {
 		[this.background] = [document.getElementsByClassName("background")[0]];
 		this.context = this.el.getContext("2d");
 
-		if (word !== null) {
-			this.context.font = "27px Pangolin";
-			const offset = word.length > 12 ? 15 : this.el.width / 2 - 150;
-			this.context.fillText(`Изобразите: ${word}`, offset, 30);
-		}
+
+		this.writeWord(word);
 		this.isPainting = false;
 
 		this.context.strokeStyle = "black";
@@ -148,6 +145,21 @@ export default class Canvas {
 
 	}
 
+	writeWord(word) {
+		if (word !== null) {
+			this.context.font = "27px Pangolin";
+			if (this.page.offsetWidth < 500) {
+				const offset = word.length > 10 ? 30 : 60;
+				this.context.fillText(`Изобразите:`, 60, 30);
+				this.context.fillText(word, offset, 70);
+			}
+			else {
+				const offset = word.length > 10 ? 20 : this.el.width / 2 - 150;
+				this.context.fillText(`Изобразите: ${word}`, offset, 30);
+			}
+		}
+	}
+
 	disablePaint() {
 		this.el.onmousedown = null;
 		this.el.onmouseup = null;
@@ -208,11 +220,12 @@ export default class Canvas {
 		return JSON.stringify(this.picture);
 	}
 
-	reset() {
+	reset(word = null) {
 		this.el.getContext("2d").clearRect(0, 0, this.el.width, this.el.height);
 		this.stopSinglePainting = true;
 		this.x1 = null;
 		this.x2 = null;
+		this.writeWord(word);
 	}
 
 	fixRatio() {
