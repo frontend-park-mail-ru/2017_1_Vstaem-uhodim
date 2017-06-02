@@ -36,11 +36,14 @@ export default class Canvas {
 			this.el.parentNode.appendChild(this.resultTable);
 		}
 
-		if (content.result === 0) {
+		if (content.result === 0 || content.winner === undefined) {
 			this.resultTable.innerHTML = `Время вышло!<br>Слово: ${content.word}`;
 		}
-		if (content.result === 1) {
+		if (content.winner !== undefined) {
 			this.resultTable.innerHTML = `Угадал: ${content.winner}<br>Слово: ${content.word}`;
+		}
+		if (content.result === 1) {
+			this.resultTable.innerHTML = `Вы угадали!<br>Слово: ${content.word}`;
 		}
 		if (content.result === 2) {
 			this.resultTable.innerHTML = `Ведущий вышел...<br>Слово: ${content.word}`;
