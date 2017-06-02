@@ -24,7 +24,6 @@ export default class Chat {
 
 		this.input = document.createElement("input");
 		this.input.classList.add("chat__input");
-		this.input.setAttribute("autofocus", "");
 		this.el.appendChild(this.input);
 
 		this.submit = document.createElement("button");
@@ -67,6 +66,10 @@ export default class Chat {
 		if (newPlayer) {
 			this.addServiceMessage(`${name} зашел в игру`);
 		}
+	}
+
+	setFocus() {
+		this.input.focus();
 	}
 
 	deleteUser(nickname) {
