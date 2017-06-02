@@ -58,6 +58,9 @@ $count: 5/7;
         border-radius: 5px;
         margin: auto;
         position: absolute;
+        @media screen and (max-width: 500px) {
+            font-size: 175%;
+        }
     }
 
 }

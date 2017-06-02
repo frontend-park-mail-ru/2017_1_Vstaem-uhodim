@@ -15,6 +15,7 @@ export default class Game {
 		this.windowMenu = windowMenu;
 		this.clear = clear;
 		this.mediator = new Mediator();
+		this.word = null;
 
 		this.mediator.subscribe("START_TIMER", this.startTimer.bind(this));
 		this.mediator.subscribe("START_SINGLE_PAINTING", this.startSinglePainting.bind(this));
@@ -143,10 +144,12 @@ export default class Game {
 	enablePainting(word) {
 		this.canvas.hideResult();
 		this.canvas.paint(word);
+		this.word = word;
 		this.clear.el.style.visibility = "visible";
 	}
 
 	disablePainting() {
+		this.word = null;
 		this.canvas.reset();
 		this.canvas.disablePaint();
 		this.clear.el.style.visibility = "hidden";
@@ -212,7 +215,7 @@ export default class Game {
 	}
 
 	clearCanvas() {
-		this.canvas.reset();
+		this.canvas.reset(this.word);
 	}
 
 	del() {
