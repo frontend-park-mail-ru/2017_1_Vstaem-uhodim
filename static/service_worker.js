@@ -1,5 +1,5 @@
 "use strict";
-const CACHE_NAME = "cr_app_05";
+const CACHE_NAME = "cr_app_2k17_deploy-freeze";
 
 const cacheUrls = [
 	"",
